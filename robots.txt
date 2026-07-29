@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+Disallow: /Logo/
+Disallow: /.htaccess
+Disallow: /security.txt
+Disallow: /*.env
+Disallow: /*.json
+Disallow: /*.log
+
+# Sitemap (update with actual domain when deployed)
+# Sitemap: https://pindropsilence.com/sitemap.xml
+
+# Crawl delay for non-major bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /

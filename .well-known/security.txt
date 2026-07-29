@@ -1,0 +1,21 @@
+Contact: security@pindropsilence.com
+Preferred-Languages: en
+Canonical: https://pindropsilence.com/.well-known/security.txt
+Policy: https://pindropsilence.com/security-policy.html
+Acknowledgments: https://pindropsilence.com/thanks.html
+
+# ── RESPONSIBLE DISCLOSURE ────────────────────────────────
+# If you discover a vulnerability in this website, please
+# report it responsibly to: security@pindropsilence.com
+#
+# We commit to:
+#   • Acknowledging receipt within 48 hours
+#   • Keeping you informed of fix progress
+#   • Not pursuing legal action for good-faith disclosures
+#
+# Please do NOT:
+#   • Publicly disclose before we patch
+#   • Access or modify user data
+#   • Perform denial-of-service attacks
+#
+# Thank you for helping keep PDS safe.

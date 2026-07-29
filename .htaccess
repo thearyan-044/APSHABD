@@ -1,0 +1,75 @@
+# Apache / cPanel .htaccess — Security hardening for PDS
+# =========================================================
+
+# ── DISABLE SERVER SIGNATURE ──────────────────────────────
+ServerSignature Off
+
+# ── CLICKJACKING PROTECTION ───────────────────────────────
+Header always set X-Frame-Options "DENY"
+
+# ── MIME-TYPE SNIFFING PROTECTION ─────────────────────────
+Header always set X-Content-Type-Options "nosniff"
+
+# ── XSS PROTECTION (legacy browsers) ─────────────────────
+Header always set X-XSS-Protection "1; mode=block"
+
+# ── REFERRER POLICY ───────────────────────────────────────
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# ── PERMISSIONS POLICY ────────────────────────────────────
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+
+# ── CONTENT SECURITY POLICY ───────────────────────────────
+Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; script-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+
+# ── STRICT TRANSPORT SECURITY (HSTS) ─────────────────────
+# Enable only if serving over HTTPS
+# Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# ── CACHE CONTROL ─────────────────────────────────────────
+# HTML: no cache (always fresh)
+<FilesMatch "\.(html|htm)$">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
+
+# Static assets: cache 30 days
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|ico|mp4|webp|woff|woff2)$">
+  Header set Cache-Control "public, max-age=2592000, immutable"
+</FilesMatch>
+
+# ── DISABLE DIRECTORY LISTING ─────────────────────────────
+Options -Indexes
+
+# ── BLOCK SENSITIVE FILES ─────────────────────────────────
+<FilesMatch "(\.env|\.git|\.htpasswd|composer\.json|package\.json|package-lock\.json)$">
+  Require all denied
+</FilesMatch>
+
+# ── BLOCK BAD BOTS & SCANNERS ─────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Block common scanner user-agents
+  RewriteCond %{HTTP_USER_AGENT} (sqlmap|nikto|nessus|masscan|zgrab|nuclei|dirbuster|gobuster|wfuzz|burp) [NC]
+  RewriteRule .* - [F,L]
+
+  # Block requests with suspicious query strings
+  RewriteCond %{QUERY_STRING} (union.*select|insert.*into|drop.*table|<script|javascript:|base64_decode) [NC]
+  RewriteRule .* - [F,L]
+
+  # Block path traversal attempts
+  RewriteCond %{REQUEST_URI} \.\./
+  RewriteRule .* - [F,L]
+</IfModule>
+
+# ── FORCE UTF-8 ────────────────────────────────────────────
+AddDefaultCharset UTF-8
+
+# ── PREVENT HOTLINKING OF VIDEOS/IMAGES ───────────────────
+<IfModule mod_rewrite.c>
+  RewriteCond %{HTTP_REFERER} !^$
+  RewriteCond %{HTTP_REFERER} !^https?://(www\.)?pindropsilence\.com [NC]
+  RewriteRule \.(mp4|jpg|jpeg|png|gif)$ - [F,NC]
+</IfModule>
