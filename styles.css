@@ -27,6 +27,7 @@ body {
   font-family: var(--body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 1.2s ease;
 }
 .tamil { font-family:'Noto Sans Tamil',sans-serif; }
 .dev   { font-family:'Noto Sans Devanagari',sans-serif; }
@@ -457,4 +458,32 @@ a,button { cursor:none; }
   .footer { padding:40px 20px 32px; }
   .footer-big { font-size:clamp(4rem,28vw,10rem); }
   .hero-sticker { width:55px; top:110px; right:14px; }
+}
+
+@media (max-width:480px) {
+  .hero { padding:100px 16px 60px; }
+  .hero-title { font-size:clamp(2.8rem,12vw,5rem); }
+  .hero-sub { font-size:.88rem; }
+  .section { padding:50px 16px; }
+  .story-block { gap:24px; padding:40px 0; }
+  .story-block h2 { font-size:clamp(1.6rem,7vw,2.8rem); }
+  .story-text p { font-size:.88rem; }
+  .city-row { grid-template-columns:28px 1fr auto; gap:12px; padding:14px 0; }
+  .city-name { font-size:clamp(1.2rem,5vw,2rem); }
+  .city-script { font-size:.85rem; }
+  .city-num { font-size:.55rem; }
+  .wait-section { padding:50px 16px; }
+  .wait-section h2 { font-size:clamp(1.4rem,6vw,2.4rem); }
+  .wait-section > p { font-size:.85rem; }
+  .wait-form input { padding:12px 14px; font-size:.82rem; }
+  .footer { padding:30px 16px 24px; }
+  .footer-big { font-size:clamp(3rem,24vw,8rem); left:16px; }
+  .footer-copy { font-size:.6rem; }
+  .nav { padding:14px 16px; }
+  .nav-name { font-size:.68rem; }
+  .nav-logo { height:26px; width:26px; }
+  .hero-sticker { width:42px; top:95px; right:10px; }
+  .hero-eyebrow { font-size:.55rem; gap:8px; margin-bottom:24px; }
+  .hero-logo { width:40px; height:40px; margin-bottom:20px; }
+  .marquee-track { font-size:.85rem; }
 }

@@ -664,11 +664,47 @@ body.intro-active {
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width: 760px) {
-  .intro-label-tl { top: 20px; left: 20px; }
-  .intro-counter { top: 20px; right: 20px; }
-  .intro-tagline { bottom: 20px; left: 20px; }
-  .intro-skip { bottom: 20px; right: 20px; }
-  .intro-city-num { font-size: clamp(8rem, 30vw, 16rem); }
+  .intro-label-tl { top: 16px; left: 16px; }
+  .intro-label-tl span { font-size: 0.48rem; letter-spacing: 0.3em; }
+  .intro-counter { top: 16px; right: 16px; font-size: clamp(1.1rem, 4vw, 1.8rem); }
+  .intro-tagline { bottom: 16px; left: 16px; }
+  .intro-tagline span { font-size: 0.5rem; letter-spacing: 0.18em; }
+  .intro-skip { bottom: 16px; right: 16px; font-size: 0.5rem; padding: 6px 0; }
+
+  /* City slides — scale everything down for mobile */
+  .intro-city-num { font-size: clamp(6rem, 28vw, 14rem); }
+  .intro-city-name { font-size: clamp(2.2rem, 12vw, 5rem); }
+  .intro-city-script { font-size: clamp(0.9rem, 4vw, 1.4rem); margin-top: 4px; }
+  .intro-city-coords { font-size: 0.5rem; letter-spacing: 0.25em; margin-top: 14px; }
+
+  /* Rings — smaller on mobile so they don't overflow */
+  .intro-ring.ring-1 { width: clamp(140px, 45vw, 300px); height: clamp(140px, 45vw, 300px); }
+  .intro-ring.ring-2 { width: clamp(200px, 60vw, 400px); height: clamp(200px, 60vw, 400px); }
+
+  /* Reticle — smaller */
+  .intro-reticle { width: clamp(50px, 14vw, 100px); height: clamp(50px, 14vw, 100px); }
+
+  /* Final logo — smaller */
+  .intro-final-logo { width: 44px; height: 44px; border-radius: 10px; margin-bottom: 14px; }
+  .intro-final-brand { font-size: clamp(0.9rem, 4vw, 1.4rem); letter-spacing: 0.18em; }
+  .intro-final-sub { font-size: 0.5rem; letter-spacing: 0.25em; }
+
+  /* Progress bar — slightly thicker on mobile for visibility */
+  .intro-progress { height: 3px; }
+
+  /* Travel lines — keep contained */
+  .intro-travel-line { height: 1px; }
+}
+
+@media (max-width: 480px) {
+  .intro-city-num { font-size: clamp(4.5rem, 25vw, 10rem); }
+  .intro-city-name { font-size: clamp(1.8rem, 14vw, 4rem); }
+  .intro-city-script { font-size: clamp(0.8rem, 4.5vw, 1.2rem); }
+  .intro-ring.ring-1 { width: 120px; height: 120px; }
+  .intro-ring.ring-2 { width: 170px; height: 170px; }
+  .intro-reticle { width: 45px; height: 45px; }
+  .intro-final-logo { width: 36px; height: 36px; }
+  .intro-final-brand { font-size: 0.85rem; }
 }
 
 /* ── REDUCED MOTION ──────────────────────────────────── */

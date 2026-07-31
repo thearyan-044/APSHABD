@@ -252,9 +252,16 @@
   }
 
   // ── Run on DOM ready ─────────────────────────────────────────
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
+  function start() {
+    // Only show intro once per session (not when navigating back from city pages)
+    if (sessionStorage.getItem('pds-intro-seen')) return;
+    sessionStorage.setItem('pds-intro-seen', '1');
     init();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
   }
 })();

@@ -1,0 +1,95 @@
+/* ═══════════════════════════════════════════════════════
+   TYPEWRITER — "Which 'location' would you like…" section
+   ═══════════════════════════════════════════════════════ */
+
+.typewriter-section {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 80px 40px 60px;
+  border-top: 1px solid var(--border, rgba(255,255,255,.07));
+}
+
+.typewriter-text {
+  font-family: 'Space Grotesk', var(--body, sans-serif);
+  font-size: clamp(1rem, 2.5vw, 1.35rem);
+  line-height: 1.8;
+  color: var(--muted, rgba(232,227,218,.45));
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* The cycling word wrapper */
+.tw-word-wrap {
+  display: inline;
+  position: relative;
+}
+
+/* Opening and closing quote marks */
+.tw-quote {
+  color: var(--acc, #f5b301);
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+/* The actual typing text */
+.tw-word {
+  color: var(--acc, #f5b301);
+  font-weight: 700;
+  font-size: 1.15em;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+
+/* Blinking cursor */
+.tw-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background: var(--acc, #f5b301);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: twBlink 1s steps(1) infinite;
+}
+
+@keyframes twBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ── Reveal animation ── */
+.typewriter-section.tw-hidden {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s cubic-bezier(.22,1,.36,1),
+              transform 0.85s cubic-bezier(.22,1,.36,1);
+}
+
+.typewriter-section.tw-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 760px) {
+  .typewriter-section {
+    padding: 60px 20px 40px;
+  }
+
+  .typewriter-text {
+    font-size: clamp(0.88rem, 3.5vw, 1.1rem);
+    line-height: 1.9;
+  }
+}
+
+@media (max-width: 480px) {
+  .typewriter-section {
+    padding: 50px 16px 32px;
+  }
+
+  .typewriter-text {
+    font-size: 0.88rem;
+  }
+}

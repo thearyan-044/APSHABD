@@ -142,3 +142,72 @@ if (notifyBtn) {
     setTimeout(() => notifyBtn.style.transform = '', 200);
   });
 }
+
+// ─── SCROLL-DRIVEN BACKGROUND TRANSITION ─────────────────────────────────────
+// Subtle atmospheric color shift as user scrolls through sections
+(function () {
+  const bgColors = [
+    { id: 'top',      color: [12, 12, 12] },     // #0c0c0c — hero (default dark)
+    { id: 'story',    color: [13, 11, 16] },     // #0d0b10 — faint purple-warm tint
+    { id: 'cities',   color: [10, 14, 20] },     // #0a0e14 — subtle navy tint (the map)
+    { id: 'waitlist', color: [16, 12, 8]  },     // #100c08 — warm amber tint (anticipation)
+  ];
+
+  // Default/footer color
+  const defaultColor = [12, 12, 12]; // #0c0c0c
+
+  function lerpColor(a, b, t) {
+    return a.map((v, i) => Math.round(v + (b[i] - v) * t));
+  }
+
+  function updateBg() {
+    const vh = window.innerHeight;
+    const scrollY = window.scrollY;
+    let currentColor = defaultColor;
+
+    for (let i = bgColors.length - 1; i >= 0; i--) {
+      const el = document.getElementById(bgColors[i].id);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      const sectionMid = rect.top + rect.height / 2;
+
+      if (sectionMid < vh * 0.75) {
+        // This section is mostly in view
+        const nextIdx = i + 1;
+        if (nextIdx < bgColors.length) {
+          const nextEl = document.getElementById(bgColors[nextIdx].id);
+          if (nextEl) {
+            const nextRect = nextEl.getBoundingClientRect();
+            const nextMid = nextRect.top + nextRect.height / 2;
+            // Calculate blend between current and next
+            const progress = Math.max(0, Math.min(1, 1 - (nextMid - vh * 0.5) / vh));
+            currentColor = lerpColor(bgColors[i].color, bgColors[nextIdx].color, progress);
+          } else {
+            currentColor = bgColors[i].color;
+          }
+        } else {
+          // Last defined section — blend back to default
+          const progress = Math.max(0, Math.min(1, (vh * 0.5 - sectionMid) / vh));
+          currentColor = lerpColor(bgColors[i].color, defaultColor, progress);
+        }
+        break;
+      }
+    }
+
+    document.body.style.backgroundColor = `rgb(${currentColor[0]}, ${currentColor[1]}, ${currentColor[2]})`;
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        updateBg();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Initial call
+  updateBg();
+})();

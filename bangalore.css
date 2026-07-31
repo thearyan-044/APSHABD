@@ -197,3 +197,17 @@ a, button, .card, .cta { cursor: none; }
   .marquee-track, .cybergrid, .caret, .ph::before, .grain { animation: none; }
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+/* ─── EXTRA MOBILE ── */
+@media (max-width: 480px) {
+  .nav { padding: 12px 14px; }
+  .hero { padding: 100px 16px 50px; }
+  .hero-title { font-size: clamp(3.5rem, 22vw, 8rem); }
+  .eyebrow { font-size: .6rem; letter-spacing: .35em; }
+  .section { padding: 60px 16px; }
+  .grid { grid-template-columns: 1fr; gap: 18px; }
+  .section-head h2, .wait h2 { font-size: clamp(1.8rem, 8vw, 3rem); }
+  .stamp { font-size: .58rem; padding: 5px 10px; }
+  .footer { padding: 24px 16px; font-size: .65rem; }
+  .marquee-track { font-size: .85rem; }
+}
