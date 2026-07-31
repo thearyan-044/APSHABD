@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./pune.css" />
   <link rel="stylesheet" href=".//city-scroll.css" />
   <link rel="stylesheet" href=".//typewriter.css" />
+  <link rel="stylesheet" href=".//effects-3d.css" />
 </head>
 <body>
   <div id="cursor"></div>
@@ -22,7 +23,7 @@
     <span class="nav-city">PUNE · 04</span>
   </nav>
 
-  <header class="hero">
+  <header class="hero" style="transform-style:preserve-3d;perspective:1200px;">
     <div class="badge reveal" aria-hidden="true">
       <svg viewBox="0 0 200 200">
         <defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
@@ -31,8 +32,8 @@
     </div>
     <p class="eyebrow reveal">THE STUDENT CITY · पुणे तिथे काय उणे</p>
     <h1 class="hero-title">
-      <span class="reveal">PU</span>
-      <span class="reveal outline">NE</span>
+      <span class="reveal depth-layer" data-depth="0.8">PU</span>
+      <span class="reveal outline depth-layer" data-depth="1.2">NE</span>
     </h1>
     <p class="hero-sub reveal">Old wadas, new campuses. A city that argues loudly<br />by day and reads quietly by night.</p>
     <a href="#drop" class="cta reveal">SEE THE DROP ↓</a>
@@ -88,5 +89,6 @@
   <script src=".//city-shared.js"></script>
   <script src=".//pune.js"></script>
   <script src=".//typewriter.js"></script>
+  <script src=".//effects-3d.js"></script>
 </body>
 </html>

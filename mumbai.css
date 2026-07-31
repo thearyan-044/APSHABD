@@ -177,8 +177,8 @@ a, button, .card, .cta { cursor: none; }
 .footer .rg { color: var(--acc); }
 
 /* ─── REVEAL ── */
-.reveal { opacity: 0; transform: translateY(36px) scale(.98); transition: opacity .85s, transform .85s var(--ease-spring); }
-.reveal.in { opacity: 1; transform: none; }
+.reveal { opacity: 0; transform: perspective(800px) rotateX(4deg) translateY(36px) translateZ(-20px) scale(.98); transform-origin: center bottom; transition: opacity .85s, transform .85s var(--ease-spring); }
+.reveal.in { opacity: 1; transform: perspective(800px) rotateX(0) translateY(0) translateZ(0) scale(1); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; cursor: auto; }

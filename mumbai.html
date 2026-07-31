@@ -9,6 +9,7 @@
   <link rel="stylesheet" href=".//mumbai.css" />
   <link rel="stylesheet" href=".//city-scroll.css" />
   <link rel="stylesheet" href=".//typewriter.css" />
+  <link rel="stylesheet" href=".//effects-3d.css" />
 </head>
 <body>
   <div id="cursor"></div>
@@ -23,11 +24,11 @@
     <span class="nav-city">MUMBAI · 02</span>
   </nav>
 
-  <header class="hero">
+  <header class="hero" style="transform-style:preserve-3d;perspective:1200px;">
     <p class="eyebrow reveal">MAXIMUM CITY · कधीही न झोपणारं शहर</p>
     <h1 class="hero-title">
-      <span class="reveal">MUM</span>
-      <span class="reveal outline">BAI</span>
+      <span class="reveal depth-layer" data-depth="0.8">MUM</span>
+      <span class="reveal outline depth-layer" data-depth="1.2">BAI</span>
     </h1>
     <p class="hero-sub reveal">Seven islands, zero pauses. The only silence here<br />is the second before the local doors open.</p>
     <a href="#drop" class="cta reveal">CATCH THE DROP ↓</a>
@@ -90,5 +91,6 @@
   <script src=".//city-shared.js"></script>
   <script src=".//mumbai.js"></script>
   <script src=".//typewriter.js"></script>
+  <script src=".//effects-3d.js"></script>
 </body>
 </html>

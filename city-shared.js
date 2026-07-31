@@ -33,17 +33,19 @@ if (bgWord && !reduceMotion) {
     if (!ticking) {
       requestAnimationFrame(() => {
         const y = window.scrollY;
-        bgWord.style.transform = `translate(-50%, calc(-50% + ${y * 0.14}px)) rotate(${y * 0.005}deg)`;
+        const depth = Math.min(y * 0.08, 60); // push deeper as user scrolls
+        bgWord.style.transform = `translate(-50%, calc(-50% + ${y * 0.14}px)) rotate(${y * 0.005}deg) translateZ(${-depth}px)`;
         ticking = false;
       });
       ticking = true;
     }
   }, { passive: true });
-  // Mouse drift
+  // Mouse drift with depth
   document.addEventListener('mousemove', e => {
     const dx = (e.clientX / window.innerWidth  - .5) * -30;
     const dy = (e.clientY / window.innerHeight - .5) * -20;
-    bgWord.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+    const dz = (e.clientY / window.innerHeight - .5) * -15;
+    bgWord.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) translateZ(${dz}px)`;
   });
 }
 
@@ -72,16 +74,16 @@ window.addEventListener('load', () => {
   }, 250);
 });
 
-// ─── 3D CARD TILT ────────────────────────────────────────────────────────────
+// ─── 3D CARD TILT ─────────────────────────────────────────────────────────────────
 document.querySelectorAll('.card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect  = card.getBoundingClientRect();
     const cx    = rect.left + rect.width  / 2;
     const cy    = rect.top  + rect.height / 2;
-    const rotX  = ((e.clientY - cy) / (rect.height / 2)) * -10;
-    const rotY  = ((e.clientX - cx) / (rect.width  / 2)) *  10;
-    card.style.transform    = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px) scale(1.02)`;
-    card.style.boxShadow    = `${-rotY}px ${rotX + 18}px 36px rgba(0,0,0,.28)`;
+    const rotX  = ((e.clientY - cy) / (rect.height / 2)) * -12;
+    const rotY  = ((e.clientX - cx) / (rect.width  / 2)) *  12;
+    card.style.transform    = `perspective(700px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(20px) scale(1.03)`;
+    card.style.boxShadow    = `${-rotY * 1.5}px ${rotX + 22}px 44px rgba(0,0,0,.32), 0 4px 12px rgba(0,0,0,.18)`;
     card.style.transition   = 'box-shadow .15s, transform .08s';
   });
   card.addEventListener('mouseleave', () => {

@@ -9,6 +9,7 @@
   <link rel="stylesheet" href=".//delhi.css" />
   <link rel="stylesheet" href=".//city-scroll.css" />
   <link rel="stylesheet" href=".//typewriter.css" />
+  <link rel="stylesheet" href=".//effects-3d.css" />
 </head>
 <body>
   <div id="cursor"></div>
@@ -22,11 +23,11 @@
     <span class="nav-city">DELHI · 03</span>
   </nav>
 
-  <header class="hero">
+  <header class="hero" style="transform-style:preserve-3d;perspective:1200px;">
     <p class="eyebrow reveal">THE CAPITAL · दिलवालों की दिल्ली</p>
     <h1 class="hero-title">
-      <span class="reveal">DEL</span>
-      <span class="reveal outline">HI</span>
+      <span class="reveal depth-layer" data-depth="0.8">DEL</span>
+      <span class="reveal outline depth-layer" data-depth="1.2">HI</span>
     </h1>
     <p class="hero-sub reveal">Seven cities buried under one. Empire after empire,<br />and the streets still keep their secrets quietly.</p>
     <a href="#drop" class="cta reveal">ENTER THE GATE ↓</a>
@@ -82,5 +83,6 @@
   <script src=".//city-shared.js"></script>
   <script src=".//delhi.js"></script>
   <script src=".//typewriter.js"></script>
+  <script src=".//effects-3d.js"></script>
 </body>
 </html>

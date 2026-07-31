@@ -16,6 +16,7 @@
   <link rel="stylesheet" href=".//intro.css" />
   <link rel="stylesheet" href=".//styles.css" />
   <link rel="stylesheet" href=".//typewriter.css" />
+  <link rel="stylesheet" href=".//effects-3d.css" />
 </head>
 <body>
 
@@ -56,7 +57,7 @@
       id="heroSticker"
     />
 
-    <div class="hero-inner">
+    <div class="hero-inner depth-layer" data-depth="0.3">
       <div class="hero-eyebrow">
         <span>EST. 2026</span>
         <span>INDIA</span>
@@ -66,10 +67,10 @@
       <img src=".//Logo/42a4e003-db4a-47c6-8f6e-5941db7ccefc.jpg" alt="Pin Drop Silence logo" class="hero-logo reveal" />
 
       <h1 class="hero-title">
-        <span class="line reveal">QUIET</span>
-        <span class="line accent reveal">ACTION.</span>
-        <span class="line reveal">LOUD</span>
-        <span class="line outline reveal">IMPACT.</span>
+        <span class="line reveal depth-layer" data-depth="0.8">QUIET</span>
+        <span class="line accent reveal depth-layer" data-depth="1.2">ACTION.</span>
+        <span class="line reveal depth-layer" data-depth="0.6">LOUD</span>
+        <span class="line outline reveal depth-layer" data-depth="1.0">IMPACT.</span>
       </h1>
 
       <p class="hero-sub reveal">
@@ -114,31 +115,31 @@
     </div>
 
     <div class="city-list">
-      <a href="chennai.html"   class="city-row reveal" style="--c:#f5b301">
+      <a href="chennai.html"   class="city-row reveal tilt-3d" style="--c:#f5b301" data-3d-tilt="5">
         <span class="city-num">01</span>
         <span class="city-name">CHENNAI</span>
         <span class="city-script tamil">அமைதி</span>
         <span class="city-arrow">ENTER →</span>
       </a>
-      <a href="mumbai.html"   class="city-row reveal" style="--c:#ff2e63">
+      <a href="mumbai.html"   class="city-row reveal tilt-3d" style="--c:#ff2e63" data-3d-tilt="5">
         <span class="city-num">02</span>
         <span class="city-name">MUMBAI</span>
         <span class="city-script dev">शांतता</span>
         <span class="city-arrow">ENTER →</span>
       </a>
-      <a href="delhi.html"    class="city-row reveal" style="--c:#e8a020">
+      <a href="delhi.html"    class="city-row reveal tilt-3d" style="--c:#e8a020" data-3d-tilt="5">
         <span class="city-num">03</span>
         <span class="city-name">DELHI</span>
         <span class="city-script dev">ख़ामोशी</span>
         <span class="city-arrow">ENTER →</span>
       </a>
-      <a href="pune.html"     class="city-row reveal" style="--c:#d98e04">
+      <a href="pune.html"     class="city-row reveal tilt-3d" style="--c:#d98e04" data-3d-tilt="5">
         <span class="city-num">04</span>
         <span class="city-name">PUNE</span>
         <span class="city-script dev">शांतता</span>
         <span class="city-arrow">ENTER →</span>
       </a>
-      <a href="bangalore.html" class="city-row reveal" style="--c:#38e54d">
+      <a href="bangalore.html" class="city-row reveal tilt-3d" style="--c:#38e54d" data-3d-tilt="5">
         <span class="city-num">05</span>
         <span class="city-name">BANGALORE</span>
         <span class="city-script kan">ಮೌನ</span>
@@ -175,5 +176,6 @@
   <script src=".//intro.js"></script>
   <script src=".//security.js"></script><script src=".//script.js"></script>
   <script src=".//typewriter.js"></script>
+  <script src=".//effects-3d.js"></script>
 </body>
 </html>

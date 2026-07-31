@@ -44,28 +44,30 @@
 #scan-line.visible { opacity: .55; }
 
 /* ── SECTION TRANSITIONS ─────────────────────────────── */
-/* Each section slides up & fades in when it enters viewport */
+/* Each section flips toward viewer and fades in */
 .section-anim {
   opacity: 0;
-  transform: translateY(48px);
+  transform: perspective(1000px) rotateX(4deg) translateY(48px) translateZ(-30px);
+  transform-origin: center bottom;
   transition: opacity .9s cubic-bezier(.22,1,.36,1),
               transform .9s cubic-bezier(.22,1,.36,1);
 }
 .section-anim.in {
   opacity: 1;
-  transform: none;
+  transform: perspective(1000px) rotateX(0) translateY(0) translateZ(0);
 }
 
 /* ── CARD REVEAL (stagger) ───────────────────────────── */
 .card.reveal-card {
   opacity: 0;
-  transform: translateY(30px) scale(.97);
+  transform: perspective(800px) rotateX(5deg) translateY(30px) scale(.97);
+  transform-origin: center bottom;
   transition: opacity .7s cubic-bezier(.22,1,.36,1),
               transform .7s cubic-bezier(.22,1,.36,1);
 }
 .card.reveal-card.in {
   opacity: 1;
-  transform: none;
+  transform: perspective(800px) rotateX(0) translateY(0) scale(1);
 }
 
 /* ── PARALLAX MARQUEE ────────────────────────────────── */

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href=".//chennai.css" />
   <link rel="stylesheet" href=".//city-scroll.css" />
   <link rel="stylesheet" href=".//typewriter.css" />
+  <link rel="stylesheet" href=".//effects-3d.css" />
 </head>
 <body>
   <div id="cursor"></div>
@@ -26,11 +27,11 @@
     <span class="nav-city">CHENNAI · 01</span>
   </nav>
 
-  <header class="hero">
+  <header class="hero" style="transform-style:preserve-3d;perspective:1200px;">
     <p class="eyebrow reveal">THE ORIGIN CITY · நம்ம ஊரு</p>
     <h1 class="hero-title">
-      <span class="reveal">CHEN</span>
-      <span class="reveal outline">NAI</span>
+      <span class="reveal depth-layer" data-depth="0.8">CHEN</span>
+      <span class="reveal outline depth-layer" data-depth="1.2">NAI</span>
     </h1>
     <p class="hero-sub reveal">Where it all began. Filter coffee at dawn,<br />auto horns at noon, silence after midnight.</p>
     <a href="#drop" class="cta reveal">SEE THE DROP ↓</a>
@@ -86,5 +87,6 @@
   <script src=".//city-shared.js"></script>
   <script src=".//chennai.js"></script>
   <script src=".//typewriter.js"></script>
+  <script src=".//effects-3d.js"></script>
 </body>
 </html>
