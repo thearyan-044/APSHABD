@@ -11,7 +11,8 @@
   <link rel="stylesheet" href=".//typewriter.css" />
   <link rel="stylesheet" href=".//effects-3d.css" />
   <link rel="stylesheet" href=".//cursor.css?v=3" />
-  <link rel="stylesheet" href=".//cinematic.css?v=3" />
+  <link rel="stylesheet" href=".//cinematic.css?v=4" />
+  <link rel="stylesheet" href=".//drop.css?v=1" />
 </head>
 <body>
   <div class="rails" aria-hidden="true"></div>
@@ -52,21 +53,172 @@
     <div class="section-head reveal">
       <span class="stamp">MUMBAI DROP 001</span>
       <h2>ISLAND CITY UNIFORM</h2>
-      <p>Fast city, quiet fits. Devanagari type on western cuts.</p>
+      <p>Five neighbourhoods, five stories. Tap a tee to turn it over.</p>
     </div>
-    <div class="grid">
-      <article class="card glass reveal">
-        <div class="ph" data-label="VARSITY / BANDRA"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>BANDRA VARSITY</h3><p class="rg">वांद्रे</p><p>Sea link views, west-side attitude.</p></div>
+
+    <div class="drop-grid">
+
+      <!-- 01 · BANDRA -->
+      <article class="drop reveal" data-loc="bandra">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Bandra tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/mumbai/bandra/white-front.jpg" alt="Bandra tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/mumbai/bandra/white-back.jpg" alt="Bandra tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>BANDRA</h3>
+            <span class="rg">वांद्रे</span>
+          </div>
+          <p>Station arches, a momo sign with an attitude, and the last train home.</p>
+          <div class="drop-ways" role="group" aria-label="Bandra colourways">
+            <button type="button" class="way is-on" data-cw="white"         style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="charcoal-grey" style="--sw:#4a4a4d" aria-label="Charcoal grey"></button>
+            <button type="button" class="way" data-cw="faded-navy"    style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="washed-black"  style="--sw:#2b2b2d" aria-label="Washed black"></button>
+          </div>
+        </div>
       </article>
-      <article class="card glass reveal">
-        <div class="ph" data-label="TEE / LOCAL"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>LAST LOCAL TEE</h3><p class="rg">शेवटची लोकल</p><p>1:14 AM. Empty platform. Full statement.</p></div>
+
+      <!-- 02 · COLABA -->
+      <article class="drop reveal" data-loc="colaba">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Colaba tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/mumbai/colaba/white-front.jpg" alt="Colaba tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/mumbai/colaba/white-back.jpg" alt="Colaba tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>COLABA</h3>
+            <span class="rg">कुलाबा</span>
+          </div>
+          <p>Leopold's, Mondegar, Metro House — and jhumkas hanging off the causeway.</p>
+          <div class="drop-ways" role="group" aria-label="Colaba colourways">
+            <button type="button" class="way is-on" data-cw="white"         style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="charcoal-grey" style="--sw:#4a4a4d" aria-label="Charcoal grey"></button>
+            <button type="button" class="way" data-cw="faded-navy"    style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="muted-teal"    style="--sw:#3d6b6a" aria-label="Muted teal"></button>
+            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+          </div>
+        </div>
       </article>
-      <article class="card glass reveal">
-        <div class="ph" data-label="VARSITY / COLABA"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>COLABA VARSITY</h3><p class="rg">कुलाबा</p><p>Old city, new silhouette.</p></div>
+
+      <!-- 03 · DADAR -->
+      <article class="drop reveal" data-loc="dadar">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Dadar tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/mumbai/dadar/white-front.jpg" alt="Dadar tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/mumbai/dadar/white-back.jpg" alt="Dadar tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>DADAR</h3>
+            <span class="rg">दादर</span>
+          </div>
+          <p>Shivaji Park, Siddhivinayak, and the flower market before sunrise.</p>
+          <div class="drop-ways" role="group" aria-label="Dadar colourways">
+            <button type="button" class="way is-on" data-cw="white"        style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="deep-maroon"  style="--sw:#5c2029" aria-label="Deep maroon"></button>
+            <button type="button" class="way" data-cw="forest-green" style="--sw:#2c4433" aria-label="Forest green"></button>
+            <button type="button" class="way" data-cw="jet-black"    style="--sw:#1c1c1e" aria-label="Jet black"></button>
+            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+          </div>
+        </div>
       </article>
+
+      <!-- 04 · ANDHERI -->
+      <article class="drop reveal" data-loc="andheri">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Andheri tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/mumbai/andheri/white-front.jpg" alt="Andheri tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/mumbai/andheri/white-back.jpg" alt="Andheri tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>ANDHERI</h3>
+            <span class="rg">अंधेरी</span>
+          </div>
+          <p>A BEST bus, the D N Nagar line, basalt rock and a wall someone tagged.</p>
+          <div class="drop-ways" role="group" aria-label="Andheri colourways">
+            <button type="button" class="way is-on" data-cw="white"        style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="concrete-grey" style="--sw:#8d8d8a" aria-label="Concrete grey"></button>
+            <button type="button" class="way" data-cw="faded-navy"   style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="muted-olive"  style="--sw:#5b5f43" aria-label="Muted olive"></button>
+            <button type="button" class="way" data-cw="washed-black" style="--sw:#2b2b2d" aria-label="Washed black"></button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05 · THANE -->
+      <article class="drop reveal" data-loc="thane">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Thane tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/mumbai/thane/white-front.jpg" alt="Thane tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/mumbai/thane/white-back.jpg" alt="Thane tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>THANE</h3>
+            <span class="rg">ठाणे</span>
+          </div>
+          <p>ठाणे on the roundel, the twin towers, and Viviana settling the argument.</p>
+          <div class="drop-ways" role="group" aria-label="Thane colourways">
+            <button type="button" class="way is-on" data-cw="white"        style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="faded-navy"   style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="light-grey"   style="--sw:#c9c9c6" aria-label="Light grey"></button>
+            <button type="button" class="way" data-cw="sand"         style="--sw:#cdb894" aria-label="Sand"></button>
+            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="washed-black" style="--sw:#2b2b2d" aria-label="Washed black"></button>
+          </div>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -80,19 +232,20 @@
   </section>
 
   <!-- ── TYPEWRITER PROMPT ── -->
-  <section class="typewriter-section">
+  <section class="typewriter-section" data-words="location|जगह">
     <p class="typewriter-text">
       Which <span class="tw-quote">'</span><span class="tw-word-wrap"><span class="tw-word"></span><span class="tw-cursor"></span></span><span class="tw-quote">'</span> would you like for us to add in your city wardrobe, do let us know.
     </p>
   </section>
 
   <footer class="footer"><p>PIN DROP SILENCE — MUMBAI · <span class="rg">शांत रहा</span></p></footer>
-  <script src=".//security.js"></script><script src=".//city-scroll.js"></script>
+  <script src=".//security.js"></script><script src=".//city-scroll.js?v=5"></script>
   <script src=".//city-shared.js"></script>
   <script src=".//mumbai.js"></script>
-  <script src=".//typewriter.js"></script>
+  <script src=".//typewriter.js?v=5"></script>
   <script src=".//effects-3d.js?v=3"></script>
   <script src=".//cursor.js"></script>
-  <script src=".//cinematic.js?v=3"></script>
+  <script src=".//cinematic.js?v=5"></script>
+  <script src=".//drop.js?v=1"></script>
 </body>
 </html>

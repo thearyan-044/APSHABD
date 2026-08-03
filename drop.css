@@ -1,0 +1,150 @@
+/* ═══════════════════════════════════════════════════════
+   PDS — DROP GRID
+   Garment plates that flip front↔back, with colourway
+   swatches. Shared across city pages; colours come from
+   each page's --acc / --bone / --ink.
+═══════════════════════════════════════════════════════ */
+
+.drop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 30px;
+  perspective: 1600px;
+}
+
+.drop {
+  display: flex; flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ── PLATE ─────────────────────────────────────────────
+   Fixed 3:4 box matching the exported 900×1200 assets, so
+   the grid never reflows as images load. */
+.drop-stage {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  perspective: 1500px;
+  border-radius: 6px;
+  outline: none;
+}
+.drop-stage:focus-visible {
+  box-shadow: 0 0 0 2px var(--acc, #f5b301), 0 0 0 6px rgba(0,0,0,.4);
+}
+
+.drop-flip {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transition: transform .78s cubic-bezier(.2,.8,.2,1);
+  will-change: transform;
+}
+.drop.is-flipped .drop-flip { transform: rotateY(180deg); }
+
+.drop-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f4f2ee;
+  box-shadow: 0 18px 44px rgba(0,0,0,.42), 0 2px 0 rgba(255,255,255,.05) inset;
+}
+.drop-face--back { transform: rotateY(180deg); }
+
+.drop-face img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: opacity .28s ease;
+}
+.drop-face img.is-swapping { opacity: 0; }
+
+/* FRONT / BACK chip */
+.drop-face-tag {
+  position: absolute; top: 12px; left: 12px;
+  font-family: var(--body, sans-serif);
+  font-size: .55rem; letter-spacing: .28em; font-weight: 700;
+  color: #1a1a1a;
+  background: rgba(255,255,255,.82);
+  border: 1px solid rgba(0,0,0,.14);
+  border-radius: 40px;
+  padding: 5px 11px;
+  backdrop-filter: blur(4px);
+}
+
+.drop-hint {
+  position: absolute; bottom: 12px; right: 12px;
+  font-size: .55rem; letter-spacing: .26em; font-weight: 700;
+  color: #1a1a1a;
+  background: rgba(255,255,255,.8);
+  border-radius: 40px;
+  padding: 5px 11px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s, transform .3s;
+}
+.drop-stage:hover .drop-hint,
+.drop-stage:focus-visible .drop-hint { opacity: 1; transform: none; }
+.drop.is-flipped .drop-hint { opacity: 0; }
+
+/* ── INFO ──────────────────────────────────────────────── */
+.drop-info { padding: 18px 2px 0; }
+.drop-head {
+  display: flex; align-items: baseline; gap: 10px;
+  flex-wrap: wrap;
+}
+.drop-head h3 {
+  font-family: var(--display, sans-serif);
+  font-size: 1.35rem; letter-spacing: .06em;
+}
+.drop-head .rg { color: var(--acc); font-size: .95rem; }
+.drop-info > p {
+  margin-top: 7px;
+  font-size: .88rem; line-height: 1.6; opacity: .74;
+}
+
+/* ── COLOURWAYS ────────────────────────────────────────── */
+.drop-ways {
+  display: flex; gap: 9px; flex-wrap: wrap;
+  margin-top: 15px;
+}
+.way {
+  width: 25px; height: 25px;
+  border-radius: 50%;
+  background: var(--sw, #888);
+  border: 1px solid rgba(255,255,255,.28);
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s;
+}
+.way::after {
+  content: '';
+  position: absolute; inset: -5px;
+  border-radius: 50%;
+  border: 1px solid var(--acc);
+  opacity: 0;
+  transform: scale(.75);
+  transition: opacity .28s, transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.way:hover { transform: translateY(-3px) scale(1.1); }
+.way.is-on { transform: translateY(-1px); }
+.way.is-on::after { opacity: 1; transform: scale(1); }
+.way:focus-visible { outline: none; }
+.way:focus-visible::after { opacity: 1; transform: scale(1); }
+
+/* ── REDUCED MOTION ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .drop { transform: none !important; }
+  .drop-flip { transition: none; }
+  .way, .drop-hint { transition: none; }
+}
+
+/* ── MOBILE ────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .drop-grid { grid-template-columns: 1fr; gap: 26px; }
+  .drop-hint { opacity: 1; transform: none; }   /* no hover on touch */
+  .drop-head h3 { font-size: 1.2rem; }
+  .way { width: 27px; height: 27px; }           /* easier tap target */
+}
