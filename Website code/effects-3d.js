@@ -60,7 +60,9 @@
         const ty = cy * depth * 10;
         const rY = cx * depth * 2;
         const rX = -cy * depth * 1.5;
-        el.style.transform = `translate3d(${tx}px, ${ty}px, ${depth * 8}px) rotateY(${rY}deg) rotateX(${rX}deg)`;
+        // Big Z spread so the headline lines sit at genuinely
+        // different distances, not just different speeds.
+        el.style.transform = `translate3d(${tx}px, ${ty}px, ${depth * 55}px) rotateY(${rY}deg) rotateX(${rX}deg)`;
       });
     });
   }
@@ -180,7 +182,9 @@
 
   /* ── 9. STICKER / HERO-STICKER 3D FLOAT ──────────────── */
   function initStickerFloat() {
-    const sticker = document.querySelector('.hero-sticker, .logo-tile');
+    // The hero sticker is driven by cinematic.js (float + mouse
+    // tumble in one transform), so only the city tiles float here.
+    const sticker = document.querySelector('.logo-tile');
     if (!sticker) return;
     sticker.classList.add('float-3d');
   }

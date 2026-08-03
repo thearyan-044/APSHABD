@@ -151,16 +151,16 @@
               radial-gradient(ellipse at 80% 30%, #ff6b35 0%, transparent 60%);
 }
 .intro-city:nth-child(2)::before {
-  background: radial-gradient(ellipse at 60% 40%, #ff2e63 0%, transparent 70%),
-              radial-gradient(ellipse at 20% 80%, #8b0a1a 0%, transparent 60%);
+  background: radial-gradient(ellipse at 60% 40%, #4d9fff 0%, transparent 70%),
+              radial-gradient(ellipse at 20% 80%, #0e2a52 0%, transparent 60%);
 }
 .intro-city:nth-child(3)::before {
   background: radial-gradient(ellipse at 50% 60%, #e8a020 0%, transparent 70%),
               radial-gradient(ellipse at 80% 20%, #c4721a 0%, transparent 60%);
 }
 .intro-city:nth-child(4)::before {
-  background: radial-gradient(ellipse at 30% 50%, #d98e04 0%, transparent 70%),
-              radial-gradient(ellipse at 70% 70%, #8b6914 0%, transparent 60%);
+  background: radial-gradient(ellipse at 30% 50%, #cf6b35 0%, transparent 70%),
+              radial-gradient(ellipse at 70% 70%, #6e3a1c 0%, transparent 60%);
 }
 .intro-city:nth-child(5)::before {
   background: radial-gradient(ellipse at 50% 40%, #38e54d 0%, transparent 70%),
@@ -233,7 +233,7 @@
   animation: scriptFade 0.5s 0.3s ease-out forwards;
 }
 .intro-city:nth-child(2) .intro-city-script {
-  color: #ff2e63;
+  color: #4d9fff;
   font-family: 'Noto Sans Devanagari', sans-serif;
   animation: scriptFade 0.45s 1.3s ease-out forwards;
 }
@@ -243,7 +243,7 @@
   animation: scriptFade 0.4s 2.3s ease-out forwards;
 }
 .intro-city:nth-child(4) .intro-city-script {
-  color: #d98e04;
+  color: #cf6b35;
   font-family: 'Noto Sans Devanagari', sans-serif;
   animation: scriptFade 0.35s 3.3s ease-out forwards;
 }
@@ -380,7 +380,7 @@
   z-index: 8;
   height: 2px;
   width: 0%;
-  background: linear-gradient(90deg, #f5b301, #ff2e63, #38e54d);
+  background: linear-gradient(90deg, #f5b301, #e8e3da);
   animation: progressFill 5s linear forwards;
 }
 
@@ -625,10 +625,10 @@
 .intro-dot-marker:nth-child(1)::after { border-color: #f5b301; animation-delay: 0.7s; }
 
 .intro-dot-marker:nth-child(2) {
-  left: 30%; background: #ff2e63;
+  left: 30%; background: #4d9fff;
   animation: dotPop 0.4s 1.4s cubic-bezier(.16,1,.3,1) forwards;
 }
-.intro-dot-marker:nth-child(2)::after { border-color: #ff2e63; animation-delay: 1.5s; }
+.intro-dot-marker:nth-child(2)::after { border-color: #4d9fff; animation-delay: 1.5s; }
 
 .intro-dot-marker:nth-child(3) {
   left: 50%; background: #e8a020;
@@ -637,10 +637,10 @@
 .intro-dot-marker:nth-child(3)::after { border-color: #e8a020; animation-delay: 2.5s; }
 
 .intro-dot-marker:nth-child(4) {
-  left: 70%; background: #d98e04;
+  left: 70%; background: #cf6b35;
   animation: dotPop 0.4s 3.2s cubic-bezier(.16,1,.3,1) forwards;
 }
-.intro-dot-marker:nth-child(4)::after { border-color: #d98e04; animation-delay: 3.3s; }
+.intro-dot-marker:nth-child(4)::after { border-color: #cf6b35; animation-delay: 3.3s; }
 
 .intro-dot-marker:nth-child(5) {
   left: 85%; background: #38e54d;

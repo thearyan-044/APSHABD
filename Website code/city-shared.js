@@ -1,27 +1,5 @@
 /* ===== PDS — SHARED CITY JS ===== */
-
-// ─── CUSTOM CURSOR ───────────────────────────────────────────────────────────
-const cursor = document.getElementById('cursor');
-const aura   = document.getElementById('cursor-aura');
-if (cursor && aura) {
-  let mx = 0, my = 0, ax = 0, ay = 0;
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top  = my + 'px';
-  });
-  (function lerpAura() {
-    ax += (mx - ax) * 0.10;
-    ay += (my - ay) * 0.10;
-    aura.style.left = ax + 'px';
-    aura.style.top  = ay + 'px';
-    requestAnimationFrame(lerpAura);
-  })();
-  document.querySelectorAll('a, button, .card, .cta').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('big'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
-  });
-}
+/* Cursor lives in cursor.js (shared across all pages) */
 
 // ─── BG WORD PARALLAX ────────────────────────────────────────────────────────
 const bgWord = document.querySelector('.bg-word');

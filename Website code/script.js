@@ -1,28 +1,5 @@
 /* ===== PIN DROP SILENCE — HOME JS (dark-only) ===== */
-
-// ─── CUSTOM CURSOR ───────────────────────────────────────────────────────────
-const cursor = document.getElementById('cursor');
-const aura   = document.getElementById('cursor-aura');
-let mx = 0, my = 0, ax = 0, ay = 0;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top  = my + 'px';
-});
-
-(function lerpAura() {
-  ax += (mx - ax) * 0.10;
-  ay += (my - ay) * 0.10;
-  aura.style.left = ax + 'px';
-  aura.style.top  = ay + 'px';
-  requestAnimationFrame(lerpAura);
-})();
-
-document.querySelectorAll('a, button, .city-row').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.classList.add('big'));
-  el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
-});
+/* Cursor lives in cursor.js (shared across all pages) */
 
 // ─── NAV ACTIVE LINK ON SCROLL ───────────────────────────────────────────────
 const sections = [
@@ -52,7 +29,9 @@ document.querySelectorAll('.btn').forEach(btn => {
     const r  = btn.getBoundingClientRect();
     const dx = e.clientX - (r.left + r.width  / 2);
     const dy = e.clientY - (r.top  + r.height / 2);
-    btn.style.transform = `translate(${dx * 0.18}px, ${dy * 0.18}px)`;
+    btn.style.transform =
+      `perspective(600px) translate3d(${dx * 0.18}px, ${dy * 0.18}px, 26px)` +
+      ` rotateX(${(-dy * 0.07).toFixed(2)}deg) rotateY(${(dx * 0.07).toFixed(2)}deg)`;
   });
   btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
 });
@@ -91,8 +70,8 @@ if (sticker) {
   });
 }
 
-// ─── CITY ROW NUMBER TICKER ───────────────────────────────────────────────────
-document.querySelectorAll('.city-row').forEach(row => {
+// ─── CITY CARD NUMBER TICKER ─────────────────────────────────────────────────
+document.querySelectorAll('.city-card').forEach(row => {
   const numEl  = row.querySelector('.city-num');
   if (!numEl) return;
   const target = parseInt(numEl.textContent, 10);
