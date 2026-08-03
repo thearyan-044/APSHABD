@@ -3,7 +3,8 @@
 (function () {
   'use strict';
 
-  const INTRO_DURATION = 5000; // 5 seconds total
+  const INTRO_DURATION = 6200; // seven cities + final logo
+  const FADE_MS = 800;         // must match introFadeOut in intro.css
 
   // ── Build the intro DOM ──────────────────────────────────────
   function buildIntro() {
@@ -35,6 +36,8 @@
       <!-- Route line + dot markers -->
       <div class="intro-route" aria-hidden="true">
         <div class="intro-route-line"></div>
+        <div class="intro-dot-marker"></div>
+        <div class="intro-dot-marker"></div>
         <div class="intro-dot-marker"></div>
         <div class="intro-dot-marker"></div>
         <div class="intro-dot-marker"></div>
@@ -100,13 +103,27 @@
           <div class="intro-city-script">ಮೌನ</div>
           <div class="intro-city-coords">12.9716°N · 77.5946°E</div>
         </div>
+        <!-- City 6: Kolkata -->
+        <div class="intro-city">
+          <span class="intro-city-num">06</span>
+          <div class="intro-city-name">KOLKATA</div>
+          <div class="intro-city-script">নীরবতা</div>
+          <div class="intro-city-coords">22.5726°N · 88.3639°E</div>
+        </div>
+        <!-- City 7: Hyderabad -->
+        <div class="intro-city">
+          <span class="intro-city-num">07</span>
+          <div class="intro-city-name">HYDERABAD</div>
+          <div class="intro-city-script">నిశ్శబ్దం</div>
+          <div class="intro-city-coords">17.3850°N · 78.4867°E</div>
+        </div>
       </div>
 
       <!-- Final logo reveal -->
       <div class="intro-final" aria-hidden="true">
-        <img src="./Logo/42a4e003-db4a-47c6-8f6e-5941db7ccefc.jpg" alt="" class="intro-final-logo" />
+        <img src="./Logo/ChatGPT Image Jul 21, 2026, 11_10_57 PM.png" alt="" class="intro-final-logo" />
         <div class="intro-final-brand">PIN DROP SILENCE</div>
-        <div class="intro-final-sub">FIVE CITIES · ONE SILENCE</div>
+        <div class="intro-final-sub">SEVEN CITIES · ONE SILENCE</div>
       </div>
 
       <!-- HUD labels -->
@@ -115,7 +132,7 @@
         <span>INDIA STREETWEAR</span>
       </div>
 
-      <div class="intro-counter" id="introCounter">01 / 05</div>
+      <div class="intro-counter" id="introCounter">01 / 07</div>
 
       <div class="intro-tagline">
         <span>QUIET ACTION.</span>
@@ -135,11 +152,13 @@
   // ── Counter animation ────────────────────────────────────────
   function animateCounter(counterEl) {
     const schedule = [
-      { text: '01 / 05', time: 0 },
-      { text: '02 / 05', time: 1000 },
-      { text: '03 / 05', time: 2000 },
-      { text: '04 / 05', time: 3000 },
-      { text: '05 / 05', time: 3600 },
+      { text: '01 / 07', time: 0    },
+      { text: '02 / 07', time: 800  },
+      { text: '03 / 07', time: 1600 },
+      { text: '04 / 07', time: 2400 },
+      { text: '05 / 07', time: 3200 },
+      { text: '06 / 07', time: 4000 },
+      { text: '07 / 07', time: 4750 },
     ];
 
     const timers = [];
@@ -209,7 +228,7 @@
 
     // Scramble city names with staggered delays
     const cityNames = overlay.querySelectorAll('.intro-city-name');
-    const delays = [150, 1050, 2050, 3050, 3650];
+    const delays = [100, 900, 1700, 2500, 3300, 4100, 4850];
     cityNames.forEach((name, i) => {
       scrambleText(name, delays[i]);
     });
@@ -218,19 +237,20 @@
     setTimeout(createPulse, 200);
 
     // ── End intro ──────────────────────────────────────────────
+    let ended = false;
     function endIntro() {
+      if (ended) return;          // skip + auto-end could both fire
+      ended = true;
       timers.forEach(clearTimeout);
       overlay.classList.add('done');
       document.body.classList.remove('intro-active');
 
-      // Remove DOM after fade-out animation
-      setTimeout(() => {
-        overlay.remove();
-      }, 1000);
+      // Remove once the fade has actually finished.
+      setTimeout(() => { overlay.remove(); }, FADE_MS);
     }
 
-    // Auto-end after 5.8s (5s content + 0.8s fade)
-    const autoEnd = setTimeout(endIntro, INTRO_DURATION + 800);
+    // Auto-end when the content finishes; the fade runs on top of it.
+    const autoEnd = setTimeout(endIntro, INTRO_DURATION);
 
     // Skip button
     if (skipBtn) {

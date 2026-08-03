@@ -32,6 +32,8 @@ body {
 .tamil { font-family:'Noto Sans Tamil',sans-serif; }
 .dev   { font-family:'Noto Sans Devanagari',sans-serif; }
 .kan   { font-family:'Noto Sans Kannada',sans-serif; }
+.ben   { font-family:'Noto Sans Bengali',sans-serif; }
+.tel   { font-family:'Noto Sans Telugu',sans-serif; }
 
 /* ── GRAIN ───────────────────────────────────────────── */
 .grain {
@@ -341,10 +343,12 @@ body {
   transition:border-color .4s, box-shadow .4s;
 }
 .city-card:nth-child(1) { top:calc(84px + 0px);  }
-.city-card:nth-child(2) { top:calc(84px + 14px); }
-.city-card:nth-child(3) { top:calc(84px + 28px); }
-.city-card:nth-child(4) { top:calc(84px + 42px); }
-.city-card:nth-child(5) { top:calc(84px + 56px); }
+.city-card:nth-child(2) { top:calc(84px + 12px); }
+.city-card:nth-child(3) { top:calc(84px + 24px); }
+.city-card:nth-child(4) { top:calc(84px + 36px); }
+.city-card:nth-child(5) { top:calc(84px + 48px); }
+.city-card:nth-child(6) { top:calc(84px + 60px); }
+.city-card:nth-child(7) { top:calc(84px + 72px); }
 
 .city-card:hover {
   border-color:color-mix(in srgb, var(--c, var(--yellow)) 45%, transparent);
@@ -531,10 +535,12 @@ body {
     min-height:52vh; padding:22px 24px 26px; border-radius:18px;
   }
   .city-card:nth-child(1) { top:76px; }
-  .city-card:nth-child(2) { top:84px; }
-  .city-card:nth-child(3) { top:92px; }
-  .city-card:nth-child(4) { top:100px; }
-  .city-card:nth-child(5) { top:108px; }
+  .city-card:nth-child(2) { top:83px; }
+  .city-card:nth-child(3) { top:90px; }
+  .city-card:nth-child(4) { top:97px; }
+  .city-card:nth-child(5) { top:104px; }
+  .city-card:nth-child(6) { top:111px; }
+  .city-card:nth-child(7) { top:118px; }
   .city-script { font-size:clamp(5rem,32vw,9rem); right:-6%; }
   .city-arrow { padding:8px 16px; font-size:.6rem; }
   .wait-section { padding:70px 20px; }

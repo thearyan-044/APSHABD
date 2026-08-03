@@ -31,11 +31,29 @@
   var cam = null;
   function buildCam() {
     var inner = document.querySelector('.hero-inner');
-    if (!inner || !inner.parentNode) return;
+    if (inner && inner.parentNode) {
+      // Home page — one wrapper already holds the content.
+      cam = document.createElement('div');
+      cam.className = 'hero-cam';
+      inner.parentNode.insertBefore(cam, inner);
+      cam.appendChild(inner);
+      return;
+    }
+
+    // City pages — hero children sit directly in .hero, so collect the
+    // real content (skipping decorative aria-hidden layers, which are
+    // absolutely positioned and would reflow if reparented).
+    var heroEl = document.querySelector('.hero');
+    if (!heroEl) return;
+    var kids = [].slice.call(heroEl.children).filter(function (el) {
+      return el.getAttribute('aria-hidden') !== 'true';
+    });
+    if (!kids.length) return;
+
     cam = document.createElement('div');
-    cam.className = 'hero-cam';
-    inner.parentNode.insertBefore(cam, inner);
-    cam.appendChild(inner);
+    cam.className = 'hero-cam hero-cam--stack';
+    heroEl.insertBefore(cam, kids[0]);
+    kids.forEach(function (el) { cam.appendChild(el); });
   }
 
   var video = document.querySelector('.hero-video');
@@ -70,7 +88,7 @@
   /* ── CITY DECK: DEPTH + TILT ────────────────────────── */
   var cards = [].slice.call(document.querySelectorAll('.city-card'));
   var state = cards.map(function () {
-    return { bury: 0, tx: 0, ty: 0, ctx: 0, cty: 0 };
+    return { bury: 0, tx: 0, ty: 0, ctx: 0, cty: 0, last: '' };
   });
 
   function measureDeck() {
@@ -97,6 +115,9 @@
       // ease the hover tilt toward its target
       s.ctx = lerp(s.ctx, s.tx, 0.12);
       s.cty = lerp(s.cty, s.ty, 0.12);
+      // Snap once it's close enough, so idle cards stop writing styles.
+      if (Math.abs(s.ctx - s.tx) < 0.01) s.ctx = s.tx;
+      if (Math.abs(s.cty - s.ty) < 0.01) s.cty = s.ty;
 
       var b     = s.bury;
       var scale = 1 - b * 0.07;
@@ -104,11 +125,17 @@
       var rise  = -b * 18;
       var rotB  = b * 4;
 
-      cards[i].style.transform =
+      var t =
         'translate3d(0,' + rise.toFixed(1) + 'px,' + push.toFixed(0) + 'px) ' +
         'rotateX(' + (rotB + s.cty).toFixed(2) + 'deg) ' +
         'rotateY(' + s.ctx.toFixed(2) + 'deg) ' +
         'scale(' + scale.toFixed(3) + ')';
+
+      // Skip the write when nothing moved — otherwise every card
+      // restyles on every frame even while the page sits idle.
+      if (t === s.last) continue;
+      s.last = t;
+      cards[i].style.transform = t;
       cards[i].style.setProperty('--bury', (b * 0.55).toFixed(3));
     }
   }
@@ -158,6 +185,9 @@
     // tilt goes on the container with a self-contained perspective.
     add('.marquee', 7, 0, 0, 700);
     add('.footer-big', 0, 8, 60);
+    // City pages: the product grid swings as a slab. (.section-head,
+    // .wait and .card are skipped — they own a .reveal transform.)
+    add('.grid', 6, 0, 55);
 
     // These CSS animations would override the inline transforms below.
     var fb = document.querySelector('.footer-big');
@@ -205,6 +235,8 @@
 
   function paintSticker(now) {
     if (!sticker || !fine || reduce) return;
+    // Stop animating once the hero has scrolled away.
+    if (hero && hero.getBoundingClientRect().bottom < 0) return;
     var bob = Math.sin(now / 1400) * 7;
     var yaw = Math.cos(now / 2600) * 3;
     sticker.style.transform =
@@ -212,6 +244,24 @@
       'translate3d(' + (stkX * -20).toFixed(1) + 'px,' + (stkY * -14 + bob).toFixed(1) + 'px,0) ' +
       'rotateY(' + (stkX * 22 + yaw).toFixed(2) + 'deg) ' +
       'rotateX(' + (stkY * -16).toFixed(2) + 'deg)';
+  }
+
+  /* ── CITY-PAGE CARD DEPTH ───────────────────────────── */
+  // Same trick as the city deck: the card clips its contents, so the
+  // depth comes from inner layers drifting at different rates.
+  function bindProductCards() {
+    if (!fine || reduce) return;
+    [].slice.call(document.querySelectorAll('.card')).forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - (r.left + r.width  / 2)) / (r.width  / 2)).toFixed(3));
+        card.style.setProperty('--my', ((e.clientY - (r.top  + r.height / 2)) / (r.height / 2)).toFixed(3));
+      }, { passive: true });
+      card.addEventListener('mouseleave', function () {
+        card.style.setProperty('--mx', '0');
+        card.style.setProperty('--my', '0');
+      }, { passive: true });
+    });
   }
 
   /* ── PAGE WIPE ──────────────────────────────────────── */
@@ -298,14 +348,32 @@
     requestAnimationFrame(tick);
   }
 
+  /* ── REVEAL SAFETY NET ──────────────────────────────────
+     Every section starts at opacity:0 and waits on an
+     IntersectionObserver. If IO is blocked, throttled, or the tab
+     never composites before the visitor looks at it, the page would
+     sit blank forever. Force anything still hidden into view. */
+  function revealSafetyNet() {
+    var SEL = '.reveal, .reveal-3d, .section-anim, .reveal-card, .clip-reveal';
+    setTimeout(function () {
+      [].slice.call(document.querySelectorAll(SEL)).forEach(function (el) {
+        if (!el.classList.contains('in')) el.classList.add('in');
+      });
+      var tw = document.querySelector('.typewriter-section.tw-hidden');
+      if (tw) { tw.classList.remove('tw-hidden'); tw.classList.add('tw-visible'); }
+    }, 2600);
+  }
+
   function boot() {
     playArrival();
+    revealSafetyNet();
     if (reduce) return;
 
     buildFrame();
     buildCam();
     collectPanels();
     bindCardTilt();
+    bindProductCards();
     bindSticker();
     bindWipeLinks();
     bindSweep();

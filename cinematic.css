@@ -43,6 +43,23 @@
   transform-style: preserve-3d;
   will-change: transform, opacity, filter;
 }
+/* City pages stack their hero content in a column. */
+.hero-cam--stack {
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── CITY-PAGE CARD DEPTH ─────────────────────────────── */
+.card { --mx: 0; --my: 0; }
+.card .ph span {
+  transform: translate3d(calc(var(--mx) * 11px), calc(var(--my) * 8px), 0);
+  transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+.card .card-body {
+  transform: translate3d(calc(var(--mx) * 5px), calc(var(--my) * 3px), 0);
+  transition: transform .3s cubic-bezier(.22,1,.36,1);
+}
+.grid { will-change: transform; }
 
 /* Video gets its own slow push-in */
 .hero-video { will-change: transform; }
@@ -256,7 +273,8 @@
   .cine-wipe { display: none; }
   .city-card-top, .city-card-bottom,
   .city-card .city-script, .city-card .city-name, .city-card .city-arrow,
-  .story-block, .wait-inner, .marquee, .footer-big, .hero-sticker {
+  .story-block, .wait-inner, .marquee, .footer-big, .hero-sticker,
+  .grid, .card .ph span, .card .card-body {
     transform: none !important;
   }
 }

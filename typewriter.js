@@ -3,7 +3,11 @@
   'use strict';
 
   /* ── Configuration ── */
-  const WORDS = ['location', 'जगह', 'स्थान', 'ಸ್ಥಳ'];
+  // Default cycles every script the brand ships in. City pages
+  // override this via data-words, because each one only loads its
+  // own Noto font — listing a script the page hasn't loaded renders
+  // as tofu boxes on systems without a system fallback for it.
+  const DEFAULT_WORDS = ['location', 'இடம்', 'जगह', 'ಸ್ಥಳ', 'স্থান', 'స్థలం'];
   const TYPE_SPEED   = 100;   // ms per character typing
   const ERASE_SPEED  = 60;    // ms per character erasing
   const PAUSE_AFTER  = 1500;  // ms pause after full word is typed
@@ -16,6 +20,12 @@
   const wordEl  = section.querySelector('.tw-word');
   if (!wordEl) return;
 
+  const attr  = (section.getAttribute('data-words') || '').trim();
+  const WORDS = attr
+    ? attr.split('|').map(s => s.trim()).filter(Boolean)
+    : DEFAULT_WORDS;
+  if (!WORDS.length) return;
+
   let wordIndex = 0;
   let charIndex = 0;
   let isErasing = false;
@@ -25,12 +35,12 @@
     const currentWord = WORDS[wordIndex];
 
     if (!isErasing) {
-      // Typing forward
+      // Typing forward. Index by code point so Indic scripts don't
+      // get sliced mid-character.
       charIndex++;
-      wordEl.textContent = currentWord.slice(0, charIndex);
+      wordEl.textContent = [...currentWord].slice(0, charIndex).join('');
 
       if (charIndex >= [...currentWord].length) {
-        // Use spread to handle multi-byte characters correctly
         // Finished typing — pause, then start erasing
         setTimeout(() => {
           isErasing = true;
@@ -40,8 +50,6 @@
         return;
       }
 
-      // Handle multi-byte (Devanagari / Kannada) correctly
-      wordEl.textContent = [...currentWord].slice(0, charIndex).join('');
       setTimeout(tick, TYPE_SPEED);
     } else {
       // Erasing backward

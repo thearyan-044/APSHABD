@@ -63,6 +63,8 @@
   let lastY = 0;
   let scanVisible = false;
   let scanHideTimer = null;
+  let marqueeFast = false;
+  let marqueeResetTimer = null;
 
   function onScroll() {
     const y       = window.scrollY;
@@ -92,10 +94,24 @@
       bgWord.style.setProperty('--clip-pct', clipPct.toFixed(1) + '%');
     }
 
-    /* Marquee: speed up on fast scroll */
-    const delta    = Math.abs(y - lastY);
-    const duration = Math.max(6, 30 - delta * 0.4).toFixed(1);
-    tracks.forEach(t => { t.style.animationDuration = duration + 's'; });
+    /* Marquee: speed up on fast scroll.
+       Changing animation-duration remaps the animation's current
+       position, so writing a new value every scroll event makes the
+       text visibly jump. Snap between two states instead, and only
+       write when the state actually flips. */
+    const delta = Math.abs(y - lastY);
+    const wantFast = delta > 26;
+    if (wantFast !== marqueeFast) {
+      marqueeFast = wantFast;
+      const duration = wantFast ? '12s' : '30s';
+      tracks.forEach(t => { t.style.animationDuration = duration; });
+    }
+    clearTimeout(marqueeResetTimer);
+    marqueeResetTimer = setTimeout(() => {
+      if (!marqueeFast) return;
+      marqueeFast = false;
+      tracks.forEach(t => { t.style.animationDuration = '30s'; });
+    }, 400);
 
     lastY = y;
   }
