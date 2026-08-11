@@ -251,6 +251,88 @@
     });
   });
 
+  /* ── TOUCH: SWIPE TO SPIN ────────────────────────────
+     On phones the vertical scroll is a clumsy way to steer a
+     carousel, so touch gets direct control: drag the ring left or
+     right and it follows the thumb, snapping to the nearest city on
+     release. A quick flick advances one city. The swipe drives the
+     same scroll position the orbit already reads, so scroll and
+     swipe can never disagree about which city is front.           */
+  (function bindSwipe() {
+    let dragging = false, pid = null;
+    let startX = 0, lastX = 0, lastT = 0, startScroll = 0, moved = 0, vx = 0;
+    let snapTimer = null;
+
+    // Timer-driven snap: browsers pause compositor smooth-scrolls in
+    // background/embedded contexts, so drive the ease ourselves.
+    function snapTo(top) {
+      clearInterval(snapTimer);
+      const from = window.scrollY, dist = top - from, t0 = performance.now();
+      if (Math.abs(dist) < 1) return;
+      const D = 450;
+      snapTimer = setInterval(() => {
+        const t = Math.min(1, (performance.now() - t0) / D);
+        const e = 1 - Math.pow(1 - t, 3);        // ease-out cubic
+        window.scrollTo(0, from + dist * e);
+        if (t >= 1) clearInterval(snapTimer);
+      }, 16);
+    }
+
+    const pinned = () => {
+      const r = track.getBoundingClientRect();
+      return r.top <= 1 && r.bottom >= window.innerHeight - 1;
+    };
+
+    scene.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'mouse') return;      // touch & pen only
+      if (!pinned()) return;
+      dragging = true; pid = e.pointerId; moved = 0; vx = 0;
+      clearInterval(snapTimer);                 // re-grab cancels a snap
+      startX = lastX = e.clientX;
+      startScroll = window.scrollY;
+      lastT = performance.now();
+      try { scene.setPointerCapture(pid); } catch (err) {}
+      // page-level smooth scroll would lag the finger
+      document.documentElement.style.scrollBehavior = 'auto';
+    });
+
+    scene.addEventListener('pointermove', e => {
+      if (!dragging || e.pointerId !== pid) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      const now = performance.now();
+      vx = (e.clientX - lastX) / Math.max(1, now - lastT);
+      lastX = e.clientX; lastT = now;
+      // ~150px of thumb travel = one city
+      const K = (scrollable / (N - 1)) / 150;
+      window.scrollTo(0, startScroll - dx * K);
+    });
+
+    function release(e) {
+      if (!dragging || e.pointerId !== pid) return;
+      dragging = false;
+      try { scene.releasePointerCapture(pid); } catch (err) {}
+      pid = null;
+
+      // snap to the nearest city — a flick carries one further
+      const p = (window.scrollY - start) / scrollable;
+      let idx = Math.round(p * (N - 1));
+      // a real flick reads 1–4 px/ms; a finger that stops before
+      // lifting reads ~0 — .25 separates them even on slow devices
+      if (Math.abs(vx) > 0.25 && moved > 12) idx += vx < 0 ? 1 : -1;
+      idx = Math.max(0, Math.min(N - 1, idx));
+      snapTo(start + (idx / (N - 1)) * scrollable);
+      setTimeout(() => { document.documentElement.style.scrollBehavior = ''; }, 600);
+    }
+    scene.addEventListener('pointerup', release);
+    scene.addEventListener('pointercancel', release);
+
+    // a drag must not fire the card link it started on
+    scene.addEventListener('click', e => {
+      if (moved > 10) { e.preventDefault(); e.stopPropagation(); moved = 0; }
+    }, true);
+  })();
+
   buildFigure();
   measure();
   update();

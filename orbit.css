@@ -43,6 +43,9 @@
 @keyframes orbitHint { 0%,100%{opacity:.4} 50%{opacity:.95} }
 
 /* ── SCENE ───────────────────────────────────────────── */
+/* pan-y: vertical stays native page scroll, horizontal gestures
+   reach orbit.js so a thumb can spin the ring directly */
+.orbit-scene, .orbit-scene * { touch-action: pan-y; }
 .orbit-scene {
   flex:1; position:relative;
   perspective:1600px; perspective-origin:50% 42%;
@@ -248,6 +251,16 @@
   transition:background .4s;
 }
 .orbit-tick.on { background:var(--holo-c, var(--yellow)); }
+
+/* Swipe affordance — only where there's a finger to swipe with */
+.orbit-swipe {
+  display:none;
+  font-size:.56rem; letter-spacing:.3em; color:var(--muted);
+  margin-top:9px;
+  animation:orbitHint 2.6s ease-in-out infinite;
+}
+@media (hover:none) { .orbit-swipe { display:block; } }
+@media (prefers-reduced-motion:reduce) { .orbit-swipe { animation:none; } }
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
 @media (max-width:820px) {
