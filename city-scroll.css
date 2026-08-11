@@ -26,22 +26,8 @@
   transition: clip-path .04s linear;
 }
 
-/* ── HORIZONTAL SCAN LINE ────────────────────────────── */
-/* A single sharp horizontal rule that travels down the viewport on scroll */
-#scan-line {
-  position: fixed;
-  left: 0; right: 0;
-  height: 1px;
-  background: var(--acc, #f5b301);
-  opacity: 0;
-  z-index: 100;
-  pointer-events: none;
-  will-change: top, opacity;
-  transition: opacity .2s;
-  /* glow */
-  box-shadow: 0 0 8px 1px var(--acc, #f5b301);
-}
-#scan-line.visible { opacity: .55; }
+/* The travelling horizontal scan line was removed — a glowing
+   rule sweeping across body copy made the page hard to read. */
 
 /* ── SECTION TRANSITIONS ─────────────────────────────── */
 /* Each section flips toward viewer and fades in */

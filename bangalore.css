@@ -6,7 +6,12 @@
   --ease-spring: cubic-bezier(.2,.8,.2,1);
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* body alone is not enough — without this the document still
+     drags sideways on phones. Safe here: no sticky on city pages. */
+  overflow-x: hidden;
+}
 body { background: var(--ink); color: var(--bone); font-family: var(--body); overflow-x: hidden; }
 .rg { font-family: 'Noto Sans Kannada', sans-serif; }
 
@@ -165,7 +170,8 @@ body { background: var(--ink); color: var(--bone); font-family: var(--body); ove
 .wait .cta { margin-top: 0; }
 
 /* ─── FOOTER ── */
-.footer { position: relative; z-index: 2; text-align: center; padding: 32px; border-top: 1px solid var(--glass-b); font-size: .75rem; letter-spacing: .22em; opacity: .65; }
+.footer { position: relative; z-index: 2; text-align: center; padding: 32px; border-top: 1px solid var(--glass-b); font-size: .75rem; letter-spacing: .22em; }
+.footer p { opacity: .65; }
 .footer .rg { color: var(--acc); }
 
 /* ─── REVEAL ── */

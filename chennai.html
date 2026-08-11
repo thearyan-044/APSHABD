@@ -4,15 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDS — CHENNAI · அமைதி</title>
-  <meta name="description" content="Pin Drop Silence Chennai — The origin city. Filter coffee at dawn, auto horns at noon, silence after midnight." />
+  <meta name="description" content="Pin Drop Silence Chennai — Filter coffee at dawn, auto horns at noon, silence after midnight." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href=".//chennai.css?v=2" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href=".//chennai.css?v=3" />
   <link rel="stylesheet" href=".//city-scroll.css" />
-  <link rel="stylesheet" href=".//typewriter.css" />
+  <link rel="stylesheet" href=".//typewriter.css?v=2" />
   <link rel="stylesheet" href=".//effects-3d.css" />
-  <link rel="stylesheet" href=".//cursor.css?v=3" />
-  <link rel="stylesheet" href=".//cinematic.css?v=4" />
+  <link rel="stylesheet" href=".//cinematic.css?v=6" />
+  <link rel="stylesheet" href=".//drop.css?v=4" />
+  <link rel="stylesheet" href=".//tuezday.css?v=3" />
+  <link rel="stylesheet" href=".//holo.css?v=2" />
 </head>
 <body>
 
@@ -28,12 +30,12 @@
   </nav>
 
   <header class="hero" style="transform-style:preserve-3d;perspective:1200px;">
-    <p class="eyebrow reveal">THE ORIGIN CITY · நம்ம ஊரு</p>
+    <p class="eyebrow reveal">MARINA NIGHTS · நம்ம ஊரு</p>
     <h1 class="hero-title">
       <span class="reveal depth-layer" data-depth="0.8">CHEN</span>
       <span class="reveal outline depth-layer" data-depth="1.2">NAI</span>
     </h1>
-    <p class="hero-sub reveal">Where it all began. Filter coffee at dawn,<br />auto horns at noon, silence after midnight.</p>
+    <p class="hero-sub reveal">Filter coffee at dawn, auto horns at noon,<br />and silence after midnight.</p>
     <a href="#drop" class="cta reveal">SEE THE DROP ↓</a>
   </header>
 
@@ -48,21 +50,171 @@
     <div class="section-head reveal">
       <span class="stamp">CHENNAI DROP 001</span>
       <h2>MADRAS ON YOUR BACK</h2>
-      <p>Neighborhood varsity + graphic tees, set in Tamil type.</p>
+      <p>Five neighbourhoods, five stories, set in Tamil type. Tap a tee to turn it over.</p>
     </div>
-    <div class="grid">
-      <article class="card glass reveal">
-        <div class="ph" data-label="VARSITY / T. NAGAR"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>T. NAGAR VARSITY</h3><p class="rg">டி. நகர்</p><p>The shopping capital, stitched in chenille.</p></div>
+
+    <div class="drop-grid" data-city="chennai">
+
+      <!-- 001 · T. NAGAR -->
+      <article class="drop reveal" data-loc="t-nagar">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="T. Nagar tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/chennai/t-nagar/auto-yellow-front.jpg" alt="T. Nagar tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/chennai/t-nagar/auto-yellow-back.jpg" alt="T. Nagar tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>T. NAGAR</h3>
+            <span class="rg">தி. நகர்</span>
+          </div>
+          <p>Ranganathan Street at 6 PM, silk by the metre, and nowhere to stand still.</p>
+          <div class="drop-ways" role="group" aria-label="T. Nagar colourways">
+            <button type="button" class="way" data-cw="vintage-cream"     style="--sw:#e4ccaa" aria-label="Vintage cream"></button>
+            <button type="button" class="way is-on" data-cw="auto-yellow" style="--sw:#dc9502" aria-label="Auto yellow"></button>
+            <button type="button" class="way" data-cw="deep-maroon"       style="--sw:#54161b" aria-label="Deep maroon"></button>
+            <button type="button" class="way" data-cw="faded-navy"        style="--sw:#252c3a" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="washed-black"      style="--sw:#1a1a1a" aria-label="Washed black"></button>
+          </div>
+        </div>
       </article>
-      <article class="card glass reveal">
-        <div class="ph" data-label="TEE / MARINA"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>MARINA TEE</h3><p class="rg">மெரினா</p><p>4 AM beach walks. Heavyweight cotton.</p></div>
+
+      <!-- 002 · MARINA -->
+      <article class="drop reveal" data-loc="marina">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Marina tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/chennai/marina/seafoam-teal-front.jpg" alt="Marina tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/chennai/marina/seafoam-teal-back.jpg" alt="Marina tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>MARINA</h3>
+            <span class="rg">மெரினா</span>
+          </div>
+          <p>Sundal in a paper cone, the lighthouse at dusk, and the longest walk in the country.</p>
+          <div class="drop-ways" role="group" aria-label="Marina colourways">
+            <button type="button" class="way" data-cw="white"              style="--sw:#ebebed" aria-label="White"></button>
+            <button type="button" class="way" data-cw="vintage-cream"      style="--sw:#ebd9bd" aria-label="Vintage cream"></button>
+            <button type="button" class="way is-on" data-cw="seafoam-teal" style="--sw:#92b2ad" aria-label="Seafoam teal"></button>
+            <button type="button" class="way" data-cw="faded-navy"         style="--sw:#252c3c" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="washed-black"       style="--sw:#161616" aria-label="Washed black"></button>
+          </div>
+        </div>
       </article>
-      <article class="card glass reveal">
-        <div class="ph" data-label="VARSITY / ANNA NAGAR"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>ANNA NAGAR VARSITY</h3><p class="rg">அண்ணா நகர்</p><p>Tower Park energy, worn loud, said quiet.</p></div>
+
+      <!-- 003 · ANNA NAGAR -->
+      <article class="drop reveal" data-loc="anna-nagar">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Anna Nagar tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/chennai/anna-nagar/vintage-cream-front.jpg" alt="Anna Nagar tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/chennai/anna-nagar/vintage-cream-back.jpg" alt="Anna Nagar tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>ANNA NAGAR</h3>
+            <span class="rg">அண்ணா நகர்</span>
+          </div>
+          <p>Tower Park evenings, roads wide enough to breathe, and a bakery on every second corner.</p>
+          <div class="drop-ways" role="group" aria-label="Anna Nagar colourways">
+            <button type="button" class="way" data-cw="white"                style="--sw:#f1f1f1" aria-label="White"></button>
+            <button type="button" class="way is-on" data-cw="vintage-cream"  style="--sw:#eddbbb" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="faded-charcoal-grey"  style="--sw:#424244" aria-label="Faded charcoal grey"></button>
+            <button type="button" class="way" data-cw="deep-forest-green"    style="--sw:#1d3125" aria-label="Deep forest green"></button>
+            <button type="button" class="way" data-cw="washed-black"         style="--sw:#141414" aria-label="Washed black"></button>
+          </div>
+        </div>
       </article>
+
+      <!-- 004 · MYLAPORE -->
+      <article class="drop reveal" data-loc="mylapore">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Mylapore tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/chennai/mylapore/dusty-lavender-front.jpg" alt="Mylapore tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/chennai/mylapore/dusty-lavender-back.jpg" alt="Mylapore tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>MYLAPORE</h3>
+            <span class="rg">மயிலாப்பூர்</span>
+          </div>
+          <p>Kapaleeshwarar's gopuram, the tank at dusk, and filter coffee in a steel tumbler.</p>
+          <div class="drop-ways" role="group" aria-label="Mylapore colourways">
+            <button type="button" class="way" data-cw="white"                 style="--sw:#ececec" aria-label="White"></button>
+            <button type="button" class="way" data-cw="cool-stone-grey"       style="--sw:#babbbd" aria-label="Cool stone grey"></button>
+            <button type="button" class="way is-on" data-cw="dusty-lavender"  style="--sw:#b3a4ba" aria-label="Dusty lavender"></button>
+            <button type="button" class="way" data-cw="deep-indigo"           style="--sw:#14192d" aria-label="Deep indigo"></button>
+            <button type="button" class="way" data-cw="dark-bottle-green"     style="--sw:#0c2b25" aria-label="Dark bottle green"></button>
+          </div>
+        </div>
+      </article>
+
+      <!-- 005 · ADYAR -->
+      <article class="drop reveal" data-loc="adyar">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Adyar tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/chennai/adyar/washed-seafoam-front.jpg" alt="Adyar tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/chennai/adyar/washed-seafoam-back.jpg" alt="Adyar tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>ADYAR</h3>
+            <span class="rg">அடையாறு</span>
+          </div>
+          <p>The estuary at low tide, the big banyan, and a river that finally finds the sea.</p>
+          <div class="drop-ways" role="group" aria-label="Adyar colourways">
+            <button type="button" class="way" data-cw="white"                 style="--sw:#f2f1ef" aria-label="White"></button>
+            <button type="button" class="way" data-cw="cool-mist-grey"        style="--sw:#c9cace" aria-label="Cool mist grey"></button>
+            <button type="button" class="way is-on" data-cw="washed-seafoam"  style="--sw:#a3bcb2" aria-label="Washed seafoam"></button>
+            <button type="button" class="way" data-cw="mangrove-green"        style="--sw:#263429" aria-label="Mangrove green"></button>
+            <button type="button" class="way" data-cw="deep-estuary-navy"     style="--sw:#1c2531" aria-label="Deep estuary navy"></button>
+          </div>
+        </div>
+      </article>
+
     </div>
   </section>
 
@@ -80,15 +232,33 @@
     <p class="typewriter-text">
       Which <span class="tw-quote">'</span><span class="tw-word-wrap"><span class="tw-word"></span><span class="tw-cursor"></span></span><span class="tw-quote">'</span> would you like for us to add in your city wardrobe, do let us know.
     </p>
+    <div class="typewriter-cta">
+      <a href="drop-a-pin.html" class="tw-cta" data-cursor="DROP"><span>DROP A PIN →</span></a>
+    </div>
   </section>
 
-  <footer class="footer"><p>PIN DROP SILENCE — CHENNAI · <span class="rg">அமைதியா இரு</span></p></footer>
-  <script src=".//security.js"></script><script src=".//city-scroll.js?v=5"></script>
+  <footer class="footer">
+    <p>PIN DROP SILENCE — CHENNAI · <span class="rg">அமைதியா இரு</span></p>
+    <a class="tz-badge tz-badge--footer" href="https://tuezdayai.com/" target="_blank" rel="noopener"
+       aria-label="Powered by tuezday.ai — opens in a new tab" data-cursor="TUEZDAY">
+      <span class="tz-badge-label">POWERED BY</span>
+      <span class="tz-mark"><span class="tz-mark-word" data-text="tuezday">tuezday</span><span class="tz-mark-tld">.ai</span></span>
+    </a>
+  </footer>
+
+  <a class="tz-badge tz-badge--float" href="https://tuezdayai.com/" target="_blank" rel="noopener"
+     aria-label="Powered by tuezday.ai — opens in a new tab" data-cursor="TUEZDAY">
+    <span class="tz-badge-label">POWERED BY</span>
+    <span class="tz-mark"><span class="tz-mark-word" data-text="tuezday">tuezday</span><span class="tz-mark-tld">.ai</span></span>
+  </a>
+
+  <script src=".//security.js"></script><script src=".//city-scroll.js?v=6"></script>
   <script src=".//city-shared.js"></script>
   <script src=".//chennai.js"></script>
   <script src=".//typewriter.js?v=5"></script>
   <script src=".//effects-3d.js?v=3"></script>
-  <script src=".//cursor.js"></script>
-  <script src=".//cinematic.js?v=5"></script>
+  <script src=".//cinematic.js?v=6"></script>
+  <script src=".//drop.js?v=4"></script>
+  <script src=".//holo.js?v=2"></script>
 </body>
 </html>

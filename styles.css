@@ -99,7 +99,7 @@ body {
   border-radius:.5em;
   box-shadow:0 0 0 rgba(245,179,1,0);
   transition:color .45s, border-color .45s, box-shadow .45s;
-  cursor:none;
+  cursor:pointer;
 }
 .btn::before {
   content:'';
@@ -219,17 +219,6 @@ body {
   0%,100% { transform:translateY(0); }
   50%      { transform:translateY(-6px); }
 }
-
-/* Sticker — small floater top-right of hero */
-.hero-sticker {
-  position:absolute; top:130px; right:clamp(20px,5vw,70px);
-  width:clamp(60px,7vw,100px);
-  transform:rotate(-15deg);
-  filter:drop-shadow(0 6px 20px rgba(0,0,0,.5));
-  transition:transform .5s var(--ease);
-  z-index:5;
-}
-.hero-sticker:hover { transform:rotate(-6deg) scale(1.08); }
 
 /* Headline */
 .hero-title {
@@ -508,12 +497,13 @@ body {
 }
 
 /* ── REVEAL ──────────────────────────────────────────── */
+/* Clean vertical rise — the old rotateX tilt made sections look
+   crooked while settling. */
 .reveal {
-  opacity:0; transform:perspective(800px) rotateX(3deg) translateY(32px) translateZ(-20px);
-  transform-origin:center bottom;
+  opacity:0; transform:translateY(26px);
   transition:opacity .85s var(--ease), transform .85s var(--ease);
 }
-.reveal.in { opacity:1; transform:perspective(800px) rotateX(0) translateY(0) translateZ(0); }
+.reveal.in { opacity:1; transform:translateY(0); }
 
 /* ── REDUCED MOTION ──────────────────────────────────── */
 @media (prefers-reduced-motion:reduce) {
@@ -548,7 +538,6 @@ body {
   .wait-form .btn { border-left:none; border-top:1px solid var(--border); border-radius:0 0 .5em .5em; }
   .footer { padding:40px 20px 32px; }
   .footer-big { font-size:clamp(4rem,28vw,10rem); }
-  .hero-sticker { width:55px; top:110px; right:14px; }
 }
 
 @media (max-width:480px) {
@@ -574,7 +563,6 @@ body {
   .nav { padding:14px 16px; }
   .nav-name { font-size:.68rem; }
   .nav-sticker { width:24px; height:34px; border-radius:5px; }
-  .hero-sticker { width:42px; top:95px; right:10px; }
   .hero-eyebrow { font-size:.55rem; gap:8px; margin-bottom:24px; }
   .hero-logo { margin-bottom:20px; }
   .hero-logo-tile { width:48px; height:66px; border-radius:8px; }

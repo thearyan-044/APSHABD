@@ -5,14 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PDS — MUMBAI · शांतता</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href=".//mumbai.css?v=2" />
-  <link rel="stylesheet" href=".//city-scroll.css" />
-  <link rel="stylesheet" href=".//typewriter.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href=".//mumbai.css?v=3" />
+  <link rel="stylesheet" href=".//city-scroll.css?v=2" />
+  <link rel="stylesheet" href=".//typewriter.css?v=2" />
   <link rel="stylesheet" href=".//effects-3d.css" />
-  <link rel="stylesheet" href=".//cursor.css?v=3" />
-  <link rel="stylesheet" href=".//cinematic.css?v=4" />
-  <link rel="stylesheet" href=".//drop.css?v=1" />
+  <link rel="stylesheet" href=".//cinematic.css?v=6" />
+  <link rel="stylesheet" href=".//drop.css?v=4" />
+  <link rel="stylesheet" href=".//tuezday.css?v=3" />
+  <link rel="stylesheet" href=".//holo.css?v=2" />
 </head>
 <body>
   <div class="rails" aria-hidden="true"></div>
@@ -56,7 +57,7 @@
       <p>Five neighbourhoods, five stories. Tap a tee to turn it over.</p>
     </div>
 
-    <div class="drop-grid">
+    <div class="drop-grid" data-city="mumbai">
 
       <!-- 01 · BANDRA -->
       <article class="drop reveal" data-loc="bandra">
@@ -64,11 +65,11 @@
              aria-label="Bandra tee — activate to see the back" data-cursor="FLIP">
           <div class="drop-flip">
             <div class="drop-face drop-face--front">
-              <img src=".//assets/mumbai/bandra/white-front.jpg" alt="Bandra tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/bandra/faded-navy-front.jpg" alt="Bandra tee, front" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">FRONT</span>
             </div>
             <div class="drop-face drop-face--back">
-              <img src=".//assets/mumbai/bandra/white-back.jpg" alt="Bandra tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/bandra/faded-navy-back.jpg" alt="Bandra tee, back" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">BACK</span>
             </div>
           </div>
@@ -81,11 +82,11 @@
           </div>
           <p>Station arches, a momo sign with an attitude, and the last train home.</p>
           <div class="drop-ways" role="group" aria-label="Bandra colourways">
-            <button type="button" class="way is-on" data-cw="white"         style="--sw:#f4f2ee" aria-label="White"></button>
-            <button type="button" class="way" data-cw="charcoal-grey" style="--sw:#4a4a4d" aria-label="Charcoal grey"></button>
-            <button type="button" class="way" data-cw="faded-navy"    style="--sw:#2f3b52" aria-label="Faded navy"></button>
-            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
-            <button type="button" class="way" data-cw="washed-black"  style="--sw:#2b2b2d" aria-label="Washed black"></button>
+            <button type="button" class="way" data-cw="white"              style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="charcoal-grey"      style="--sw:#4a4a4d" aria-label="Charcoal grey"></button>
+            <button type="button" class="way is-on" data-cw="faded-navy"   style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="vintage-cream"      style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="washed-black"       style="--sw:#2b2b2d" aria-label="Washed black"></button>
           </div>
         </div>
       </article>
@@ -96,11 +97,11 @@
              aria-label="Colaba tee — activate to see the back" data-cursor="FLIP">
           <div class="drop-flip">
             <div class="drop-face drop-face--front">
-              <img src=".//assets/mumbai/colaba/white-front.jpg" alt="Colaba tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/colaba/muted-teal-front.jpg" alt="Colaba tee, front" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">FRONT</span>
             </div>
             <div class="drop-face drop-face--back">
-              <img src=".//assets/mumbai/colaba/white-back.jpg" alt="Colaba tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/colaba/muted-teal-back.jpg" alt="Colaba tee, back" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">BACK</span>
             </div>
           </div>
@@ -113,11 +114,11 @@
           </div>
           <p>Leopold's, Mondegar, Metro House — and jhumkas hanging off the causeway.</p>
           <div class="drop-ways" role="group" aria-label="Colaba colourways">
-            <button type="button" class="way is-on" data-cw="white"         style="--sw:#f4f2ee" aria-label="White"></button>
-            <button type="button" class="way" data-cw="charcoal-grey" style="--sw:#4a4a4d" aria-label="Charcoal grey"></button>
-            <button type="button" class="way" data-cw="faded-navy"    style="--sw:#2f3b52" aria-label="Faded navy"></button>
-            <button type="button" class="way" data-cw="muted-teal"    style="--sw:#3d6b6a" aria-label="Muted teal"></button>
-            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="white"             style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="charcoal-grey"     style="--sw:#4a4a4d" aria-label="Charcoal grey"></button>
+            <button type="button" class="way" data-cw="faded-navy"        style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way is-on" data-cw="muted-teal"  style="--sw:#3d6b6a" aria-label="Muted teal"></button>
+            <button type="button" class="way" data-cw="vintage-cream"     style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
           </div>
         </div>
       </article>
@@ -128,11 +129,11 @@
              aria-label="Dadar tee — activate to see the back" data-cursor="FLIP">
           <div class="drop-flip">
             <div class="drop-face drop-face--front">
-              <img src=".//assets/mumbai/dadar/white-front.jpg" alt="Dadar tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/dadar/deep-maroon-front.jpg" alt="Dadar tee, front" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">FRONT</span>
             </div>
             <div class="drop-face drop-face--back">
-              <img src=".//assets/mumbai/dadar/white-back.jpg" alt="Dadar tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/dadar/deep-maroon-back.jpg" alt="Dadar tee, back" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">BACK</span>
             </div>
           </div>
@@ -145,11 +146,11 @@
           </div>
           <p>Shivaji Park, Siddhivinayak, and the flower market before sunrise.</p>
           <div class="drop-ways" role="group" aria-label="Dadar colourways">
-            <button type="button" class="way is-on" data-cw="white"        style="--sw:#f4f2ee" aria-label="White"></button>
-            <button type="button" class="way" data-cw="deep-maroon"  style="--sw:#5c2029" aria-label="Deep maroon"></button>
-            <button type="button" class="way" data-cw="forest-green" style="--sw:#2c4433" aria-label="Forest green"></button>
-            <button type="button" class="way" data-cw="jet-black"    style="--sw:#1c1c1e" aria-label="Jet black"></button>
-            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="white"              style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way is-on" data-cw="deep-maroon"  style="--sw:#5c2029" aria-label="Deep maroon"></button>
+            <button type="button" class="way" data-cw="forest-green"       style="--sw:#2c4433" aria-label="Forest green"></button>
+            <button type="button" class="way" data-cw="jet-black"          style="--sw:#1c1c1e" aria-label="Jet black"></button>
+            <button type="button" class="way" data-cw="vintage-cream"      style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
           </div>
         </div>
       </article>
@@ -160,11 +161,11 @@
              aria-label="Andheri tee — activate to see the back" data-cursor="FLIP">
           <div class="drop-flip">
             <div class="drop-face drop-face--front">
-              <img src=".//assets/mumbai/andheri/white-front.jpg" alt="Andheri tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/andheri/muted-olive-front.jpg" alt="Andheri tee, front" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">FRONT</span>
             </div>
             <div class="drop-face drop-face--back">
-              <img src=".//assets/mumbai/andheri/white-back.jpg" alt="Andheri tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/andheri/muted-olive-back.jpg" alt="Andheri tee, back" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">BACK</span>
             </div>
           </div>
@@ -177,11 +178,11 @@
           </div>
           <p>A BEST bus, the D N Nagar line, basalt rock and a wall someone tagged.</p>
           <div class="drop-ways" role="group" aria-label="Andheri colourways">
-            <button type="button" class="way is-on" data-cw="white"        style="--sw:#f4f2ee" aria-label="White"></button>
-            <button type="button" class="way" data-cw="concrete-grey" style="--sw:#8d8d8a" aria-label="Concrete grey"></button>
-            <button type="button" class="way" data-cw="faded-navy"   style="--sw:#2f3b52" aria-label="Faded navy"></button>
-            <button type="button" class="way" data-cw="muted-olive"  style="--sw:#5b5f43" aria-label="Muted olive"></button>
-            <button type="button" class="way" data-cw="washed-black" style="--sw:#2b2b2d" aria-label="Washed black"></button>
+            <button type="button" class="way" data-cw="white"              style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="concrete-grey"      style="--sw:#8d8d8a" aria-label="Concrete grey"></button>
+            <button type="button" class="way" data-cw="faded-navy"         style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way is-on" data-cw="muted-olive"  style="--sw:#5b5f43" aria-label="Muted olive"></button>
+            <button type="button" class="way" data-cw="washed-black"       style="--sw:#2b2b2d" aria-label="Washed black"></button>
           </div>
         </div>
       </article>
@@ -192,11 +193,11 @@
              aria-label="Thane tee — activate to see the back" data-cursor="FLIP">
           <div class="drop-flip">
             <div class="drop-face drop-face--front">
-              <img src=".//assets/mumbai/thane/white-front.jpg" alt="Thane tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/thane/sand-front.jpg" alt="Thane tee, front" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">FRONT</span>
             </div>
             <div class="drop-face drop-face--back">
-              <img src=".//assets/mumbai/thane/white-back.jpg" alt="Thane tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <img src=".//assets/mumbai/thane/sand-back.jpg" alt="Thane tee, back" width="900" height="1200" loading="lazy" decoding="async" />
               <span class="drop-face-tag">BACK</span>
             </div>
           </div>
@@ -209,12 +210,12 @@
           </div>
           <p>ठाणे on the roundel, the twin towers, and Viviana settling the argument.</p>
           <div class="drop-ways" role="group" aria-label="Thane colourways">
-            <button type="button" class="way is-on" data-cw="white"        style="--sw:#f4f2ee" aria-label="White"></button>
-            <button type="button" class="way" data-cw="faded-navy"   style="--sw:#2f3b52" aria-label="Faded navy"></button>
-            <button type="button" class="way" data-cw="light-grey"   style="--sw:#c9c9c6" aria-label="Light grey"></button>
-            <button type="button" class="way" data-cw="sand"         style="--sw:#cdb894" aria-label="Sand"></button>
-            <button type="button" class="way" data-cw="vintage-cream" style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
-            <button type="button" class="way" data-cw="washed-black" style="--sw:#2b2b2d" aria-label="Washed black"></button>
+            <button type="button" class="way" data-cw="white"          style="--sw:#f4f2ee" aria-label="White"></button>
+            <button type="button" class="way" data-cw="faded-navy"     style="--sw:#2f3b52" aria-label="Faded navy"></button>
+            <button type="button" class="way" data-cw="light-grey"     style="--sw:#c9c9c6" aria-label="Light grey"></button>
+            <button type="button" class="way is-on" data-cw="sand"     style="--sw:#cdb894" aria-label="Sand"></button>
+            <button type="button" class="way" data-cw="vintage-cream"  style="--sw:#e2d7c1" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="washed-black"   style="--sw:#2b2b2d" aria-label="Washed black"></button>
           </div>
         </div>
       </article>
@@ -236,16 +237,33 @@
     <p class="typewriter-text">
       Which <span class="tw-quote">'</span><span class="tw-word-wrap"><span class="tw-word"></span><span class="tw-cursor"></span></span><span class="tw-quote">'</span> would you like for us to add in your city wardrobe, do let us know.
     </p>
+    <div class="typewriter-cta">
+      <a href="drop-a-pin.html" class="tw-cta" data-cursor="DROP"><span>DROP A PIN →</span></a>
+    </div>
   </section>
 
-  <footer class="footer"><p>PIN DROP SILENCE — MUMBAI · <span class="rg">शांत रहा</span></p></footer>
-  <script src=".//security.js"></script><script src=".//city-scroll.js?v=5"></script>
+  <footer class="footer">
+    <p>PIN DROP SILENCE — MUMBAI · <span class="rg">शांत रहा</span></p>
+    <a class="tz-badge tz-badge--footer" href="https://tuezdayai.com/" target="_blank" rel="noopener"
+       aria-label="Powered by tuezday.ai — opens in a new tab" data-cursor="TUEZDAY">
+      <span class="tz-badge-label">POWERED BY</span>
+      <span class="tz-mark"><span class="tz-mark-word" data-text="tuezday">tuezday</span><span class="tz-mark-tld">.ai</span></span>
+    </a>
+  </footer>
+
+  <a class="tz-badge tz-badge--float" href="https://tuezdayai.com/" target="_blank" rel="noopener"
+     aria-label="Powered by tuezday.ai — opens in a new tab" data-cursor="TUEZDAY">
+    <span class="tz-badge-label">POWERED BY</span>
+    <span class="tz-mark"><span class="tz-mark-word" data-text="tuezday">tuezday</span><span class="tz-mark-tld">.ai</span></span>
+  </a>
+
+  <script src=".//security.js"></script><script src=".//city-scroll.js?v=6"></script>
   <script src=".//city-shared.js"></script>
   <script src=".//mumbai.js"></script>
   <script src=".//typewriter.js?v=5"></script>
   <script src=".//effects-3d.js?v=3"></script>
-  <script src=".//cursor.js"></script>
-  <script src=".//cinematic.js?v=5"></script>
-  <script src=".//drop.js?v=1"></script>
+  <script src=".//cinematic.js?v=6"></script>
+  <script src=".//drop.js?v=4"></script>
+  <script src=".//holo.js?v=2"></script>
 </body>
 </html>

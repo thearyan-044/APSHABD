@@ -88,30 +88,11 @@
 }
 .hero-title .line.outline { text-shadow: 0 14px 34px rgba(0,0,0,.55); }
 
-/* Light sweep across the headline */
+/* (The sideways light sweep that used to live here is gone — the
+   sliding silver band read as a glare artefact, not a projection.) */
 .hero-title {
   position: relative;
   -webkit-mask-image: none;
-}
-.hero-title::after {
-  content: '';
-  position: absolute; inset: -6% -12%;
-  pointer-events: none;
-  background: linear-gradient(105deg,
-    transparent 42%,
-    rgba(255,255,255,.14) 48%,
-    rgba(255,255,255,.26) 50%,
-    rgba(255,255,255,.14) 52%,
-    transparent 58%);
-  transform: translateX(-120%);
-  mix-blend-mode: overlay;
-}
-.hero-title.sweep::after {
-  animation: cineSweep 1.5s cubic-bezier(.4,0,.2,1) forwards;
-}
-@keyframes cineSweep {
-  0%   { transform: translateX(-120%); }
-  100% { transform: translateX(120%); }
 }
 
 /* ── CITY DECK DEPTH ──────────────────────────────────
@@ -216,9 +197,6 @@
   will-change: transform;
 }
 
-/* ── HERO STICKER 3D ──────────────────────────────────── */
-.hero-sticker { will-change: transform; transform-style: preserve-3d; }
-
 /* ── PAGE WIPE ────────────────────────────────────────
    A colored panel sweeps the screen between pages. */
 .cine-wipe {
@@ -273,7 +251,7 @@
   .cine-wipe { display: none; }
   .city-card-top, .city-card-bottom,
   .city-card .city-script, .city-card .city-name, .city-card .city-arrow,
-  .story-block, .wait-inner, .marquee, .footer-big, .hero-sticker,
+  .story-block, .wait-inner, .marquee, .footer-big,
   .grid, .card .ph span, .card .card-body {
     transform: none !important;
   }

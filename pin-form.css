@@ -1,0 +1,365 @@
+/* ═══════════════════════════════════════════════════════
+   PIN DROP SILENCE — DROP A PIN (location request form)
+   Loads on top of styles.css — tokens come from there.
+═══════════════════════════════════════════════════════ */
+
+/* ── LOCAL TOKENS ────────────────────────────────────── */
+/* The site-wide --muted (45% opacity) reads fine as a label on a poster,
+   but this page is something people have to actually read and fill in.
+   These two lift secondary and placeholder text to a comfortable contrast
+   without turning everything full-white. */
+:root {
+  --form-muted: rgba(232,227,218,.72);
+  --form-ghost: rgba(232,227,218,.42);
+}
+
+/* ── PAGE HERO ───────────────────────────────────────── */
+.pin-hero {
+  position:relative; z-index:2;
+  padding:190px 40px 70px;
+  max-width:1100px; margin:0 auto;
+  text-align:center;
+}
+.pin-hero-label {
+  display:block;
+  font-size:.7rem; letter-spacing:.36em; color:var(--yellow);
+  margin-bottom:22px;
+}
+.pin-hero h1 {
+  font-family:var(--display);
+  font-size:clamp(2.6rem,10vw,7rem); line-height:.92;
+  letter-spacing:.01em;
+}
+.pin-hero h1 .outline {
+  color:transparent; -webkit-text-stroke:1.5px var(--text);
+}
+.pin-hero-sub {
+  margin:24px auto 0; max-width:520px;
+  font-size:1.02rem; line-height:1.85; color:var(--form-muted); font-weight:400;
+}
+
+/* Giant pin watermark behind the hero */
+.pin-hero::before {
+  content:'📍';
+  position:absolute; top:46%; left:50%;
+  transform:translate(-50%,-50%);
+  font-size:clamp(12rem,34vw,26rem);
+  opacity:.035; filter:grayscale(1);
+  pointer-events:none; user-select:none;
+}
+
+/* ── PROGRESS RAIL ───────────────────────────────────── */
+.pin-progress {
+  /* --nav-h is measured from the fixed nav in pin-form.js */
+  position:sticky; top:var(--nav-h, 74px); z-index:40;
+  background:rgba(12,12,12,.82);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  padding:14px 40px;
+}
+.pin-progress-inner {
+  max-width:1100px; margin:0 auto;
+  display:flex; align-items:center; gap:14px;
+}
+.pin-progress-steps {
+  display:flex; align-items:center; gap:10px; flex:1;
+}
+.pin-step-dot {
+  flex:1; height:2px; border-radius:2px;
+  background:rgba(255,255,255,.1);
+  transition:background .45s var(--ease);
+}
+.pin-step-dot.done { background:var(--yellow); }
+.pin-progress-count {
+  font-size:.68rem; letter-spacing:.26em; color:var(--form-muted);
+  font-weight:700; white-space:nowrap;
+}
+.pin-progress-count b { color:var(--yellow); font-weight:700; }
+
+/* ── FORM SHELL ──────────────────────────────────────── */
+.pin-form {
+  position:relative; z-index:2;
+  max-width:820px; margin:0 auto;
+  padding:80px 40px 40px;
+  display:flex; flex-direction:column; gap:18px;
+}
+
+/* ── QUESTION BLOCK ──────────────────────────────────── */
+.q {
+  position:relative;
+  border:1px solid var(--border); border-radius:20px;
+  background:var(--surface);
+  background-image:linear-gradient(160deg, rgba(255,255,255,.03) 0%, transparent 45%);
+  padding:38px 40px 40px;
+  transition:border-color .45s, box-shadow .45s;
+}
+.q:focus-within {
+  border-color:rgba(245,179,1,.35);
+  box-shadow:0 0 60px rgba(245,179,1,.06);
+}
+.q.answered { border-color:rgba(245,179,1,.22); }
+
+.q-num {
+  display:block;
+  font-family:var(--display);
+  font-size:.88rem; letter-spacing:.28em; color:var(--yellow);
+  margin-bottom:14px;
+}
+.q-title {
+  font-family:var(--display);
+  font-size:clamp(1.3rem,3.4vw,2.1rem); line-height:1.08;
+  margin-bottom:10px;
+}
+.q-help {
+  font-size:.92rem; line-height:1.75; color:var(--form-muted);
+  font-weight:400; margin-bottom:26px; max-width:52ch;
+}
+.q-optional {
+  font-size:.62rem; letter-spacing:.24em; color:var(--form-muted);
+  border:1px solid rgba(255,255,255,.14); border-radius:20px;
+  padding:4px 10px; margin-left:10px; vertical-align:middle;
+}
+
+/* ── FIELDS ──────────────────────────────────────────── */
+.field { display:flex; flex-direction:column; gap:9px; }
+.field + .field { margin-top:20px; }
+.field-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+
+.field label {
+  font-size:.68rem; letter-spacing:.24em; color:var(--form-muted); font-weight:700;
+}
+.pin-input,
+.pin-textarea {
+  width:100%;
+  background:rgba(0,0,0,.28);
+  border:1px solid var(--border); border-radius:.6em;
+  padding:14px 18px;
+  font-family:var(--body); font-size:.95rem; color:var(--text);
+  letter-spacing:.02em; outline:none;
+  transition:border-color .3s, box-shadow .3s, background .3s;
+}
+.pin-textarea { min-height:130px; resize:vertical; line-height:1.7; }
+.pin-input::placeholder,
+.pin-textarea::placeholder { color:var(--form-ghost); }
+.pin-input:focus,
+.pin-textarea:focus {
+  border-color:rgba(245,179,1,.45);
+  box-shadow:0 0 0 3px rgba(245,179,1,.08);
+  background:rgba(0,0,0,.4);
+}
+.pin-input.err, .pin-textarea.err { border-color:rgba(224,85,85,.6); }
+
+.char-count {
+  align-self:flex-end;
+  font-size:.66rem; letter-spacing:.18em; color:var(--form-muted);
+}
+.char-count.over { color:#e05555; }
+
+/* ── CITY CHOICE GRID (Q1) ───────────────────────────── */
+.city-choices {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;
+}
+.city-choice { position:relative; }
+.city-choice input {
+  position:absolute; opacity:0; width:0; height:0;
+}
+.city-choice span {
+  display:flex; flex-direction:column; gap:5px;
+  padding:16px 18px;
+  border:1px solid var(--border); border-radius:14px;
+  background:rgba(0,0,0,.22);
+  cursor:pointer;
+  transition:border-color .3s, background .3s, transform .3s var(--ease);
+}
+.city-choice span strong {
+  font-family:var(--display);
+  font-size:1rem; letter-spacing:.06em; font-weight:400;
+}
+.city-choice span em {
+  font-style:normal;
+  font-size:.64rem; letter-spacing:.22em; color:var(--form-muted);
+}
+.city-choice:hover span { border-color:rgba(255,255,255,.18); transform:translateY(-2px); }
+.city-choice input:checked + span {
+  border-color:var(--c,var(--yellow));
+  background:color-mix(in srgb, var(--c,var(--yellow)) 12%, transparent);
+}
+.city-choice input:checked + span strong { color:var(--c,var(--yellow)); }
+.city-choice input:focus-visible + span {
+  box-shadow:0 0 0 3px rgba(245,179,1,.2);
+}
+.city-choice.wide { grid-column:1/-1; }
+
+/* Reveals only when "not on the map" is picked */
+.new-city-wrap {
+  display:none; margin-top:18px;
+  padding-top:20px; border-top:1px dashed var(--border);
+}
+.new-city-wrap.show { display:block; }
+
+/* ── CHIPS (Q4 product picks) ────────────────────────── */
+.chips { display:flex; flex-wrap:wrap; gap:10px; }
+.chip { position:relative; }
+.chip input { position:absolute; opacity:0; width:0; height:0; }
+.chip span {
+  display:inline-flex; align-items:center; gap:8px;
+  padding:11px 22px;
+  border:1px solid var(--border); border-radius:40px;
+  background:rgba(0,0,0,.22);
+  font-size:.7rem; letter-spacing:.22em; font-weight:700; color:var(--form-muted);
+  cursor:pointer;
+  transition:border-color .3s, background .3s, color .3s, transform .3s var(--ease);
+}
+.chip:hover span { color:var(--text); border-color:rgba(255,255,255,.2); transform:translateY(-2px); }
+.chip input:checked + span {
+  background:var(--yellow); border-color:var(--yellow); color:#0c0c0c;
+}
+.chip input:focus-visible + span { box-shadow:0 0 0 3px rgba(245,179,1,.2); }
+
+/* ── VOLUME SLIDER (Q4) ──────────────────────────────── */
+.volume { margin-top:28px; }
+.volume-scale {
+  display:flex; justify-content:space-between;
+  font-size:.64rem; letter-spacing:.24em; color:var(--form-muted);
+  margin-bottom:12px;
+}
+.volume input[type=range] {
+  -webkit-appearance:none; appearance:none;
+  width:100%; height:2px; border-radius:2px;
+  background:linear-gradient(90deg, var(--yellow) var(--fill,50%), rgba(255,255,255,.12) var(--fill,50%));
+  outline:none; cursor:pointer;
+}
+.volume input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; appearance:none;
+  width:18px; height:18px; border-radius:50%;
+  background:var(--yellow);
+  border:3px solid var(--bg);
+  box-shadow:0 0 16px rgba(245,179,1,.4);
+  cursor:grab;
+}
+.volume input[type=range]::-moz-range-thumb {
+  width:18px; height:18px; border-radius:50%;
+  background:var(--yellow); border:3px solid var(--bg);
+  box-shadow:0 0 16px rgba(245,179,1,.4); cursor:grab;
+}
+.volume-read {
+  margin-top:14px;
+  font-family:var(--display);
+  font-size:.92rem; letter-spacing:.22em; color:var(--yellow);
+}
+
+/* ── CONSENT ─────────────────────────────────────────── */
+.consent {
+  display:flex; align-items:flex-start; gap:12px;
+  margin-top:22px; cursor:pointer;
+}
+.consent input {
+  appearance:none; -webkit-appearance:none;
+  flex-shrink:0; width:17px; height:17px; margin-top:2px;
+  border:1px solid rgba(255,255,255,.2); border-radius:4px;
+  background:rgba(0,0,0,.3); cursor:pointer;
+  transition:background .25s, border-color .25s;
+}
+.consent input:checked {
+  background:var(--yellow); border-color:var(--yellow);
+}
+.consent input:checked::after {
+  content:'✓'; display:block;
+  color:#0c0c0c; font-size:.7rem; font-weight:700;
+  line-height:15px; text-align:center;
+}
+.consent input:focus-visible { box-shadow:0 0 0 3px rgba(245,179,1,.2); }
+.consent span { font-size:.88rem; line-height:1.65; color:var(--form-muted); font-weight:400; }
+
+/* ── SUBMIT ──────────────────────────────────────────── */
+.pin-submit {
+  display:flex; flex-direction:column; align-items:center; gap:16px;
+  padding:20px 40px 100px;
+  text-align:center;
+}
+.pin-submit .btn { font-size:.8rem; padding:1em 3em; }
+.pin-note {
+  font-size:.85rem; letter-spacing:.01em; color:var(--form-muted);
+  min-height:1.3em; max-width:46ch; line-height:1.6;
+}
+.pin-note.err { color:#e05555; }
+.pin-note.ok  { color:var(--yellow); }
+
+/* ── SUCCESS STATE ───────────────────────────────────── */
+.pin-done {
+  display:none;
+  position:relative; z-index:2;
+  max-width:820px; margin:0 auto;
+  padding:120px 40px 120px;
+  text-align:center;
+}
+.pin-done.show { display:block; animation:pinDoneIn .8s var(--ease) both; }
+@keyframes pinDoneIn {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:none; }
+}
+.pin-done-mark {
+  font-size:4rem; line-height:1;
+  animation:pinDrop .9s var(--ease) both;
+}
+@keyframes pinDrop {
+  0%   { opacity:0; transform:translateY(-70px) scale(.6); }
+  70%  { transform:translateY(6px) scale(1.05); }
+  100% { opacity:1; transform:none; }
+}
+.pin-done h2 {
+  font-family:var(--display);
+  font-size:clamp(2rem,6vw,3.6rem); line-height:1;
+  margin:24px 0 16px;
+}
+.pin-done p {
+  font-size:1rem; line-height:1.8; color:var(--form-muted);
+  font-weight:400; max-width:44ch; margin:0 auto 34px;
+}
+.pin-done-actions {
+  display:flex; flex-wrap:wrap; gap:14px; justify-content:center;
+}
+.pin-receipt {
+  margin:40px auto 0; max-width:520px;
+  text-align:left;
+  border:1px solid var(--border); border-radius:16px;
+  background:rgba(0,0,0,.28);
+  padding:24px 28px;
+}
+.pin-receipt-label {
+  font-size:.64rem; letter-spacing:.3em; color:var(--yellow);
+  display:block; margin-bottom:16px;
+}
+.pin-receipt dl { display:grid; grid-template-columns:auto 1fr; gap:10px 20px; }
+.pin-receipt dt {
+  font-size:.64rem; letter-spacing:.2em; color:var(--form-muted);
+  padding-top:3px; white-space:nowrap;
+}
+.pin-receipt dd { font-size:.92rem; line-height:1.65; color:var(--text); }
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width:820px) {
+  .pin-hero { padding:150px 20px 50px; }
+  .pin-progress { padding:12px 20px; }
+  .pin-form { padding:56px 20px 30px; gap:14px; }
+  .q { padding:30px 24px 32px; border-radius:16px; }
+  .field-row { grid-template-columns:1fr; gap:20px; }
+  .pin-submit { padding:16px 20px 80px; }
+  .pin-done { padding:90px 20px; }
+  .pin-receipt { padding:20px; }
+  .pin-receipt dl { grid-template-columns:1fr; gap:4px 0; }
+  .pin-receipt dd { margin-bottom:12px; }
+}
+@media (max-width:480px) {
+  .pin-hero { padding:130px 16px 40px; }
+  .pin-form { padding:44px 16px 24px; }
+  .q { padding:26px 20px 28px; }
+  .city-choices { grid-template-columns:1fr 1fr; }
+  .chip span { padding:10px 16px; letter-spacing:.18em; }
+}
+
+/* ── REDUCED MOTION ──────────────────────────────────── */
+@media (prefers-reduced-motion:reduce) {
+  .pin-done.show, .pin-done-mark { animation:none; }
+  .city-choice:hover span, .chip:hover span { transform:none; }
+}

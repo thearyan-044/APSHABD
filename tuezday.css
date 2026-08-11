@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════════════
+   POWERED BY TUEZDAY.AI — attribution badge
+   Riso print language from the Tuezday brand system:
+   paper stock, 2px black rule, and a red/blue
+   misregistration on the wordmark. Sits on PDS's dark
+   pages as a small printed sticker.
+═══════════════════════════════════════════════════════ */
+
+.tz-badge {
+  --tz-red:   #e8312a;
+  --tz-blue:  #2d4bcc;
+  --tz-ink:   #1a1a1a;
+  --tz-paper: #f2ede4;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px 8px;
+  background: var(--tz-paper);
+  border: 2px solid var(--tz-ink);
+  border-radius: 2px;
+  text-decoration: none;
+  /* offset plates — the print sits slightly out of register */
+  box-shadow: 3px 3px 0 var(--tz-blue);
+  /* contain the multiply blend to the badge's own paper */
+  isolation: isolate;
+  /* footers set their own tracking/size — don't inherit it */
+  letter-spacing: normal;
+  font-size: 1rem;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;
+}
+.tz-badge:hover,
+.tz-badge:focus-visible {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--tz-red);
+  outline: none;
+}
+
+.tz-badge-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: .5rem;
+  letter-spacing: .24em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgba(26,26,26,.55);
+  white-space: nowrap;
+}
+
+.tz-mark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+}
+
+/* Wordmark — black plate, with red and blue plates
+   multiplied a hair off-centre on top. */
+.tz-mark-word {
+  position: relative;
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--tz-ink);
+}
+.tz-mark-word::before,
+.tz-mark-word::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0; top: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+.tz-mark-word::before { color: var(--tz-red);  transform: translate( 1.5px, -1px); }
+.tz-mark-word::after  { color: var(--tz-blue); transform: translate(-1.5px,  1px); }
+
+/* .ai — knocked out of a solid black block */
+.tz-mark-tld {
+  font-family: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+  font-size: .82rem;
+  line-height: 1;
+  padding: 2px 4px 3px;
+  background: var(--tz-ink);
+  color: var(--tz-paper);
+  box-shadow: 1.5px 0 0 var(--tz-red), -1.5px 0 0 var(--tz-blue);
+}
+
+/* ── FOOTER PLACEMENT ─────────────────────────────────── */
+.tz-badge--footer {
+  position: relative;
+  z-index: 2;
+  margin-top: 20px;
+}
+
+/* ── FIXED CORNER CHIP ────────────────────────────────
+   Quiet until you look at it. */
+.tz-badge--float {
+  position: fixed;
+  right: 16px; bottom: 16px;
+  z-index: 60;
+  opacity: .62;
+  transform: scale(.82);
+  transform-origin: 100% 100%;
+}
+.tz-badge--float:hover,
+.tz-badge--float:focus-visible {
+  opacity: 1;
+  transform: scale(.88) translate(1px, -1px);
+}
+
+/* ── REDUCED MOTION ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .tz-badge { transition: none; }
+}
+
+/* ── MOBILE ───────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .tz-badge { gap: 8px; padding: 6px 10px 7px; }
+  .tz-badge-label { font-size: .45rem; letter-spacing: .2em; }
+  .tz-mark-word { font-size: .9rem; }
+  .tz-mark-tld { font-size: .74rem; }
+
+  .tz-badge--float {
+    right: 10px; bottom: 10px;
+    transform: scale(.74);
+  }
+  .tz-badge--float:hover,
+  .tz-badge--float:focus-visible { transform: scale(.78); }
+}
+
+/* On very short viewports the floating chip fights the
+   content — footer attribution still carries it. */
+@media (max-height: 460px) {
+  .tz-badge--float { display: none; }
+}
+
+/* Drop pages put tappable colour swatches in the lower-right of the
+   grid, and a fixed chip parked there swallows their taps — measured
+   two of Colaba's swatches sitting under it. The footer badge still
+   carries the attribution, so the floating one stands down here.
+   (drop.js sets this class wherever a drop grid exists.) */
+.has-drop-grid .tz-badge--float { display: none; }

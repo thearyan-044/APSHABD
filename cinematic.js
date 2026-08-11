@@ -320,18 +320,8 @@
     });
   }
 
-  /* ── TITLE SWEEP ────────────────────────────────────── */
-  function bindSweep() {
-    var title = document.querySelector('.hero-title');
-    if (!title || reduce) return;
-    var fire = function () {
-      title.classList.remove('sweep');
-      void title.offsetWidth;      // restart the animation
-      title.classList.add('sweep');
-    };
-    setTimeout(fire, 1400);
-    if (hero) hero.addEventListener('mouseenter', fire);
-  }
+  /* Title sweep removed — the sliding band looked like screen glare. */
+  function bindSweep() {}
 
   /* ── LOOP ───────────────────────────────────────────── */
   var dirty = true;

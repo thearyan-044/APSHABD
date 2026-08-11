@@ -12,19 +12,14 @@
   bar.id = 'scroll-bar';
   document.body.prepend(bar);
 
-  /* ── 2. SCAN LINE ─────────────────────────────────── */
-  const scan = document.createElement('div');
-  scan.id = 'scan-line';
-  document.body.prepend(scan);
-
-  /* ── 3. BG-WORD CLIP REVEAL ───────────────────────── */
+  /* ── 2. BG-WORD CLIP REVEAL ───────────────────────── */
   const bgWord = document.querySelector('.bg-word');
 
-  /* ── 4. SECTION STAGGER ───────────────────────────── */
+  /* ── 3. SECTION STAGGER ───────────────────────────── */
   document.querySelectorAll('.section').forEach(el => el.classList.add('section-anim'));
   document.querySelectorAll('.card').forEach(el => el.classList.add('reveal-card'));
 
-  /* ── 5. HEADING CLIP REVEALS ──────────────────────── */
+  /* ── 4. HEADING CLIP REVEALS ──────────────────────── */
   // Wrap each h2 inner text in a clip-reveal structure
   document.querySelectorAll('.section-head h2, .wait h2').forEach(h2 => {
     const text = h2.innerHTML;
@@ -32,10 +27,10 @@
     h2.innerHTML = `<span class="clip-reveal-inner">${text}</span>`;
   });
 
-  /* ── 6. MARQUEE SCROLL SPEED ──────────────────────── */
+  /* ── 5. MARQUEE SCROLL SPEED ──────────────────────── */
   const tracks = document.querySelectorAll('.marquee-track');
 
-  /* ── 7. WAIT BORDER ───────────────────────────────── */
+  /* ── 6. WAIT BORDER ───────────────────────────────── */
   document.querySelectorAll('.wait').forEach(el => el.classList.add('animated-border'));
 
   /* ── INTERSECTION OBSERVER — section/card/clip ──── */
@@ -61,8 +56,6 @@
 
   /* ── SCROLL DRIVER ────────────────────────────────── */
   let lastY = 0;
-  let scanVisible = false;
-  let scanHideTimer = null;
   let marqueeFast = false;
   let marqueeResetTimer = null;
 
@@ -73,20 +66,6 @@
 
     /* Progress bar */
     bar.style.width = (pct * 100).toFixed(2) + '%';
-
-    /* Scan line — tracks scroll position */
-    const scanY = Math.min(y, window.innerHeight * 0.85);
-    scan.style.top = (scanY / window.innerHeight * 100).toFixed(2) + 'vh';
-
-    if (!scanVisible) {
-      scan.classList.add('visible');
-      scanVisible = true;
-    }
-    clearTimeout(scanHideTimer);
-    scanHideTimer = setTimeout(() => {
-      scan.classList.remove('visible');
-      scanVisible = false;
-    }, 800);
 
     /* bg-word clip: goes from 0% → 80% as user scrolls first screen */
     if (bgWord) {
