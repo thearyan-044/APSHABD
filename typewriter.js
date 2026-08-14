@@ -1,4 +1,4 @@
-/* ===== PIN DROP SILENCE — TYPEWRITER LOCATION PROMPT ===== */
+/* ===== APSHABD — TYPEWRITER LOCATION PROMPT ===== */
 ;(function () {
   'use strict';
 
@@ -25,6 +25,15 @@
     ? attr.split('|').map(s => s.trim()).filter(Boolean)
     : DEFAULT_WORDS;
   if (!WORDS.length) return;
+  const LANGUAGE_CODES = ['en', 'ta', 'hi', 'kn', 'bn', 'te'];
+  const languageForWord = (word) => {
+    if (/[\u0B80-\u0BFF]/u.test(word)) return 'ta';
+    if (/[\u0900-\u097F]/u.test(word)) return 'hi';
+    if (/[\u0C80-\u0CFF]/u.test(word)) return 'kn';
+    if (/[\u0980-\u09FF]/u.test(word)) return 'bn';
+    if (/[\u0C00-\u0C7F]/u.test(word)) return 'te';
+    return LANGUAGE_CODES[wordIndex] || 'en';
+  };
 
   let wordIndex = 0;
   let charIndex = 0;
@@ -33,6 +42,7 @@
   /* ── Type / Erase loop ── */
   function tick() {
     const currentWord = WORDS[wordIndex];
+    wordEl.lang = languageForWord(currentWord);
 
     if (!isErasing) {
       // Typing forward. Index by code point so Indic scripts don't

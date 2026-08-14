@@ -1,192 +1,260 @@
-/* ===== PIN DROP SILENCE — HOME JS (dark-only) ===== */
-/* Cursor lives in cursor.js (shared across all pages) */
+(() => {
+  'use strict';
 
-// ─── NAV ACTIVE LINK ON SCROLL ───────────────────────────────────────────────
-const sections = [
-  { id: 'story',    link: document.querySelector('.nav-link[href="#story"]')    },
-  { id: 'cities',   link: document.querySelector('.nav-link[href="#cities"]')   },
-  { id: 'waitlist', link: document.querySelector('.nav-link[href="#waitlist"]') },
-];
-const navObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    const found = sections.find(s => s.id === entry.target.id);
-    if (!found || !found.link) return;
-    if (entry.isIntersecting) {
-      sections.forEach(s => s.link && s.link.classList.remove('active'));
-      found.link.classList.add('active');
-    }
-  });
-}, { threshold: 0.35 });
+  const header = document.querySelector('.site-header');
+  const menuButton = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.site-nav');
 
-sections.forEach(s => {
-  const el = document.getElementById(s.id);
-  if (el) navObserver.observe(el);
-});
+  const setHeaderState = () => {
+    if (header) header.classList.toggle('is-scrolled', window.scrollY > 18);
+  };
 
-// ─── MAGNETIC BUTTON ─────────────────────────────────────────────────────────
-document.querySelectorAll('.btn').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const r  = btn.getBoundingClientRect();
-    const dx = e.clientX - (r.left + r.width  / 2);
-    const dy = e.clientY - (r.top  + r.height / 2);
-    btn.style.transform =
-      `perspective(600px) translate3d(${dx * 0.18}px, ${dy * 0.18}px, 26px)` +
-      ` rotateX(${(-dy * 0.07).toFixed(2)}deg) rotateY(${(dx * 0.07).toFixed(2)}deg)`;
-  });
-  btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
-});
+  setHeaderState();
+  window.addEventListener('scroll', setHeaderState, { passive: true });
 
-// ─── LETTER SCRAMBLE (hero title) ────────────────────────────────────────────
-const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#✦$%';
-function scramble(el) {
-  const original = el.textContent.trim();
-  let frame = 0;
-  const total = 20;
-  const id = setInterval(() => {
-    el.textContent = original.split('').map((ch, i) => {
-      if (ch === ' ') return ' ';
-      if (frame / total > i / original.length) return ch;
-      return CHARS[Math.floor(Math.random() * CHARS.length)];
-    }).join('');
-    if (++frame > total) { el.textContent = original; clearInterval(id); }
-  }, 40);
-}
+  const scrollRoute = document.querySelector('.scroll-route');
+  const scrollRouteSvg = document.querySelector('.scroll-route-map');
+  const scrollRoutePath = document.querySelector('.scroll-route-path');
+  const scrollRoutePointer = document.querySelector('.scroll-route-pointer');
 
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.querySelectorAll('.hero-title .line').forEach((span, i) => {
-      setTimeout(() => scramble(span), i * 150);
-    });
-  }, 300);
-});
+  if (scrollRoute && scrollRouteSvg && scrollRoutePath && scrollRoutePointer) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let routeFrame = 0;
+    let targetProgress = 0;
+    let renderedProgress = 0;
+    let lastScrollPosition = window.scrollY;
+    let scrollDirection = 1;
+    let renderedAngle = 180;
 
-// ─── STICKER PARALLAX ────────────────────────────────────────────────────────
-const sticker = document.getElementById('heroSticker');
-if (sticker) {
-  document.addEventListener('mousemove', e => {
-    const dx = (e.clientX / window.innerWidth  - .5) * -20;
-    const dy = (e.clientY / window.innerHeight - .5) * -14;
-    sticker.style.transform = `rotate(-15deg) translate(${dx}px,${dy}px)`;
-  });
-}
+    const drawRouteProgress = () => {
+      routeFrame = 0;
+      const progressDelta = targetProgress - renderedProgress;
+      renderedProgress += progressDelta * 0.2;
+      if (Math.abs(progressDelta) < 0.00015) renderedProgress = targetProgress;
 
-// ─── CITY CARD NUMBER TICKER ─────────────────────────────────────────────────
-document.querySelectorAll('.city-card').forEach(row => {
-  const numEl  = row.querySelector('.city-num');
-  if (!numEl) return;
-  const target = parseInt(numEl.textContent, 10);
-  let anim = null;
-  row.addEventListener('mouseenter', () => {
-    clearInterval(anim); let n = 0;
-    anim = setInterval(() => {
-      numEl.textContent = String(n).padStart(2, '0');
-      if (n++ >= target) { numEl.textContent = String(target).padStart(2, '0'); clearInterval(anim); }
-    }, 38);
-  });
-  row.addEventListener('mouseleave', () => {
-    clearInterval(anim);
-    numEl.textContent = String(target).padStart(2, '0');
-  });
-});
+      const pathLength = scrollRoutePath.getTotalLength();
+      const routePosition = pathLength * renderedProgress;
+      const pathPoint = scrollRoutePath.getPointAtLength(routePosition);
+      const beforePoint = scrollRoutePath.getPointAtLength(Math.max(0, routePosition - 1.5));
+      const afterPoint = scrollRoutePath.getPointAtLength(Math.min(pathLength, routePosition + 1.5));
+      const scaleX = scrollRoute.clientWidth / 72;
+      const scaleY = scrollRoute.clientHeight / 1000;
+      const x = pathPoint.x * scaleX;
+      const y = pathPoint.y * scaleY;
+      const pathAngle = Math.atan2((afterPoint.y - beforePoint.y) * scaleY, (afterPoint.x - beforePoint.x) * scaleX) * 180 / Math.PI;
+      const targetAngle = pathAngle + 90 + (scrollDirection < 0 ? 180 : 0);
+      const angleDelta = ((targetAngle - renderedAngle + 540) % 360) - 180;
+      renderedAngle += angleDelta * 0.24;
 
-// ─── SCROLL REVEAL ───────────────────────────────────────────────────────────
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      entry.target.style.transitionDelay = `${(i % 4) * 80}ms`;
-      entry.target.classList.add('in');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+      scrollRoutePointer.style.transform = `translate3d(${x - scrollRoutePointer.offsetWidth / 2}px, ${y - scrollRoutePointer.offsetHeight / 2}px, 0) rotate(${renderedAngle}deg)`;
+      scrollRoutePath.style.strokeDashoffset = `${-renderedProgress * 180}`;
+      scrollRoute.classList.add('is-ready');
 
-// ─── WAITLIST ────────────────────────────────────────────────────────────────
-const notifyBtn  = document.getElementById('notifyBtn');
-const waitNote   = document.getElementById('waitNote');
-const emailInput = document.getElementById('emailInput');
-
-if (notifyBtn) {
-  notifyBtn.addEventListener('click', () => {
-    const val = emailInput.value.trim();
-    if (!val || !val.includes('@')) {
-      waitNote.textContent = 'Drop a real email — we only speak once.';
-      waitNote.style.color = '#e05555';
-      return;
-    }
-    waitNote.textContent = "Heard. You'll know before the city does.";
-    waitNote.style.color = '#f5b301';
-    emailInput.value = '';
-    notifyBtn.style.transform = 'scale(.94)';
-    setTimeout(() => notifyBtn.style.transform = '', 200);
-  });
-}
-
-// ─── SCROLL-DRIVEN BACKGROUND TRANSITION ─────────────────────────────────────
-// Subtle atmospheric color shift as user scrolls through sections
-(function () {
-  const bgColors = [
-    { id: 'top',      color: [12, 12, 12] },     // #0c0c0c — hero (default dark)
-    { id: 'story',    color: [13, 11, 16] },     // #0d0b10 — faint purple-warm tint
-    { id: 'cities',   color: [10, 14, 20] },     // #0a0e14 — subtle navy tint (the map)
-    { id: 'waitlist', color: [16, 12, 8]  },     // #100c08 — warm amber tint (anticipation)
-  ];
-
-  // Default/footer color
-  const defaultColor = [12, 12, 12]; // #0c0c0c
-
-  function lerpColor(a, b, t) {
-    return a.map((v, i) => Math.round(v + (b[i] - v) * t));
-  }
-
-  function updateBg() {
-    const vh = window.innerHeight;
-    const scrollY = window.scrollY;
-    let currentColor = defaultColor;
-
-    for (let i = bgColors.length - 1; i >= 0; i--) {
-      const el = document.getElementById(bgColors[i].id);
-      if (!el) continue;
-      const rect = el.getBoundingClientRect();
-      const sectionMid = rect.top + rect.height / 2;
-
-      if (sectionMid < vh * 0.75) {
-        // This section is mostly in view
-        const nextIdx = i + 1;
-        if (nextIdx < bgColors.length) {
-          const nextEl = document.getElementById(bgColors[nextIdx].id);
-          if (nextEl) {
-            const nextRect = nextEl.getBoundingClientRect();
-            const nextMid = nextRect.top + nextRect.height / 2;
-            // Calculate blend between current and next
-            const progress = Math.max(0, Math.min(1, 1 - (nextMid - vh * 0.5) / vh));
-            currentColor = lerpColor(bgColors[i].color, bgColors[nextIdx].color, progress);
-          } else {
-            currentColor = bgColors[i].color;
-          }
-        } else {
-          // Last defined section — blend back to default
-          const progress = Math.max(0, Math.min(1, (vh * 0.5 - sectionMid) / vh));
-          currentColor = lerpColor(bgColors[i].color, defaultColor, progress);
-        }
-        break;
+      if (renderedProgress !== targetProgress || Math.abs(angleDelta) > 0.2) {
+        routeFrame = window.requestAnimationFrame(drawRouteProgress);
       }
+    };
+
+    const requestRouteDraw = () => {
+      if (reducedMotion.matches) return;
+      const currentScrollPosition = window.scrollY;
+      const scrollDelta = currentScrollPosition - lastScrollPosition;
+      if (Math.abs(scrollDelta) > 0.5) scrollDirection = scrollDelta > 0 ? 1 : -1;
+      lastScrollPosition = currentScrollPosition;
+      const scrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      targetProgress = Math.min(1, Math.max(0, currentScrollPosition / scrollRange));
+      if (!routeFrame) routeFrame = window.requestAnimationFrame(drawRouteProgress);
+    };
+
+    if (reducedMotion.matches) scrollRoute.classList.add('is-ready');
+    else {
+      const initialScrollRange = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      targetProgress = Math.min(1, Math.max(0, window.scrollY / initialScrollRange));
+      renderedProgress = targetProgress;
+      drawRouteProgress();
     }
 
-    document.body.style.backgroundColor = `rgb(${currentColor[0]}, ${currentColor[1]}, ${currentColor[2]})`;
+    window.addEventListener('scroll', requestRouteDraw, { passive: true });
+    window.addEventListener('resize', requestRouteDraw);
+    reducedMotion.addEventListener('change', () => {
+      if (reducedMotion.matches) scrollRoute.classList.add('is-ready');
+      else drawRouteProgress();
+    });
   }
 
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        updateBg();
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
+  const closeMenu = () => {
+    if (!menuButton || !menu) return;
+    menuButton.setAttribute('aria-expanded', 'false');
+    menu.classList.remove('is-open');
+    document.body.classList.remove('menu-open');
+  };
 
-  // Initial call
-  updateBg();
+  if (menuButton && menu) {
+    menuButton.addEventListener('click', () => {
+      const willOpen = menuButton.getAttribute('aria-expanded') !== 'true';
+      menuButton.setAttribute('aria-expanded', String(willOpen));
+      menu.classList.toggle('is-open', willOpen);
+      document.body.classList.toggle('menu-open', willOpen);
+    });
+
+    menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', closeMenu));
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 820) closeMenu();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+        menuButton.focus();
+      }
+    });
+  }
+
+  const revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add('in'));
+  }
+
+  const cityRows = [...document.querySelectorAll('.city-row')];
+  const preview = document.querySelector('.city-preview');
+  const previewImage = document.getElementById('cityPreviewImage');
+  const previewCode = document.getElementById('cityPreviewCode');
+  const previewName = document.getElementById('cityPreviewName');
+  let imageSwapTimer;
+
+  const activateCity = (row) => {
+    if (!row || !preview || !previewImage || !previewCode || !previewName) return;
+    if (row.classList.contains('is-active')) return;
+
+    cityRows.forEach((item) => item.classList.toggle('is-active', item === row));
+    preview.classList.add('is-switching');
+    window.clearTimeout(imageSwapTimer);
+
+    imageSwapTimer = window.setTimeout(() => {
+      previewImage.src = row.dataset.image;
+      previewCode.textContent = row.dataset.code;
+      previewName.textContent = row.dataset.city;
+      previewImage.addEventListener('load', () => preview.classList.remove('is-switching'), { once: true });
+      window.setTimeout(() => preview.classList.remove('is-switching'), 500);
+    }, 140);
+  };
+
+  cityRows.forEach((row) => {
+    row.addEventListener('mouseenter', () => activateCity(row));
+    row.addEventListener('focus', () => activateCity(row));
+  });
+
+  const form = document.getElementById('waitForm');
+  const emailInput = document.getElementById('emailInput');
+  const note = document.getElementById('waitNote');
+
+  if (form && emailInput && note) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const email = emailInput.value.trim();
+      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+      if (!isValid) {
+        note.textContent = 'Enter a valid email so we know where to find you.';
+        note.classList.add('is-error');
+        emailInput.setAttribute('aria-invalid', 'true');
+        emailInput.focus();
+        return;
+      }
+
+      note.textContent = "You're on the list. We'll speak when the drop is ready.";
+      note.classList.remove('is-error');
+      emailInput.removeAttribute('aria-invalid');
+      form.reset();
+    });
+  }
+
+  const typewriterSection = document.querySelector('.typewriter-section');
+  const typewriterWord = typewriterSection?.querySelector('.tw-word');
+
+  if (typewriterSection && typewriterWord) {
+    const words = (typewriterSection.dataset.words || 'location')
+      .split('|')
+      .map((word) => word.trim())
+      .filter(Boolean);
+    const wordLanguages = ['en', 'ta', 'hi', 'kn', 'bn', 'te'];
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const segmenter = 'Segmenter' in Intl ? new Intl.Segmenter(undefined, { granularity: 'grapheme' }) : null;
+    const characters = (word) => segmenter ? [...segmenter.segment(word)].map((part) => part.segment) : [...word];
+    let wordIndex = 0;
+    let characterIndex = 0;
+    let erasing = false;
+    let typingTimer = 0;
+    let hasStarted = false;
+
+    const typeNextCharacter = () => {
+      if (reducedMotion.matches) {
+        typewriterWord.textContent = words[0];
+        return;
+      }
+
+      const wordCharacters = characters(words[wordIndex]);
+      typewriterWord.lang = wordLanguages[wordIndex] || 'en';
+      characterIndex += erasing ? -1 : 1;
+      typewriterWord.textContent = wordCharacters.slice(0, characterIndex).join('');
+
+      let delay = erasing ? 62 : 105;
+      if (!erasing && characterIndex >= wordCharacters.length) {
+        erasing = true;
+        delay = 1450;
+      } else if (erasing && characterIndex <= 0) {
+        erasing = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        delay = 420;
+      }
+
+      typingTimer = window.setTimeout(typeNextCharacter, delay);
+    };
+
+    const startTypewriter = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+      if (reducedMotion.matches) {
+        typewriterWord.textContent = words[0];
+        return;
+      }
+      typewriterWord.textContent = '';
+      typewriterWord.lang = wordLanguages[0];
+      typingTimer = window.setTimeout(typeNextCharacter, 480);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const typewriterObserver = new IntersectionObserver((entries, observer) => {
+        if (!entries.some((entry) => entry.isIntersecting)) return;
+        startTypewriter();
+        observer.disconnect();
+      }, { threshold: 0.28 });
+      typewriterObserver.observe(typewriterSection);
+    } else {
+      startTypewriter();
+    }
+
+    reducedMotion.addEventListener('change', () => {
+      window.clearTimeout(typingTimer);
+      if (reducedMotion.matches) typewriterWord.textContent = words[0];
+      else {
+        hasStarted = false;
+        wordIndex = 0;
+        characterIndex = 0;
+        erasing = false;
+        startTypewriter();
+      }
+    });
+  }
 })();

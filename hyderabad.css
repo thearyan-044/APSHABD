@@ -1,8 +1,10 @@
 /* ===== PDS — HYDERABAD (jade dark + Nizami gold, jali lattice) ===== */
+@import url('./assets/fonts/trench-slab/trench-slab.css');
+
 :root {
-  --ink: #04120f; --bone: #e8f2ef; --acc: #17b3a3; --acc2: #d4af5f;
+  --ink: #04120f; --bone: #c4ac90; --acc: #17b3a3; --acc2: #d4af5f;
   --glass: rgba(232,242,239,.055); --glass-b: rgba(23,179,163,.22);
-  --display: 'Anton', sans-serif; --body: 'Space Grotesk', sans-serif;
+  --display: 'Anton', sans-serif; --body: 'Trench Slab', 'Space Grotesk', sans-serif;
   --ease-spring: cubic-bezier(.2,.8,.2,1);
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

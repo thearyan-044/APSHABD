@@ -2,93 +2,43 @@
  * PDS — Client-Side Security Guards
  * Runs on every page. Lightweight, zero dependencies.
  * =====================================================
- * NOTE: These are *defence-in-depth* measures.
- * True security lives on the SERVER (.htaccess, hosting config).
- * Client-side JS can always be bypassed by a determined attacker,
- * but these guards catch common mistakes and casual abuse.
+ * NOTE: Real security lives on the SERVER (.htaccess, hosting config)
+ * and in the CSP headers on each page. Client-side JS can always be
+ * bypassed, so this file deliberately stays small: it keeps the one
+ * guard that actually does something (frame-busting) and the
+ * disclosure notice, and nothing that costs a frame.
+ *
+ * Deliberately NOT here any more, and why:
+ *   · right-click / text-selection / Ctrl+S / F12 blocking — stopped
+ *     nobody (View Source and curl exist), but made the site feel
+ *     broken: visitors couldn't select a neighbourhood name to search
+ *     it, or copy a size.
+ *   · a 1s setInterval guessing whether devtools was open — woke the
+ *     main thread every second of every visit, forever, to print a
+ *     console warning.
+ *   · a MutationObserver over the whole document watching for injected
+ *     <script> tags — the page's CSP (script-src 'self') already
+ *     refuses those before they can run.
  */
 
 (function () {
   'use strict';
 
-  /* ── 1. BLOCK IFRAME EMBEDDING (clickjacking) ─────────── */
+  /* ── BLOCK IFRAME EMBEDDING (clickjacking) ────────────── */
+  // The CSP frame-ancestors/X-Frame-Options headers are the real
+  // defence; this is the belt to that pair of braces.
   if (window.top !== window.self) {
-    // We're inside an iframe we didn't create — break out or blank
     try { window.top.location = window.self.location; }
     catch (e) { document.body.innerHTML = ''; }
   }
 
-  /* ── 2. DISABLE RIGHT-CLICK (minor content protection) ── */
-  // Prevents casual image/video save via context menu
-  document.addEventListener('contextmenu', e => e.preventDefault());
-
-  /* ── 3. DISABLE KEYBOARD SHORTCUTS FOR DEV TOOLS ─────── */
-  document.addEventListener('keydown', e => {
-    // F12
-    if (e.key === 'F12') { e.preventDefault(); return; }
-    // Ctrl+Shift+I / Cmd+Opt+I (DevTools)
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') { e.preventDefault(); return; }
-    // Ctrl+Shift+J (Console)
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') { e.preventDefault(); return; }
-    // Ctrl+U (View source)
-    if ((e.ctrlKey || e.metaKey) && e.key === 'u') { e.preventDefault(); return; }
-    // Ctrl+S (Save page)
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); return; }
-  });
-
-  /* ── 4. DISABLE TEXT SELECTION ON NON-INPUT ELEMENTS ──── */
-  // Prevents bulk copy of design content
-  document.addEventListener('selectstart', e => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    e.preventDefault();
-  });
-
-  /* ── 5. DISABLE DRAG OF IMAGES & VIDEOS ─────────────────  */
-  document.addEventListener('dragstart', e => {
-    if (['IMG', 'VIDEO'].includes(e.target.tagName)) e.preventDefault();
-  });
-
-  /* ── 6. DETECT DEVTOOLS OPEN (heuristic) ─────────────── */
-  // If the window dimensions differ significantly from normal,
-  // it's likely DevTools is docked — warn without blocking.
-  let devWarned = false;
-  const devCheck = setInterval(() => {
-    const threshold = 160;
-    const widthDiff  = window.outerWidth  - window.innerWidth;
-    const heightDiff = window.outerHeight - window.innerHeight;
-    if ((widthDiff > threshold || heightDiff > threshold) && !devWarned) {
-      devWarned = true;
-      console.warn(
-        '%c⚠ PIN DROP SILENCE',
-        'font-size:22px; font-weight:bold; color:#f5b301;',
-        '\nThis site\'s design and assets are protected.\nUnauthorised reproduction is prohibited.'
-      );
-    }
-  }, 1000);
-
-  /* ── 7. CONSOLE WELCOME (ethical disclosure) ─────────── */
-  // Friendly message for legitimate developers
+  /* ── ETHICAL DISCLOSURE ───────────────────────────────── */
   console.log(
-    '%cPIN DROP SILENCE — Security Notice',
+    '%cPIN DROP SILENCE',
     'font-size:14px; font-weight:bold; color:#f5b301; background:#0c0c0c; padding:4px 8px;'
   );
   console.log(
     '%cFound a vulnerability? Email: security@pindropsilence.com\nResponsible disclosure is appreciated.',
     'color:#888; font-size:12px;'
   );
-
-  /* ── 8. STRIP INJECTED SCRIPTS (mutation guard) ──────── */
-  // Watches for new <script> tags being injected into the DOM
-  const scriptObserver = new MutationObserver(mutations => {
-    mutations.forEach(m => {
-      m.addedNodes.forEach(node => {
-        if (node.tagName === 'SCRIPT' && !node.src.includes(window.location.origin)) {
-          console.warn('[PDS Security] Blocked external script injection:', node.src || 'inline');
-          node.remove();
-        }
-      });
-    });
-  });
-  scriptObserver.observe(document.documentElement, { childList: true, subtree: true });
-
 })();

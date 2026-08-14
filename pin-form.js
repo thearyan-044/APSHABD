@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════
-   PIN DROP SILENCE — DROP A PIN (location request form)
+   APSHABD — DROP A PIN (location request form)
 ═══════════════════════════════════════════════════════ */
 
 /* ─── WHERE PINS GO ──────────────────────────────────────────────────────────
@@ -167,7 +167,7 @@ function collect() {
 
 function saveLocally(pin) {
   try {
-    const key  = 'pds_pins';
+    const key  = 'apshabd_pins';
     const pins = JSON.parse(localStorage.getItem(key) || '[]');
     pins.push(pin);
     localStorage.setItem(key, JSON.stringify(pins.slice(-50)));

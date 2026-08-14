@@ -3,314 +3,263 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PIN DROP SILENCE — Seven Cities. One Silence.</title>
-  <meta name="description" content="A streetwear house for every Indian street that speaks without shouting. Seven cities. One silence." />
-  <!-- Security -->
+  <title>Streetwear from where you are</title>
+  <meta name="description" content="Indian streetwear built from neighbourhood memory, local scripts, and the streets that made us." />
+  <meta name="theme-color" content="#000f08" />
   <meta http-equiv="X-Content-Type-Options" content="nosniff" />
   <meta http-equiv="X-Frame-Options" content="DENY" />
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self' blob:; script-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none';" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@300;400;500;700&family=Noto+Sans+Tamil:wght@700&family=Noto+Sans+Devanagari:wght@700&family=Noto+Sans+Kannada:wght@700&family=Noto+Sans+Bengali:wght@700&family=Noto+Sans+Telugu:wght@700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href=".//intro.css?v=4" />
-  <link rel="stylesheet" href=".//styles.css?v=7" />
-  <link rel="stylesheet" href=".//typewriter.css?v=2" />
-  <link rel="stylesheet" href=".//effects-3d.css" />
-  <link rel="stylesheet" href=".//cinematic.css?v=6" />
-  <link rel="stylesheet" href=".//tuezday.css?v=3" />
-  <link rel="stylesheet" href=".//holo.css?v=2" />
-  <link rel="stylesheet" href=".//orbit.css?v=4" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@500;700&family=Noto+Sans+Devanagari:wght@500;700&family=Noto+Sans+Kannada:wght@500;700&family=Noto+Sans+Tamil:wght@500;700&family=Noto+Sans+Telugu:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="preload" href="assets/fonts/trench-slab/TrenchSlab-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/campaign/web/06-mumbai-andheri-dadar-colaba-train.jpg" as="image" />
+  <link rel="stylesheet" href="styles.css?v=14" />
+  <link rel="stylesheet" href="tuezday.css?v=2" />
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header" id="top">
+    <a class="brand" href="#top" aria-label="अPSHABD home">
+      <img class="brand-logo brand-logo-cream" src="assets/brand/apshabd-wordmark-cream.png" alt="" />
+      <img class="brand-logo brand-logo-night" src="assets/brand/apshabd-wordmark-night.png" alt="" />
+    </a>
 
-  <!-- ── NAV ── -->
-  <nav class="nav">
-    <span class="nav-sticker">
-      <img src=".//Logo/ChatGPT Image Jul 21, 2026, 11_10_57 PM.png" alt="PDS logo" class="nav-logo" />
-    </span>
-    <div class="nav-name">PIN DROP SILENCE<span>.</span></div>
-    <div class="nav-links">
-      <a href="#story"   class="nav-link">Story</a>
-      <a href="#cities"  class="nav-link">Cities</a>
-      <a href="#waitlist" class="nav-link">Waitlist</a>
-      <a href="drop-a-pin.html" class="nav-link">Drop a Pin</a>
-    </div>
-  </nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span>Menu</span><span class="menu-icon" aria-hidden="true"></span>
+    </button>
 
-  <!-- ── HERO ── -->
-  <header class="hero" id="top">
-    <!-- Cinematic background video -->
-    <div class="hero-video-wrap" aria-hidden="true">
-      <video
-        class="hero-video"
-        src=".//Logo/Create_a_second_cinematic_f.mp4"
-        autoplay muted loop playsinline
-        preload="metadata"
-      ></video>
-      <div class="hero-video-overlay"></div>
-    </div>
-
-    <div class="hero-inner depth-layer" data-depth="0.3">
-      <div class="hero-eyebrow">
-        <span>EST. 2026</span>
-        <span>INDIA</span>
-        <span>STREETWEAR</span>
-      </div>
-
-      <span class="hero-logo reveal">
-        <span class="hero-logo-tile">
-          <img src=".//Logo/ChatGPT Image Jul 21, 2026, 11_10_57 PM.png" alt="Pin Drop Silence logo" />
-        </span>
-      </span>
-
-      <h1 class="hero-title">
-        <span class="line reveal depth-layer" data-depth="0.8">QUIET</span>
-        <span class="line accent reveal depth-layer" data-depth="1.2">ACTION.</span>
-        <span class="line reveal depth-layer" data-depth="0.6">LOUD</span>
-        <span class="line outline reveal depth-layer" data-depth="1.0">IMPACT.</span>
-      </h1>
-
-      <p class="hero-sub reveal">
-        A streetwear house for every Indian street<br />
-        that speaks without shouting.
-      </p>
-
-      <a href="#cities" class="btn reveal" id="heroCta">CHOOSE YOUR CITY ↓</a>
-    </div>
-
-    <div class="scroll-hint" aria-hidden="true">SCROLL</div>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <a href="#story">Our story</a>
+      <a href="#cities">Cities</a>
+      <a href="#waitlist">First access</a>
+      <a class="nav-cta" href="drop-a-pin.html">Drop a pin <span aria-hidden="true">↗</span></a>
+    </nav>
   </header>
 
-  <!-- ── MARQUEE ── -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>அமைதி &nbsp;·&nbsp; शांतता &nbsp;·&nbsp; ख़ामोशी &nbsp;·&nbsp; ಮೌನ &nbsp;·&nbsp; নীরবতা &nbsp;·&nbsp; నిశ్శబ్దం &nbsp;·&nbsp; SILENCE &nbsp;·&nbsp; </span>
-      <span>அமைதி &nbsp;·&nbsp; शांतता &nbsp;·&nbsp; ख़ामोशी &nbsp;·&nbsp; ಮೌನ &nbsp;·&nbsp; নীরবতা &nbsp;·&nbsp; నిశ్శబ్దం &nbsp;·&nbsp; SILENCE &nbsp;·&nbsp; </span>
-    </div>
+  <div class="scroll-route" aria-hidden="true">
+    <svg class="scroll-route-map" viewBox="0 0 72 1000" preserveAspectRatio="none" focusable="false">
+      <path class="scroll-route-path" d="M 38 20 C 68 96 12 164 38 250 S 62 400 28 490 S 10 654 43 744 S 60 894 27 980" />
+    </svg>
+    <span class="scroll-route-pointer"></span>
   </div>
 
-  <!-- ── STORY ── -->
-  <section class="section" id="story">
-    <div class="story-block">
-      <div class="reveal">
-        <span class="story-label">THE ORIGIN</span>
-        <h2>BORN AT<br />MIDNIGHT.<br />MADE FOR<br />INDIA.</h2>
-      </div>
-      <div class="story-text reveal">
-        <p>PD Silence started as a late-night idea that refused to sleep. One 10 year old memory, one idea on the quietest man/woman in the room, and a belief that the loudest statement is the one you wear, not the one you shout.</p>
-        <p>Every piece carries a neighborhood on it. Not Brooklyn. Not NY. <strong>Your</strong> area — in your script, on your back.</p>
-        <p>We got to using this piece of clothing as a canvas to portray a statement, not an art. By stitching modern western streetwear to Indian streets varsity cuts with the desi look, heavyweight tees with the concert vibes, drops named after the roads you grew up on. From your first slur, to your last bitch ass ex. From the first long walk you took, to the place you go to earn a living, we tryna cover it all. So drop in any new locations you got in mind, we shall drop in to resonate for you.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CITIES · THE ORBIT ── -->
-  <section class="orbit-section" id="cities">
-    <div class="orbit-track" id="orbitTrack">
-      <div class="orbit-sticky">
-
-        <div class="orbit-head">
-          <span class="cities-label">THE FITTING ROOM</span>
-          <span class="orbit-hint">SCROLL — TRY EVERY CITY ON</span>
-          <span class="cities-count">7 CITIES + YOURS</span>
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="hero-kicker reveal">
+          <span>Indian streetwear</span>
+          <span>Est. MMXXVI</span>
         </div>
 
-        <div class="orbit-scene" id="orbitScene">
-          <div class="orbit-holo" id="orbitHolo" aria-hidden="true">
-            <div class="orbit-cone"></div>
-            <div class="orbit-base"></div>
-          </div>
+        <h1 id="hero-title" class="hero-title reveal">
+          <span>Wear</span>
+          <span>where you're</span>
+          <span class="hero-title-accent">from.</span>
+        </h1>
 
-          <div class="orbit-ring" id="orbitRing">
-            <a href="chennai.html" class="orbit-card" style="--i:0;--c:#f5b301"
-               data-num="01" data-city="CHENNAI" data-tag="MARINA NIGHTS"
-               data-word="அமைதி" data-font="tamil"
-               data-item="HEAVYWEIGHT TEE · DROP 001 LIVE" data-cta="SHOP CHENNAI">
-              <span class="oc-in">
-                <span class="oc-script tamil" aria-hidden="true">அமைதி</span>
-                <span class="oc-top"><b class="oc-num">01</b><span class="oc-tag">MARINA NIGHTS</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">CHENNAI</span>
-                  <span class="oc-status">DROP 001 · 5 PIECES · LIVE</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">TAMIL · AUTO YELLOW</span><span class="oc-enter">SHOP →</span></span>
-              </span>
-            </a>
-            <a href="mumbai.html" class="orbit-card" style="--i:1;--c:#4d9fff"
-               data-num="02" data-city="MUMBAI" data-tag="MAXIMUM CITY"
-               data-word="शांतता" data-font="dev"
-               data-item="HEAVYWEIGHT TEE · DROP 001 LIVE" data-cta="SHOP MUMBAI">
-              <span class="oc-in">
-                <span class="oc-script dev" aria-hidden="true">शांतता</span>
-                <span class="oc-top"><b class="oc-num">02</b><span class="oc-tag">MAXIMUM CITY</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">MUMBAI</span>
-                  <span class="oc-status">DROP 001 · 5 PIECES · LIVE</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">MARATHI · MARINE BLUE</span><span class="oc-enter">SHOP →</span></span>
-              </span>
-            </a>
-            <a href="delhi.html" class="orbit-card" style="--i:2;--c:#e8a020"
-               data-num="03" data-city="DELHI" data-tag="THE CAPITAL"
-               data-word="ख़ामोशी" data-font="dev"
-               data-item="DROP 001 — IN THE WORKS" data-cta="ENTER DELHI">
-              <span class="oc-in">
-                <span class="oc-script dev" aria-hidden="true">ख़ामोशी</span>
-                <span class="oc-top"><b class="oc-num">03</b><span class="oc-tag">THE CAPITAL</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">DELHI</span>
-                  <span class="oc-status">DROP 001 · IN THE WORKS</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">HINDI · MARIGOLD</span><span class="oc-enter">ENTER →</span></span>
-              </span>
-            </a>
-            <a href="pune.html" class="orbit-card" style="--i:3;--c:#cf6b35"
-               data-num="04" data-city="PUNE" data-tag="OLD CITY, NEW BLOOD"
-               data-word="शांतता" data-font="dev"
-               data-item="DROP 001 — IN THE WORKS" data-cta="ENTER PUNE">
-              <span class="oc-in">
-                <span class="oc-script dev" aria-hidden="true">शांतता</span>
-                <span class="oc-top"><b class="oc-num">04</b><span class="oc-tag">OLD CITY, NEW BLOOD</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">PUNE</span>
-                  <span class="oc-status">DROP 001 · IN THE WORKS</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">MARATHI · COPPER</span><span class="oc-enter">ENTER →</span></span>
-              </span>
-            </a>
-            <a href="bangalore.html" class="orbit-card" style="--i:4;--c:#38e54d"
-               data-num="05" data-city="BANGALORE" data-tag="SILICON STREETS"
-               data-word="ಮೌನ" data-font="kan"
-               data-item="DROP 001 — IN THE WORKS" data-cta="ENTER BANGALORE">
-              <span class="oc-in">
-                <span class="oc-script kan" aria-hidden="true">ಮೌನ</span>
-                <span class="oc-top"><b class="oc-num">05</b><span class="oc-tag">SILICON STREETS</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">BANGALORE</span>
-                  <span class="oc-status">DROP 001 · IN THE WORKS</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">KANNADA · CIRCUIT GREEN</span><span class="oc-enter">ENTER →</span></span>
-              </span>
-            </a>
-            <a href="kolkata.html" class="orbit-card" style="--i:5;--c:#e63946"
-               data-num="06" data-city="KOLKATA" data-tag="THE CITY OF JOY"
-               data-word="নীরবতা" data-font="ben"
-               data-item="DROP 001 — IN THE WORKS" data-cta="ENTER KOLKATA">
-              <span class="oc-in">
-                <span class="oc-script ben" aria-hidden="true">নীরবতা</span>
-                <span class="oc-top"><b class="oc-num">06</b><span class="oc-tag">THE CITY OF JOY</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">KOLKATA</span>
-                  <span class="oc-status">DROP 001 · IN THE WORKS</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">BENGALI · SINDOOR RED</span><span class="oc-enter">ENTER →</span></span>
-              </span>
-            </a>
-            <a href="hyderabad.html" class="orbit-card" style="--i:6;--c:#17b3a3"
-               data-num="07" data-city="HYDERABAD" data-tag="THE PEARL CITY"
-               data-word="నిశ్శబ్దం" data-font="tel"
-               data-item="DROP 001 — IN THE WORKS" data-cta="ENTER HYDERABAD">
-              <span class="oc-in">
-                <span class="oc-script tel" aria-hidden="true">నిశ్శబ్దం</span>
-                <span class="oc-top"><b class="oc-num">07</b><span class="oc-tag">THE PEARL CITY</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">HYDERABAD</span>
-                  <span class="oc-status">DROP 001 · IN THE WORKS</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">TELUGU · NIZAMI JADE</span><span class="oc-enter">ENTER →</span></span>
-              </span>
-            </a>
-            <a href="drop-a-pin.html" class="orbit-card" style="--i:7;--c:#efeae0"
-               data-num="08" data-city="YOUR CITY" data-tag="NOT ON THE MAP YET"
-               data-word="+" data-font="body"
-               data-item="YOUR AREA ON A TEE — IF YOU CALL IT" data-cta="DROP YOUR PIN">
-              <span class="oc-in">
-                <span class="oc-script" aria-hidden="true">+</span>
-                <span class="oc-top"><b class="oc-num">08</b><span class="oc-tag">NOT ON THE MAP YET</span></span>
-                <span class="oc-mid">
-                  <span class="oc-name">YOUR CITY</span>
-                  <span class="oc-status">YOUR AREA · YOUR CALL</span>
-                </span>
-                <span class="oc-foot"><span class="oc-lang">YOUR SCRIPT · YOUR COLOUR</span><span class="oc-enter">PIN IT →</span></span>
-              </span>
-            </a>
+        <div class="hero-footer reveal">
+          <p>Built from neighbourhood memory, local scripts, and the places that raised us.</p>
+          <a class="text-link" href="#cities">Find your city <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+
+      <figure class="hero-image reveal">
+        <img src="assets/campaign/web/06-mumbai-andheri-dadar-colaba-train.jpg" alt="People wearing neighbourhood T-shirts at the doorway of a Mumbai local train" />
+        <figcaption>
+          <span>Mumbai / On the move</span>
+          <span>Campaign 001</span>
+        </figcaption>
+        <div class="image-stamp" aria-hidden="true">
+          <span>7 cities</span>
+          <strong>01</strong>
+          <span>India</span>
+        </div>
+      </figure>
+
+      <div class="hero-ticker" aria-label="Seven cities across India">
+        <div class="ticker-track">
+          <span>CHENNAI</span><i>✱</i><span>MUMBAI</span><i>✱</i><span>DELHI</span><i>✱</i><span>PUNE</span><i>✱</i><span>BANGALORE</span><i>✱</i><span>KOLKATA</span><i>✱</i><span>HYDERABAD</span><i>✱</i>
+          <span aria-hidden="true">CHENNAI</span><i aria-hidden="true">✱</i><span aria-hidden="true">MUMBAI</span><i aria-hidden="true">✱</i><span aria-hidden="true">DELHI</span><i aria-hidden="true">✱</i><span aria-hidden="true">PUNE</span><i aria-hidden="true">✱</i><span aria-hidden="true">BANGALORE</span><i aria-hidden="true">✱</i><span aria-hidden="true">KOLKATA</span><i aria-hidden="true">✱</i><span aria-hidden="true">HYDERABAD</span><i aria-hidden="true">✱</i>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto" id="story" aria-labelledby="manifesto-title">
+      <div class="section-index reveal">
+        <span>01 / The idea</span>
+        <span>Made in India</span>
+      </div>
+
+      <div class="manifesto-grid">
+        <h2 id="manifesto-title" class="manifesto-title reveal">Not merch.<br />Memory you<br />can wear.</h2>
+        <div class="manifesto-copy reveal">
+          <p class="lead">The label began with one question: why should Indian streetwear borrow someone else's street?</p>
+          <p>So we started closer to home. With the station you missed, the road you grew up on, the corner that still knows your name. Every piece is a record of a neighbourhood — set in its own script, carried in its own rhythm.</p>
+          <p>Western silhouettes. Indian coordinates. No costume. No souvenir. Just the places that made you, cut into something worth keeping.</p>
+          <a class="text-link dark" href="drop-a-pin.html">Put your street on the map <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+      <div class="identity-wordmark reveal">
+        <img src="assets/brand/apshabd-wordmark-night.png" alt="Approved अPSHABD wordmark" />
+      </div>
+    </section>
+
+    <section class="campaign" aria-labelledby="campaign-title">
+      <div class="section-index light reveal">
+        <span>02 / In the wild</span>
+        <span>Campaign 001</span>
+      </div>
+      <div class="campaign-heading reveal">
+        <h2 id="campaign-title">The city<br />wears itself.</h2>
+        <p>Real neighbourhoods. Familiar faces. Clothes that belong exactly where they are.</p>
+      </div>
+
+      <div class="campaign-grid">
+        <figure class="campaign-card campaign-card-tall reveal">
+          <img src="assets/campaign/web/01-chennai-adyar-fisherman.jpg" alt="A fisherman in Adyar wearing an Adyar neighbourhood T-shirt" loading="lazy" />
+          <figcaption><span>Adyar, Chennai</span><span>13°00′ N</span></figcaption>
+        </figure>
+        <figure class="campaign-card reveal">
+          <img src="assets/campaign/web/mumbai-bandra-fruit-stall.jpg" alt="A person in a Bandra T-shirt seated at a fruit stall" loading="lazy" />
+          <figcaption><span>Bandra, Mumbai</span><span>19°03′ N</span></figcaption>
+        </figure>
+        <figure class="campaign-card campaign-card-wide reveal">
+          <img src="assets/campaign/web/chennai-t-nagar-newspaper.jpg" alt="A person reading a newspaper in a T Nagar neighbourhood T-shirt" loading="lazy" />
+          <figcaption><span>T Nagar, Chennai</span><span>13°02′ N</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="typewriter-section route-question" data-words="location|இடம்|जगह|ಸ್ಥಳ|স্থান|స్థలం" aria-labelledby="route-question-title">
+      <div class="section-index light reveal">
+        <span>Interlude / Your turn</span>
+        <span>Six scripts. One question.</span>
+      </div>
+
+      <div class="route-question-inner reveal">
+        <h2 class="typewriter-text" id="route-question-title" aria-label="Which location would you like us to add?">
+          <span aria-hidden="true">
+            <span class="tw-line tw-language-line">Which <span class="tw-quote">‘</span><span class="tw-word-wrap"><span class="tw-word" lang="en">location</span><span class="tw-cursor"></span></span><span class="tw-quote">’</span></span>
+            <span class="tw-line">would you like us to add?</span>
+          </span>
+        </h2>
+
+        <div class="typewriter-action">
+          <p>To your city wardrobe. Your lane, your language, your call.</p>
+          <a class="typewriter-link" href="drop-a-pin.html">Drop a pin <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="city-index" id="cities" aria-labelledby="cities-title">
+      <div class="section-index reveal">
+        <span>03 / City index</span>
+        <span>7 cities + yours</span>
+      </div>
+
+      <div class="cities-heading reveal">
+        <h2 id="cities-title">Choose your<br />coordinates.</h2>
+        <p>Start with the city. Get closer by neighbourhood. Chennai and Mumbai are live; the rest are taking shape.</p>
+      </div>
+
+      <div class="cities-layout">
+        <div class="city-preview reveal" aria-hidden="true">
+          <img id="cityPreviewImage" src="assets/campaign/web/01-chennai-adyar-fisherman.jpg" alt="" />
+          <div class="city-preview-overlay">
+            <span id="cityPreviewCode">MAA / 01</span>
+            <strong id="cityPreviewName">CHENNAI</strong>
           </div>
         </div>
 
-        <div class="orbit-readout">
-          <span class="orbit-readout-num" id="orbitNum">01</span>
-          <span class="orbit-readout-name" id="orbitName">CHENNAI</span>
-          <span class="orbit-readout-item" id="orbitItem">HEAVYWEIGHT TEE · DROP 001 LIVE</span>
-          <a class="orbit-cta" id="orbitCta" href="chennai.html">SHOP CHENNAI →</a>
-          <span class="orbit-ticks" id="orbitTicks" aria-hidden="true"></span>
-          <span class="orbit-swipe" aria-hidden="true">← SWIPE THE CITIES →</span>
+        <div class="city-list reveal">
+          <a class="city-row is-active" href="chennai.html?v=3" data-code="MAA / 01" data-city="CHENNAI" data-image="assets/campaign/web/01-chennai-adyar-fisherman.jpg">
+            <span class="city-number">01</span><span class="city-native tamil" lang="ta">சென்னை</span><strong>Chennai</strong><span class="city-status live">Shop live</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row" href="mumbai.html?v=3" data-code="BOM / 02" data-city="MUMBAI" data-image="assets/campaign/web/mumbai-bandra-fruit-stall.jpg">
+            <span class="city-number">02</span><span class="city-native devanagari" lang="mr">मुंबई</span><strong>Mumbai</strong><span class="city-status live">Shop live</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row" href="delhi.html?v=3" data-code="DEL / 03" data-city="DELHI" data-image="assets/delhi/hauz-khas/references/03-graffiti-lane.png">
+            <span class="city-number">03</span><span class="city-native devanagari" lang="hi">दिल्ली</span><strong>Delhi</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row" href="pune.html?v=3" data-code="PNQ / 04" data-city="PUNE" data-image="assets/campaign/web/mumbai-dadar-skateboard.jpg">
+            <span class="city-number">04</span><span class="city-native devanagari" lang="mr">पुणे</span><strong>Pune</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row" href="bangalore.html?v=3" data-code="BLR / 05" data-city="BANGALORE" data-image="assets/campaign/web/04-chennai-anna-nagar-drummer.jpg">
+            <span class="city-number">05</span><span class="city-native kannada" lang="kn">ಬೆಂಗಳೂರು</span><strong>Bangalore</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row" href="kolkata.html?v=3" data-code="CCU / 06" data-city="KOLKATA" data-image="assets/campaign/web/09-chennai-mylapore-train.jpg">
+            <span class="city-number">06</span><span class="city-native bengali" lang="bn">কলকাতা</span><strong>Kolkata</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row" href="hyderabad.html?v=3" data-code="HYD / 07" data-city="HYDERABAD" data-image="assets/campaign/web/05-chennai-marina-water-carrier.jpg">
+            <span class="city-number">07</span><span class="city-native telugu" lang="te">హైదరాబాద్</span><strong>Hyderabad</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="city-row city-row-yours" href="drop-a-pin.html" data-code="YOU / 08" data-city="YOUR CITY" data-image="assets/campaign/web/02-mumbai-thane-fisherman.jpg">
+            <span class="city-number">08</span><span class="city-native">+</span><strong>Your city</strong><span class="city-status">Make the call</span><span class="city-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ── WAITLIST ── -->
-  <section class="wait-section reveal" id="waitlist">
-    <div class="wait-inner">
-      <span class="wait-label">LAUNCHING SOON</span>
-      <h2>SILENCE BEFORE<br />THE DROP.</h2>
-      <p>50 designs in the works. 30 tees. 20 neighborhood varsity pieces. You'll hear it here first.</p>
-      <div class="wait-form">
-        <input type="email" placeholder="your@email.com" aria-label="Email address" id="emailInput" />
-        <button type="button" class="btn" id="notifyBtn">NOTIFY ME</button>
+    <section class="pin-cta" aria-labelledby="pin-title">
+      <div class="pin-copy reveal">
+        <span class="eyebrow">Not on the map?</span>
+        <h2 id="pin-title">Your area.<br />Your call.</h2>
+        <p>Tell us the neighbourhood, phrase, or piece of local history that deserves a drop. The next coordinate could be yours.</p>
+        <a class="button button-light" href="drop-a-pin.html">Drop a pin <span aria-hidden="true">↗</span></a>
       </div>
-      <p class="wait-note" id="waitNote"></p>
-    </div>
-  </section>
+      <div class="pin-mark reveal" aria-hidden="true">
+        <span>अ</span>
+        <i>✱</i>
+      </div>
+    </section>
 
-  <!-- ── TYPEWRITER PROMPT ── -->
-  <section class="typewriter-section">
-    <p class="typewriter-text">
-      Which <span class="tw-quote">'</span><span class="tw-word-wrap"><span class="tw-word"></span><span class="tw-cursor"></span></span><span class="tw-quote">'</span> would you like for us to add in your city wardrobe, do let us know.
-    </p>
-    <div class="typewriter-cta">
-      <a href="drop-a-pin.html" class="tw-cta" data-cursor="DROP"><span>DROP A PIN →</span></a>
-    </div>
-  </section>
+    <section class="waitlist" id="waitlist" aria-labelledby="waitlist-title">
+      <div class="waitlist-intro reveal">
+        <span class="eyebrow">First access / no noise</span>
+        <h2 id="waitlist-title">Know before<br />your city does.</h2>
+      </div>
+      <div class="waitlist-form-wrap reveal">
+        <p>New neighbourhoods, limited drops, and stories from the street. Only when there is something worth saying.</p>
+        <form class="wait-form" id="waitForm" novalidate>
+          <label for="emailInput">Email address</label>
+          <div class="field-row">
+            <input type="email" id="emailInput" name="email" placeholder="you@yourcity.com" autocomplete="email" required />
+            <button type="submit" id="notifyBtn" aria-label="Join the first access list">Join <span aria-hidden="true">↗</span></button>
+          </div>
+          <p class="wait-note" id="waitNote" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
 
-  <!-- ── FOOTER ── -->
-  <footer class="footer">
-    <div class="footer-big" aria-hidden="true">PDS</div>
-    <div class="footer-follow">
-      <span class="footer-follow-label">FOLLOW THE SILENCE</span>
-      <a href="https://www.instagram.com/pd.silence/" class="footer-ig" target="_blank" rel="noopener" data-cursor="FOLLOW" aria-label="Pin Drop Silence on Instagram">
-        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-          <circle cx="12" cy="12" r="4.4"/>
-          <circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/>
-        </svg>
-        <span>INSTAGRAM</span>
-      </a>
-      <p class="footer-copy">PIN DROP SILENCE · INDIA · © 2026</p>
+  <footer class="site-footer">
+    <div class="footer-logo" aria-label="अPSHABD">
+      <img src="assets/brand/apshabd-wordmark-night.png" alt="" />
+    </div>
+    <div class="footer-meta">
+      <div>
+        <span>Indian streetwear</span>
+        <span>Est. 2026</span>
+      </div>
+      <div>
+        <a href="https://www.instagram.com/pd.silence/" target="_blank" rel="noopener">Instagram ↗</a>
+        <a href="drop-a-pin.html">Drop a pin ↗</a>
+      </div>
+      <p>© 2026. Built from where we are.</p>
+    </div>
+    <div class="footer-powered">
       <a class="tz-badge tz-badge--footer" href="https://tuezdayai.com/" target="_blank" rel="noopener"
-         aria-label="Powered by tuezday.ai — opens in a new tab" data-cursor="TUEZDAY">
-        <span class="tz-badge-label">POWERED BY</span>
+         aria-label="Powered by tuezday.ai — opens in a new tab">
+        <span class="tz-badge-label">Powered by</span>
         <span class="tz-mark"><span class="tz-mark-word" data-text="tuezday">tuezday</span><span class="tz-mark-tld">.ai</span></span>
       </a>
     </div>
   </footer>
 
-  <a class="tz-badge tz-badge--float" href="https://tuezdayai.com/" target="_blank" rel="noopener"
-     aria-label="Powered by tuezday.ai — opens in a new tab" data-cursor="TUEZDAY">
-    <span class="tz-badge-label">POWERED BY</span>
-    <span class="tz-mark"><span class="tz-mark-word" data-text="tuezday">tuezday</span><span class="tz-mark-tld">.ai</span></span>
-  </a>
-
-  <script src=".//intro.js?v=4"></script>
-  <script src=".//security.js"></script><script src=".//script.js?v=3"></script>
-  <script src=".//typewriter.js?v=5"></script>
-  <script src=".//effects-3d.js?v=3"></script>
-  <script src=".//cinematic.js?v=6"></script>
-  <script src=".//holo.js?v=2"></script>
-  <script src=".//orbit.js?v=6"></script>
+  <script src="script.js?v=14"></script>
 </body>
 </html>

@@ -15,7 +15,9 @@
     '.card',
     '.glass',
     '.drop-face',
-    '.way',
+    // '.way' removed: the colourway swatches are 44px circles, which
+    // meant ~25 extra mask-composited overlays per city page for an
+    // edge nobody can see at that size.
     '.footer-ig',
     '.hero-logo-tile',
     '.logo-tile',
@@ -42,12 +44,10 @@
     rim.setAttribute('aria-hidden', 'true');
     el.appendChild(rim);
 
-    // Scanlines are the tell of a projection, so they stay even when
-    // motion is reduced — only the moving scan pass is CSS-gated.
-    const scan = document.createElement('i');
-    scan.className = 'holo-scan';
-    scan.setAttribute('aria-hidden', 'true');
-    el.appendChild(scan);
+    // The scanline raster used to go here. It was a repeating gradient
+    // over every panel on the page — a lot of paint, and at this scale
+    // it read as screen noise rather than as projected light. The rim
+    // alone carries the effect.
   }
 
   // ── Pointer-steered refraction ──────────────────────────────────
@@ -95,18 +95,12 @@
     if (!supportsMix) return;
     scan(document);
 
-    // The intro overlay and some city sections mount late — pick up
-    // anything that appears after first paint.
-    const mo = new MutationObserver(muts => {
-      for (const m of muts) {
-        for (const node of m.addedNodes) {
-          if (node.nodeType !== 1) continue;
-          if (node.matches && node.matches(TARGETS)) { decorate(node); bind(node); }
-          if (node.querySelectorAll) scan(node);
-        }
-      }
-    });
-    mo.observe(document.body, { childList: true, subtree: true });
+    // The intro overlay and some city sections mount late, so re-scan
+    // after they've had a chance to appear. This replaces a permanent
+    // MutationObserver over the whole document, which woke on every
+    // DOM change the site ever made — including its own.
+    window.addEventListener('load', () => scan(document), { once: true });
+    setTimeout(() => scan(document), 2600);
   }
 
   if (document.readyState === 'loading') {

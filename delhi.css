@@ -1,8 +1,10 @@
 /* ===== PDS — DELHI (red sandstone + marigold, Mughal arches) ===== */
+@import url('./assets/fonts/trench-slab/trench-slab.css');
+
 :root {
-  --ink: #2a0f0a; --stone: #8f2f1e; --bone: #f3e7d3; --acc: #e8a020;
+  --ink: #2a0f0a; --stone: #8f2f1e; --bone: #c4ac90; --acc: #e8a020;
   --glass: rgba(243,231,211,.07); --glass-b: rgba(243,231,211,.22);
-  --display: 'Anton', sans-serif; --body: 'Space Grotesk', sans-serif;
+  --display: 'Anton', sans-serif; --body: 'Trench Slab', 'Space Grotesk', sans-serif;
   --ease-spring: cubic-bezier(.2,.8,.2,1);
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

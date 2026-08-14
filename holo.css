@@ -170,18 +170,12 @@
   text-shadow:
     0 0 26px color-mix(in srgb, var(--holo) 30%, transparent),
     0 0 60px color-mix(in srgb, var(--holo) 14%, transparent);
-  animation: holoJudder 7s ease-in-out infinite;
 }
 
-/* Amplitude is deliberately tiny and the period long — this reads as
-   an unstable projection, never as a flash. */
-@keyframes holoJudder {
-  0%, 42%, 100% { opacity: 1;   transform: translateY(0); }
-  44%           { opacity: .93; transform: translateY(.4px); }
-  46%           { opacity: 1;   transform: translateY(0); }
-  71%           { opacity: .96; transform: translateY(-.3px); }
-  73%           { opacity: 1;   transform: translateY(0); }
-}
+/* The holoJudder keyframes lived here: a permanent 7s loop nudging the
+   headline's opacity and baseline to simulate an unstable projection.
+   Simulated instability and actual jank look identical to a visitor, so
+   the headline now holds still and the bloom carries the effect. */
 
 /* Outline line: back to its original bone stroke, with a faint
    accent bloom behind it rather than a recoloured stroke. */

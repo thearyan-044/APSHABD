@@ -1,8 +1,10 @@
 /* ===== PDS — BANGALORE (cyber garden: near-black + electric green) ===== */
+@import url('./assets/fonts/trench-slab/trench-slab.css');
+
 :root {
-  --ink: #060a08; --bone: #e9f2ec; --acc: #38e54d; --violet: #9b5de5;
+  --ink: #060a08; --bone: #c4ac90; --acc: #38e54d; --violet: #9b5de5;
   --glass: rgba(233,242,236,.05); --glass-b: rgba(56,229,77,.22);
-  --display: 'Anton', sans-serif; --body: 'Space Grotesk', sans-serif;
+  --display: 'Anton', sans-serif; --body: 'Trench Slab', 'Space Grotesk', sans-serif;
   --ease-spring: cubic-bezier(.2,.8,.2,1);
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

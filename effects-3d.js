@@ -50,10 +50,14 @@
     const layers = document.querySelectorAll('[data-depth]');
     if (!layers.length) return;
 
-    document.addEventListener('mousemove', e => {
-      const cx = (e.clientX / window.innerWidth  - 0.5) * 2; // -1 → 1
-      const cy = (e.clientY / window.innerHeight - 0.5) * 2;
+    // One style write per frame, not one per mouse event. A fast
+    // mouse fires far more often than the screen refreshes, and
+    // writing transforms on every event is what made the headline
+    // judder instead of glide.
+    let cx = 0, cy = 0, queued = false;
 
+    function paint() {
+      queued = false;
       layers.forEach(el => {
         const depth = parseFloat(el.dataset.depth) || 0;
         const tx = cx * depth * 15;
@@ -64,7 +68,13 @@
         // different distances, not just different speeds.
         el.style.transform = `translate3d(${tx}px, ${ty}px, ${depth * 55}px) rotateY(${rY}deg) rotateX(${rX}deg)`;
       });
-    });
+    }
+
+    document.addEventListener('mousemove', e => {
+      cx = (e.clientX / window.innerWidth  - 0.5) * 2; // -1 → 1
+      cy = (e.clientY / window.innerHeight - 0.5) * 2;
+      if (!queued) { queued = true; requestAnimationFrame(paint); }
+    }, { passive: true });
   }
 
   /* ── 3. 3D TILT ON HOVER ─────────────────────────────── */
@@ -191,8 +201,10 @@
 
   /* ── INIT ─────────────────────────────────────────────── */
   function boot() {
-    // Particles always (even on touch — they're ambient)
-    if (!reduce) spawnParticles(10);
+    // Ambient particles removed: ten perpetually-animating dots over
+    // every page kept the compositor awake for decoration nobody was
+    // looking at, and the drifting specks read as dust on the screen.
+    // spawnParticles() is kept above in case a single-scene use comes back.
 
     // Mouse-dependent effects — desktop only
     if (!isTouchDevice && !reduce) {

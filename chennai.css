@@ -1,8 +1,10 @@
 /* ===== PDS — CHENNAI (ink + auto-rickshaw yellow) ===== */
+@import url('./assets/fonts/trench-slab/trench-slab.css');
+
 :root {
-  --ink: #0b0a08; --bone: #efeae0; --acc: #f5b301;
+  --ink: #0b0a08; --bone: #c4ac90; --acc: #f5b301;
   --glass: rgba(239,234,224,.06); --glass-b: rgba(239,234,224,.2);
-  --display: 'Anton', sans-serif; --body: 'Space Grotesk', sans-serif;
+  --display: 'Anton', sans-serif; --body: 'Trench Slab', 'Space Grotesk', sans-serif;
   --ease-spring: cubic-bezier(.2,.8,.2,1);
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

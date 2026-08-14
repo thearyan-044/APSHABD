@@ -1,8 +1,10 @@
 /* ===== PDS — PUNE (Peshwa maroon + copper, varsity badge) ===== */
+@import url('./assets/fonts/trench-slab/trench-slab.css');
+
 :root {
-  --ink: #24080d; --bone: #f2e8dc; --acc: #cf6b35; --copper: #b0562e;
+  --ink: #24080d; --bone: #c4ac90; --acc: #cf6b35; --copper: #b0562e;
   --glass: rgba(242,232,220,.06); --glass-b: rgba(242,232,220,.2);
-  --display: 'Anton', sans-serif; --body: 'Space Grotesk', sans-serif;
+  --display: 'Anton', sans-serif; --body: 'Trench Slab', 'Space Grotesk', sans-serif;
   --ease-spring: cubic-bezier(.2,.8,.2,1);
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }

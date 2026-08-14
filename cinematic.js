@@ -109,7 +109,10 @@
     }
   }
 
+  // Returns true while anything is still easing, so the frame loop
+  // knows whether it has a reason to run again.
   function paintDeck() {
+    var busy = false;
     for (var i = 0; i < cards.length; i++) {
       var s = state[i];
       // ease the hover tilt toward its target
@@ -135,9 +138,11 @@
       // restyles on every frame even while the page sits idle.
       if (t === s.last) continue;
       s.last = t;
+      busy = true;
       cards[i].style.transform = t;
       cards[i].style.setProperty('--bury', (b * 0.55).toFixed(3));
     }
+    return busy;
   }
 
   function bindCardTilt() {
@@ -234,9 +239,10 @@
   }
 
   function paintSticker(now) {
-    if (!sticker || !fine || reduce) return;
-    // Stop animating once the hero has scrolled away.
-    if (hero && hero.getBoundingClientRect().bottom < 0) return;
+    if (!sticker || !fine || reduce) return false;
+    // Stop animating once the hero has scrolled away. heroGone is
+    // refreshed from the dirty pass, so this costs no layout read.
+    if (heroGone) return false;
     var bob = Math.sin(now / 1400) * 7;
     var yaw = Math.cos(now / 2600) * 3;
     sticker.style.transform =
@@ -244,6 +250,7 @@
       'translate3d(' + (stkX * -20).toFixed(1) + 'px,' + (stkY * -14 + bob).toFixed(1) + 'px,0) ' +
       'rotateY(' + (stkX * 22 + yaw).toFixed(2) + 'deg) ' +
       'rotateX(' + (stkY * -16).toFixed(2) + 'deg)';
+    return true;                       // the bob never settles on its own
   }
 
   /* ── CITY-PAGE CARD DEPTH ───────────────────────────── */
@@ -324,17 +331,29 @@
   function bindSweep() {}
 
   /* ── LOOP ───────────────────────────────────────────── */
-  var dirty = true;
+  var dirty = true, running = false, heroGone = false;
   function tick(now) {
     if (dirty) {
       updateCamera();
       measureDeck();
       updatePanels();
       updateNav();
+      heroGone = !!(hero && hero.getBoundingClientRect().bottom < 0);
       dirty = false;
     }
-    paintDeck();              // keeps easing the tilt smoothly
-    paintSticker(now || 0);   // continuous float
+    var busy = paintDeck();              // eases the tilt smoothly
+    if (paintSticker(now || 0)) busy = true;
+
+    // Suspend instead of burning a frame forever on an idle page.
+    // Anything that can start motion calls wake().
+    if (busy || dirty) requestAnimationFrame(tick);
+    else running = false;
+  }
+
+  function wake() {
+    dirty = true;
+    if (running || document.hidden) return;
+    running = true;
     requestAnimationFrame(tick);
   }
 
@@ -368,10 +387,16 @@
     bindWipeLinks();
     bindSweep();
 
-    window.addEventListener('scroll', function () { dirty = true; }, { passive: true });
-    window.addEventListener('resize', function () { dirty = true; }, { passive: true });
+    window.addEventListener('scroll', wake, { passive: true });
+    window.addEventListener('resize', wake, { passive: true });
+    // Pointer motion feeds the tilt and sticker parallax, so it has to
+    // be able to restart a suspended loop too.
+    if (fine) document.addEventListener('mousemove', wake, { passive: true });
+    document.addEventListener('visibilitychange', function () {
+      if (!document.hidden) wake();
+    });
 
-    tick();
+    wake();
   }
 
   if (document.readyState === 'loading') {
