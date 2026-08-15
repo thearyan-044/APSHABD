@@ -10,7 +10,9 @@ const submitButton = form.querySelector(".submit-button");
 const submitButtonWarning = submitButton.querySelector(".button-copy small");
 const submitButtonLabel = submitButton.querySelector(".button-copy strong");
 const submissionError = document.querySelector("#submission-error");
-const sheetsEndpoint = window.PDS_CONFIG?.googleSheetsWebAppUrl?.trim() || "";
+const accessCodeOutput = document.querySelector("#access-code");
+const copyCodeButton = document.querySelector("#copy-code");
+const sheetsEndpoint = window.APSHABD_CONFIG?.googleSheetsWebAppUrl?.trim() || "";
 
 const requiredSignals = [
   () => document.querySelector("#name").value.trim().length > 1,
@@ -90,10 +92,36 @@ function validateForm() {
   return Object.values(validity).every(Boolean);
 }
 
+// No O/0, I/1, S/5, B/8, Z/2 — codes get read off screenshots.
+// No vowels either, so a random block can never spell something embarrassing.
+const CODE_ALPHABET = "CDFGHJKLMNPQRTVWXY34679";
+
+// Matches the city codes used across the main APSHABD site.
+const CITY_TOKENS = {
+  Chennai: "MAA",
+  Mumbai: "BOM",
+  Delhi: "DEL",
+  Pune: "PNQ",
+  Bangalore: "BLR",
+  Kolkata: "CCU",
+  Hyderabad: "HYD"
+};
+
+function randomBlock(length) {
+  const values = new Uint32Array(length);
+  crypto.getRandomValues(values);
+
+  let block = "";
+  for (let i = 0; i < length; i += 1) {
+    block += CODE_ALPHABET[values[i] % CODE_ALPHABET.length];
+  }
+  return block;
+}
+
 function makeAccessCode() {
-  const city = document.querySelector("#city").value.slice(0, 3).toUpperCase() || "PDS";
-  const suffix = String(Math.floor(100000 + Math.random() * 900000));
-  return `${city}-${suffix}`;
+  const city = document.querySelector("#city").value;
+  // ~37 bits of entropy across the two blocks, so codes stay unique in practice.
+  return `APS-${CITY_TOKENS[city] || "IND"}-${randomBlock(4)}-${randomBlock(4)}`;
 }
 
 function recordPrototypeSubmission(data) {
@@ -196,8 +224,9 @@ form.addEventListener("submit", async (event) => {
     const delivery = await submitToGoogleSheets(submission);
     successMessage.textContent = delivery === "preview"
       ? "This local preview saved the test on this device only. Deploy the Apps Script connection before testing the confirmation email."
-      : "We sent you an APSHABD confirmation link. Open it and hit “CONFIRM MY ACCESS” to lock your place before the public drop.";
-    document.querySelector("#access-code").textContent = accessCode;
+      : "It's in your inbox too. Open that email and hit “CONFIRM MY ACCESS” or none of this counts.";
+    accessCodeOutput.textContent = accessCode;
+    resetCopyButton();
     form.hidden = true;
     successState.hidden = false;
     successState.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -212,6 +241,31 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
+function resetCopyButton() {
+  copyCodeButton.textContent = copyCodeButton.dataset.default;
+  copyCodeButton.classList.remove("copied");
+}
+
+copyCodeButton.addEventListener("click", async () => {
+  const code = accessCodeOutput.textContent.trim();
+
+  try {
+    await navigator.clipboard.writeText(code);
+    copyCodeButton.textContent = "COPIED";
+  } catch (error) {
+    // Clipboard access can be blocked; select the code so it can be copied by hand.
+    const range = document.createRange();
+    range.selectNodeContents(accessCodeOutput);
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    copyCodeButton.textContent = "COPY IT MANUALLY";
+  }
+
+  copyCodeButton.classList.add("copied");
+  window.setTimeout(resetCopyButton, 2600);
+});
+
 resetButton.addEventListener("click", () => {
   form.reset();
   form.hidden = false;
@@ -220,7 +274,8 @@ resetButton.addEventListener("click", () => {
   document.querySelectorAll(".error").forEach((error) => { error.textContent = ""; });
   document.querySelectorAll(".invalid").forEach((field) => field.classList.remove("invalid"));
   submissionError.hidden = true;
-  successMessage.textContent = "We sent you an APSHABD confirmation link. Open it and hit “CONFIRM MY ACCESS” to lock your place before the public drop.";
+  successMessage.textContent = "It's in your inbox too. Open that email and hit “CONFIRM MY ACCESS” or none of this counts.";
+  resetCopyButton();
   updateProgress();
   form.scrollIntoView({ behavior: "smooth", block: "start" });
   document.querySelector("#name").focus({ preventScroll: true });

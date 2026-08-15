@@ -2,32 +2,36 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "pds-site",
+      "name": "apshabd-prereg",
       "runtimeExecutable": "powershell.exe",
       "runtimeArgs": [
         "-NoProfile",
         "-ExecutionPolicy",
         "Bypass",
         "-File",
-        "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\claude\\C--Users-LENOVO-OneDrive-Aryan-side-PDS\\55931e46-bc5e-4a2a-ac33-d0910c6a3cdf\\scratchpad\\serve.ps1",
+        "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\claude\\C--Users-LENOVO-OneDrive-Aryan-side-PDS\\7b0e77ac-f966-4fa0-addc-11615f48678c\\scratchpad\\serve.ps1",
         "-Port",
-        "5500"
+        "5502",
+        "-Root",
+        "C:\\Users\\LENOVO\\OneDrive\\Aryan\\side\\PDS\\pre-registration landing page"
       ],
-      "port": 5500
+      "port": 5502
     },
     {
-      "name": "pds-form",
+      "name": "apshabd-site",
       "runtimeExecutable": "powershell.exe",
       "runtimeArgs": [
         "-NoProfile",
         "-ExecutionPolicy",
         "Bypass",
         "-File",
-        "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\claude\\C--Users-LENOVO-OneDrive-Aryan-side-PDS\\8e71615d-d0ff-4073-aacf-ac9da8735aa7\\scratchpad\\serve.ps1",
+        "C:\\Users\\LENOVO\\AppData\\Local\\Temp\\claude\\C--Users-LENOVO-OneDrive-Aryan-side-PDS\\7b0e77ac-f966-4fa0-addc-11615f48678c\\scratchpad\\serve.ps1",
         "-Port",
-        "5501"
+        "5503",
+        "-Root",
+        "C:\\Users\\LENOVO\\OneDrive\\Aryan\\side\\PDS"
       ],
-      "port": 5501
+      "port": 5503
     }
   ]
 }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#10171c">
-  <meta name="description" content="Pre-register for first access to APSHABD drops from Pin Drop Silence.">
+  <meta name="description" content="Pre-register for APSHABD. Fill the form, get a unique access code by email, and use it to enter the store before the public drop.">
   <title>APSHABD — First Access</title>
   <link rel="stylesheet" href="index.css">
   <script src="config.js"></script>
@@ -15,7 +15,7 @@
 
   <header class="site-header">
     <a class="brand" href="#top" aria-label="APSHABD home">
-      <img src="../assets/brand/apshabd-wordmark-cream.png" alt="APSHABD">
+      <img src="assets/brand/apshabd-wordmark-cream.png" alt="APSHABD">
     </a>
     <div class="header-note" aria-label="Drop status">
       <span class="status-dot" aria-hidden="true"></span>
@@ -30,28 +30,53 @@
       <div class="hero-shade" aria-hidden="true"></div>
 
       <div class="hero-copy">
-        <p class="eyebrow">SEVEN CITIES. ONE SILENCE.</p>
         <h1 id="hero-title">
           <span class="setup">EVERYONE WANTS TO BE</span>
           <span class="hero-word" data-text="FIRST">FIRST</span>
           <span class="closer">UNTIL IT'S TIME TO SHOW UP.</span>
         </h1>
-        <p class="hero-deck">No public drop date. No sympathy restock. Put your city, size and street on the record before everyone else suddenly “knew about us.”</p>
+        <p class="hero-deck">Fill the form. Get your code. <b>The code is the door.</b> Turn up without one and you're just another name in the comments asking about a restock that isn't fucking coming.</p>
         <a class="hero-cta" href="#register">
-          <span>PROVE YOU WERE EARLY</span>
+          <span>GET MY ACCESS CODE</span>
           <span class="arrow" aria-hidden="true">↓</span>
         </a>
       </div>
 
       <div class="hero-meta" aria-hidden="true">
         <span>01 / FIRST ACCESS</span>
-        <span>INDIAN STREETS, UNMUTED</span>
+        <span>TWO MINUTES. DON'T OVERTHINK IT.</span>
       </div>
+    </section>
+
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="section-head">
+        <p class="eyebrow">WHAT THIS ACTUALLY IS</p>
+        <h2 id="how-title">THREE STEPS.<br>ONE CODE.</h2>
+        <p class="section-deck">APSHABD is Indian streetwear built one neighbourhood at a time. We haven't opened yet. This page is the only way in before we do — after this, you queue like everybody else.</p>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <span class="step-no">01</span>
+          <h3>FILL THE FORM</h3>
+          <p>Name, city, PIN code, size. Two minutes. You've wasted longer on worse.</p>
+        </li>
+        <li>
+          <span class="step-no">02</span>
+          <h3>GET YOUR CODE</h3>
+          <p>A code lands on screen and in your inbox. Screenshot it. Save it. Lose it and that's your problem, not ours.</p>
+        </li>
+        <li>
+          <span class="step-no">03</span>
+          <h3>USE IT ON DROP DAY</h3>
+          <p>Your code opens the store early. The public link goes out later, to people fighting over what you already bought.</p>
+        </li>
+      </ol>
     </section>
 
     <section class="manifesto" aria-label="Early access promise">
       <div class="manifesto-index">THE DEAL / 001</div>
-      <p>WE MAKE CLOTHES FOR STREETS THAT <span>SPEAK WITHOUT SHOUTING.</span> YOU GET THE LINK BEFORE THE CROWD. IF YOUR SIZE DISAPPEARS AFTER THAT, THAT'S BETWEEN YOU AND YOUR REFRESH BUTTON.</p>
+      <p>NO CODE, <span>NO EARLY DOOR.</span> THE LIST GETS IN FIRST, THE INTERNET GETS WHAT'S LEFT. IF YOUR SIZE IS GONE BY THE TIME YOU HEAR ABOUT IT, THAT'S NOT BAD LUCK. THAT'S YOU BEING SLOW.</p>
     </section>
 
     <section class="registration" id="register" aria-labelledby="form-title">
@@ -69,10 +94,11 @@
           </div>
         </div>
 
-        <ul class="access-list" aria-label="Early access benefits">
-          <li><span>01</span> Drop link before public release</li>
-          <li><span>02</span> Your city influences what lands next</li>
-          <li><span>03</span> No fake countdowns. No daily spam.</li>
+        <ul class="access-list" aria-label="What you get">
+          <li><span>01</span> One code. Yours. Nobody else's.</li>
+          <li><span>02</span> Codes get in before the public link exists</li>
+          <li><span>03</span> Your PIN code decides what we make next</li>
+          <li><span>04</span> No fake countdowns. No daily spam.</li>
         </ul>
       </aside>
 
@@ -116,7 +142,7 @@
                 <label for="city">CITY <span>*</span></label>
                 <div class="select-wrap">
                   <select id="city" name="city" required>
-                    <option value="">Pick the city you defend</option>
+                    <option value="">Pick your city</option>
                     <option>Chennai</option>
                     <option>Mumbai</option>
                     <option>Delhi</option>
@@ -136,7 +162,7 @@
               </div>
               <div class="field pin-field">
                 <label for="pincode">PIN CODE <span>*</span></label>
-                <input id="pincode" name="pincode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]{6}" placeholder="6 digits. No mystery." required>
+                <input id="pincode" name="pincode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="6" pattern="[0-9]{6}" placeholder="600020" required>
                 <small class="error" id="pincode-error"></small>
               </div>
             </div>
@@ -186,7 +212,7 @@
               <label for="street">WHICH STREET / AREA DESERVES A DROP NEXT? <em>OPTIONAL</em></label>
               <textarea id="street" name="street" rows="3" maxlength="140" placeholder="Name it. Defend it if you can."></textarea>
               <div class="field-foot">
-                <span>THE DESIGN TEAM IS LISTENING.</span>
+                <span>WE ACTUALLY READ THESE.</span>
                 <span id="char-count">0 / 140</span>
               </div>
             </div>
@@ -209,7 +235,7 @@
             <label class="consent">
               <input id="consent" name="consent" type="checkbox" required>
               <span class="checkmark" aria-hidden="true"></span>
-              <span>I want first-access updates from APSHABD. I know silence is the default, not an excuse to miss the drop. <b>*</b></span>
+              <span>Email me my access code and tell me when a drop is live. Nothing else. <b>*</b></span>
             </label>
             <small class="error consent-error" id="consent-error"></small>
           </fieldset>
@@ -228,14 +254,22 @@
         </form>
 
         <div class="success-state" id="success-state" role="status" aria-live="polite" hidden>
-          <p class="eyebrow dark">CASE FILED / ONE STEP LEFT</p>
+          <p class="eyebrow dark">YOU'RE ON THE LIST</p>
           <div class="success-stamp" aria-hidden="true">EARLY</div>
-          <h3>CHECK YOUR<br>INBOX.</h3>
-          <p id="success-message">We sent you an APSHABD confirmation link. Open it and hit “CONFIRM MY ACCESS” to lock your place before the public drop.</p>
-          <div class="access-ticket">
-            <span>ACCESS FILE</span>
-            <strong id="access-code">PDS-000000</strong>
+          <h3>THIS IS<br>YOUR CODE.</h3>
+
+          <div class="code-card">
+            <span class="code-card-label">APSHABD ACCESS CODE</span>
+            <strong class="code-value" id="access-code">APS-IND-XXXX-XXXX</strong>
+            <button class="code-copy" id="copy-code" type="button" data-default="COPY CODE">COPY CODE</button>
           </div>
+
+          <p class="code-warning">
+            <b>Save it now.</b> Screenshot it, write it down, tattoo it. This is what opens the store on drop day. Lose it and don't come crying into our DMs — we're not fucking reissuing it.
+          </p>
+
+          <p id="success-message">It's in your inbox too. Open that email and hit “CONFIRM MY ACCESS” or none of this counts.</p>
+
           <button id="reset-form" type="button">REGISTER ANOTHER PERSON</button>
         </div>
       </div>
@@ -243,7 +277,7 @@
   </main>
 
   <footer>
-    <img src="../assets/brand/apshabd-wordmark-cream.png" alt="APSHABD">
+    <img src="assets/brand/apshabd-wordmark-cream.png" alt="APSHABD">
     <a href="#top">BACK TO THE THREAT ↑</a>
   </footer>
 </body>

@@ -1,7 +1,7 @@
 @font-face {
   font-family: "Trench Slab";
-  src: url("../assets/fonts/trench-slab/TrenchSlab-Regular.woff2") format("woff2"),
-       url("../assets/fonts/trench-slab/TrenchSlab-Regular.woff") format("woff");
+  src: url("assets/fonts/trench-slab/TrenchSlab-Regular.woff2") format("woff2"),
+       url("assets/fonts/trench-slab/TrenchSlab-Regular.woff") format("woff");
   font-display: swap;
   font-style: normal;
   font-weight: 400;
@@ -16,6 +16,9 @@
   --red: #f03a32;
   --orange: #f06a2a;
   --line: rgba(23, 33, 39, 0.28);
+  --line-strong: rgba(23, 33, 39, 0.45);
+  --field: rgba(255, 253, 248, 0.72);
+  --control-h: 52px;
   --display: "Trench Slab", Impact, "Arial Black", sans-serif;
   --body: "Trench Slab", "Arial Narrow", Arial, sans-serif;
   --reading: "Helvetica Neue", Arial, sans-serif;
@@ -73,7 +76,9 @@ a {
 .choice-row span,
 .field-foot,
 .button-copy,
-.access-ticket,
+.code-card,
+.step-no,
+.code-copy,
 #reset-form,
 footer {
   text-transform: uppercase;
@@ -163,7 +168,7 @@ footer img {
 }
 
 .hero-photo {
-  background: url("../assets/campaign/web/mumbai-bandra-fruit-stall.jpg") center 44% / cover no-repeat;
+  background: url("assets/campaign/web/mumbai-bandra-fruit-stall.jpg") center 44% / cover no-repeat;
   filter: saturate(0.72) contrast(1.08) brightness(0.72);
   transform: scale(1.025);
   animation: settle 1.2s ease-out both;
@@ -288,6 +293,82 @@ footer img {
   letter-spacing: 0.18em;
 }
 
+/* ── HOW IT WORKS ──────────────────────────────────── */
+
+.how {
+  padding: clamp(58px, 8vw, 120px) clamp(18px, 6vw, 100px);
+  border-top: 1px solid rgba(196, 172, 144, 0.3);
+}
+
+.section-head {
+  max-width: 780px;
+  margin: 0 0 clamp(38px, 5vw, 62px);
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: clamp(40px, 5.4vw, 82px);
+  line-height: 0.86;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+
+.how .section-head h2 {
+  color: var(--paper);
+}
+
+.section-deck {
+  max-width: 620px;
+  margin: 24px 0 0;
+  font-family: var(--reading);
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 600;
+  line-height: 1.6;
+  text-transform: none;
+}
+
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: rgba(196, 172, 144, 0.32);
+  border: 1px solid rgba(196, 172, 144, 0.32);
+}
+
+.steps li {
+  padding: clamp(26px, 2.6vw, 40px);
+  background: var(--night);
+}
+
+.step-no {
+  display: block;
+  margin-bottom: 20px;
+  color: var(--red);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+}
+
+.steps h3 {
+  margin: 0 0 14px;
+  color: var(--paper);
+  font-size: clamp(21px, 1.9vw, 28px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+.steps p {
+  margin: 0;
+  font-family: var(--reading);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-transform: none;
+}
+
 .manifesto {
   padding: clamp(54px, 8vw, 118px) clamp(18px, 6vw, 100px);
   color: var(--ink);
@@ -337,22 +418,9 @@ footer img {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-right: 2px solid var(--ink);
   background:
     linear-gradient(rgba(231, 220, 203, 0.88), rgba(231, 220, 203, 0.94)),
-    url("../assets/campaign/web/chennai-marina-chai.jpg") center / cover;
-}
-
-.form-intro::after {
-  content: "PDS";
-  position: absolute;
-  z-index: -1;
-  right: -0.1em;
-  bottom: -0.14em;
-  color: rgba(23, 33, 39, 0.06);
-  font-size: clamp(200px, 30vw, 480px);
-  line-height: 0.78;
-  letter-spacing: -0.08em;
+    url("assets/campaign/web/chennai-marina-chai.jpg") center / cover;
 }
 
 .form-intro h2 {
@@ -433,6 +501,8 @@ footer img {
 .form-shell {
   min-width: 0;
   padding: clamp(45px, 6vw, 92px) clamp(22px, 6vw, 96px);
+  /* Divider lives here, not on the sticky intro, so the rule runs the full column. */
+  border-left: 2px solid var(--ink);
   background-color: var(--paper);
   background-image:
     linear-gradient(rgba(23, 33, 39, 0.035) 1px, transparent 1px),
@@ -484,7 +554,8 @@ footer img {
 
 .field-grid {
   display: grid;
-  gap: 28px 22px;
+  align-items: start;
+  gap: 24px 20px;
 }
 
 .two-up {
@@ -492,7 +563,7 @@ footer img {
 }
 
 .location-grid {
-  grid-template-columns: 1fr 1.2fr 0.65fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 0.85fr);
 }
 
 .field,
@@ -535,41 +606,53 @@ textarea {
   background: transparent;
 }
 
+/* Boxed fields: every control is a visible, equal-height container so the
+   columns line up and the page reads as a form rather than a list of rules. */
 .field input,
 .field select,
 .field textarea {
-  padding: 13px 0 11px;
-  border-bottom: 1px solid var(--ink);
+  min-height: var(--control-h);
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  background: var(--field);
   font-family: var(--reading);
-  font-size: clamp(16px, 1.15vw, 18px);
+  font-size: clamp(15px, 1.05vw, 17px);
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.4;
   text-transform: none;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
 }
 
 .field textarea {
   resize: vertical;
-  min-height: 94px;
-  line-height: 1.35;
+  min-height: 104px;
+  line-height: 1.45;
 }
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: rgba(23, 33, 39, 0.43);
+  color: rgba(23, 33, 39, 0.4);
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover {
+  border-color: rgba(23, 33, 39, 0.62);
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   border-color: var(--red);
-  box-shadow: 0 2px 0 var(--red);
+  background: #fff;
+  box-shadow: inset 0 -3px 0 var(--red);
 }
 
 .field.invalid input,
 .field.invalid select,
 .field.invalid textarea {
   border-color: var(--red);
+  background: rgba(240, 58, 50, 0.07);
 }
 
 .select-wrap {
@@ -579,14 +662,15 @@ textarea {
 .select-wrap::after {
   content: "↓";
   position: absolute;
-  right: 1px;
-  bottom: 12px;
+  top: 50%;
+  right: 13px;
+  transform: translateY(-50%);
   pointer-events: none;
 }
 
 select {
   appearance: none;
-  padding-right: 23px !important;
+  padding-right: 34px !important;
 }
 
 .choice-row {
@@ -608,7 +692,7 @@ select {
 }
 
 .choice-row span {
-  min-height: 48px;
+  min-height: var(--control-h);
   padding: 13px 15px 11px;
   display: grid;
   place-items: center;
@@ -865,6 +949,11 @@ select {
   display: none;
 }
 
+/* Red on orange is unreadable — the success panel needs the ink eyebrow. */
+.success-state .eyebrow.dark {
+  color: var(--ink);
+}
+
 .success-stamp {
   position: absolute;
   top: 10%;
@@ -880,8 +969,8 @@ select {
 
 .success-state h3 {
   position: relative;
-  margin: 14vh 0 32px;
-  font-size: clamp(62px, 8vw, 120px);
+  margin: clamp(56px, 9vh, 110px) 0 26px;
+  font-size: clamp(52px, 7vw, 104px);
   line-height: 0.82;
   letter-spacing: -0.045em;
 }
@@ -895,26 +984,72 @@ select {
   text-transform: none;
 }
 
-.access-ticket {
-  max-width: 440px;
-  margin: 36px 0;
-  padding: 18px;
-  display: flex;
-  justify-content: space-between;
-  border: 1px dashed var(--ink);
+.code-card {
+  max-width: 620px;
+  margin: 30px 0 22px;
+  padding: clamp(20px, 2.2vw, 30px);
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 8px 8px 0 var(--ink);
+}
+
+.code-card-label {
+  color: var(--red);
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.18em;
+}
+
+.code-value {
+  width: 100%;
+  color: var(--ink);
+  /* Sized so the full code stays on one line at every breakpoint. */
+  font-size: clamp(20px, 3.2vw, 38px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  user-select: all;
+}
+
+.code-copy {
+  padding: 12px 18px 10px;
+  border: 1px solid var(--ink);
+  color: var(--paper);
+  background: var(--ink);
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.code-copy:hover,
+.code-copy:focus-visible {
+  color: var(--ink);
+  background: var(--red);
+}
+
+.code-copy.copied {
+  color: var(--ink);
   background: var(--paper);
 }
 
-.access-ticket span {
-  font-size: 11px;
-  line-height: 1.35;
-  letter-spacing: 0.1em;
-}
-
-.access-ticket strong {
-  color: var(--red);
-  font-size: 17px;
-  font-weight: 400;
+.code-warning {
+  max-width: 620px;
+  margin: 0 0 26px;
+  padding: 15px 17px;
+  border-left: 4px solid var(--red);
+  background: rgba(23, 33, 39, 0.07);
+  font-family: var(--reading);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-transform: none;
 }
 
 #reset-form {
@@ -970,8 +1105,15 @@ footer a {
     position: relative;
     height: auto;
     min-height: 600px;
-    border-right: 0;
     border-bottom: 2px solid var(--ink);
+  }
+
+  .form-shell {
+    border-left: 0;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
   }
 
   .location-grid {
@@ -1058,6 +1200,10 @@ footer a {
   .two-up,
   .location-grid {
     grid-template-columns: 1fr;
+  }
+
+  .code-card {
+    box-shadow: 5px 5px 0 var(--ink);
   }
 
   .pin-field {

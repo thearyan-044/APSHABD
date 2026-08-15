@@ -159,16 +159,18 @@ function sendConfirmationEmail(details) {
   const displayName = htmlEscape(details.name || "there");
   const confirmationUrl = htmlEscape(details.confirmationUrl);
   const accessCode = htmlEscape(details.accessCode);
-  const subject = "Confirm your APSHABD early access";
+  const subject = "Your APSHABD access code: " + details.accessCode;
   const body = [
     "APSHABD EARLY ACCESS",
     "",
     "Hey " + (details.name || "there") + ",",
     "",
-    "One click confirms your place on the early-access list:",
-    details.confirmationUrl,
+    "This is your access code. Keep it somewhere safe. It is what opens the store on drop day.",
     "",
-    "Access file: " + details.accessCode,
+    "    " + details.accessCode,
+    "",
+    "One click and your place is locked. Skip it and none of this counts:",
+    details.confirmationUrl,
     "",
     "If you did not request this, ignore this email."
   ].join("\n");
@@ -180,11 +182,16 @@ function sendConfirmationEmail(details) {
           APSHABD / EARLY ACCESS
         </div>
         <div style="padding:34px 22px 38px;">
-          <p style="margin:0 0 12px;color:#c4ac90;font-size:12px;font-weight:700;letter-spacing:1.5px;">ONE CLICK LEFT</p>
-          <h1 style="margin:0 0 20px;color:#e7dccb;font-family:Georgia,serif;font-size:40px;line-height:0.95;">DON'T LEAVE<br>YOUR NAME HANGING.</h1>
-          <p style="margin:0 0 26px;color:#e7dccb;font-size:16px;line-height:1.6;">Hey ${displayName}, confirm your place before the public drop finds you late.</p>
+          <p style="margin:0 0 12px;color:#c4ac90;font-size:12px;font-weight:700;letter-spacing:1.5px;">KEEP THIS SAFE</p>
+          <h1 style="margin:0 0 20px;color:#e7dccb;font-family:Georgia,serif;font-size:40px;line-height:0.95;">THIS IS<br>YOUR CODE.</h1>
+          <div style="margin:0 0 24px;padding:20px 22px;border:2px solid #c4ac90;background:#10171c;">
+            <p style="margin:0 0 10px;color:#f03a32;font-size:11px;font-weight:700;letter-spacing:2px;">APSHABD ACCESS CODE</p>
+            <p style="margin:0;color:#e7dccb;font-family:'Courier New',Courier,monospace;font-size:26px;font-weight:700;letter-spacing:2px;">${accessCode}</p>
+          </div>
+          <p style="margin:0 0 26px;color:#e7dccb;font-size:16px;line-height:1.6;">Hey ${displayName} — this is what opens the store while everyone else is still waiting for the public link. Save this email. We don't reissue codes over DM.</p>
+          <p style="margin:0 0 14px;color:#c4ac90;font-size:13px;line-height:1.6;">One click left, or none of this counts:</p>
           <a href="${confirmationUrl}" style="display:inline-block;padding:16px 20px;background:#f03a32;color:#10171c;font-size:14px;font-weight:800;letter-spacing:1px;text-decoration:none;">CONFIRM MY ACCESS &rarr;</a>
-          <p style="margin:28px 0 0;color:#c4ac90;font-size:12px;line-height:1.6;">ACCESS FILE: <strong style="color:#e7dccb;">${accessCode}</strong><br>If you did not request this, ignore this email.</p>
+          <p style="margin:28px 0 0;color:#c4ac90;font-size:12px;line-height:1.6;">If you did not request this, ignore this email.</p>
         </div>
       </div>
     </div>`;
@@ -236,7 +243,7 @@ function confirmRegistration(token) {
       sheet.getRange(registrationRow, COLUMN.CONFIRMED_AT).setValue(new Date());
     }
 
-    return confirmationPage(true, "YOU'RE CONFIRMED", "Your early-access file " + accessCode + " is locked in.");
+    return confirmationPage(true, "YOU'RE CONFIRMED", "Your access code " + accessCode + " is locked in. Keep it safe — it is what opens the store on drop day.");
   } catch (error) {
     console.error(error);
     return confirmationPage(false, "THE LINK STALLED", "We could not confirm the registration right now. Try the link again in a moment.");
