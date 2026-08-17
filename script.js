@@ -111,7 +111,44 @@
     });
   }
 
-  const revealItems = document.querySelectorAll('.reveal');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Arming the wipe from JS means the headline renders plainly if the script
+  // never runs — it is the one piece of copy that must not depend on us.
+  const heroTitle = document.querySelector('.hero-title');
+  if (heroTitle && !prefersReducedMotion.matches) heroTitle.classList.add('is-armed');
+
+  // Sections marked data-reveal-sequence cascade their children on one trigger
+  // instead of each child firing on its own intersection, so a section arrives
+  // as a single directed moment. data-reveal-solo opts an element back out.
+  const sequences = [...document.querySelectorAll('[data-reveal-sequence]')];
+  const sequenceItems = (section) => [...section.querySelectorAll('.reveal:not([data-reveal-solo])')];
+  const sequenced = new Set();
+  sequences.forEach((section) => sequenceItems(section).forEach((el) => sequenced.add(el)));
+
+  const runSequence = (section) => {
+    const step = Number(section.dataset.revealStep) || 110;
+
+    // Sorted by position rather than DOM order so the cascade always reads
+    // top-to-bottom on screen, whatever order the markup happens to be in.
+    const items = sequenceItems(section)
+      .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+
+    items.forEach((el, index) => {
+      const delay = index * step;
+      el.style.transitionDelay = `${delay}ms`;
+      el.classList.add('in');
+      // Drop the delay once it has played, so nothing later inherits it.
+      window.setTimeout(() => { el.style.transitionDelay = ''; }, delay + 900);
+    });
+
+    if (section.classList.contains('hero') && heroTitle) {
+      heroTitle.classList.add('is-wiping');
+    }
+  };
+
+  const revealItems = [...document.querySelectorAll('.reveal')].filter((el) => !sequenced.has(el));
+
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -122,8 +159,139 @@
     }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
 
     revealItems.forEach((item) => revealObserver.observe(item));
+
+    const sequenceObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        runSequence(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+
+    sequences.forEach((section) => sequenceObserver.observe(section));
   } else {
     revealItems.forEach((item) => item.classList.add('in'));
+    sequences.forEach(runSequence);
+  }
+
+  // Hero photo drifts slower than the copy beside it. Scroll-driven, so it
+  // behaves the same on touch as on a mouse, and only ever writes a transform.
+  const heroFigure = document.querySelector('.hero-image');
+  const heroPhoto = heroFigure && heroFigure.querySelector('img');
+
+  if (heroFigure && heroPhoto && !prefersReducedMotion.matches) {
+    const maxShift = 30;
+    let parallaxFrame = 0;
+
+    const drawParallax = () => {
+      parallaxFrame = 0;
+      const rect = heroFigure.getBoundingClientRect();
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+      // -1 when the figure is just below the fold, +1 once it has fully passed.
+      const travel = window.innerHeight + rect.height;
+      const progress = ((window.innerHeight - rect.top) / travel) * 2 - 1;
+      const shift = Math.max(-1, Math.min(1, progress)) * maxShift;
+      heroPhoto.style.transform = `translate3d(0, ${shift.toFixed(2)}px, 0) scale(1.12)`;
+    };
+
+    const requestParallax = () => {
+      if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(drawParallax);
+    };
+
+    drawParallax();
+    window.addEventListener('scroll', requestParallax, { passive: true });
+    window.addEventListener('resize', requestParallax);
+  }
+
+  // Faux 3D: the pointer is the camera. This only ever writes two numbers, and
+  // the stylesheet decides how deep each layer sits off them — which keeps the
+  // per-frame cost flat no matter how many layers the hero grows later.
+  // Fine pointers only: there is nothing to track on touch, and the scroll
+  // parallax above already gives that case its depth cue.
+  const heroStage = document.querySelector('.hero');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  if (heroStage && finePointer.matches && !prefersReducedMotion.matches) {
+    const clamp = (value) => Math.max(-1, Math.min(1, value));
+    let tiltFrame = 0;
+    let tiltX = 0;
+    let tiltY = 0;
+
+    const drawTilt = () => {
+      tiltFrame = 0;
+      heroStage.style.setProperty('--px', tiltX.toFixed(3));
+      heroStage.style.setProperty('--py', tiltY.toFixed(3));
+    };
+
+    const requestTilt = () => {
+      if (!tiltFrame) tiltFrame = window.requestAnimationFrame(drawTilt);
+    };
+
+    heroStage.addEventListener('pointermove', (event) => {
+      const rect = heroStage.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+
+      // -1 at the left/top edge of the hero, +1 at the right/bottom.
+      tiltX = clamp(((event.clientX - rect.left) / rect.width) * 2 - 1);
+      tiltY = clamp(((event.clientY - rect.top) / rect.height) * 2 - 1);
+      requestTilt();
+    }, { passive: true });
+
+    // Square up on the way out, so the hero is never left sitting skewed.
+    heroStage.addEventListener('pointerleave', () => {
+      tiltX = 0;
+      tiltY = 0;
+      requestTilt();
+    });
+  }
+
+  // The wall: columns drift past each other on scroll, and each frame wipes in
+  // as it arrives. Armed from JS so every photo stays visible without the script.
+  const wall = document.querySelector('[data-wall]');
+
+  if (wall && !prefersReducedMotion.matches) {
+    const columns = [...wall.querySelectorAll('[data-wall-speed]')];
+    const frames = [...wall.querySelectorAll('[data-wall-item]')];
+    let wallFrame = 0;
+
+    const drawWall = () => {
+      wallFrame = 0;
+      const rect = wall.getBoundingClientRect();
+      if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
+
+      // 0 as the wall enters the viewport, 1 as it leaves.
+      const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+      columns.forEach((column) => {
+        const speed = parseFloat(column.dataset.wallSpeed) || 0;
+        column.style.setProperty('--wall-shift', `${(progress * speed * rect.height).toFixed(2)}px`);
+      });
+    };
+
+    const requestWall = () => {
+      if (!wallFrame) wallFrame = window.requestAnimationFrame(drawWall);
+    };
+
+    drawWall();
+    window.addEventListener('scroll', requestWall, { passive: true });
+    window.addEventListener('resize', requestWall);
+
+    if ('IntersectionObserver' in window) {
+      frames.forEach((frame) => frame.classList.add('is-armed'));
+
+      const wallObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          // Stagger within whatever batch arrives together, so a column of
+          // frames cascades instead of snapping in as one block.
+          const delay = entries.indexOf(entry) * 90;
+          window.setTimeout(() => entry.target.classList.add('is-revealed'), delay);
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -6% 0px', threshold: 0.12 });
+
+      frames.forEach((frame) => wallObserver.observe(frame));
+    }
   }
 
   const cityRows = [...document.querySelectorAll('.city-row')];
@@ -155,29 +323,62 @@
     row.addEventListener('focus', () => activateCity(row));
   });
 
-  const form = document.getElementById('waitForm');
-  const emailInput = document.getElementById('emailInput');
-  const note = document.getElementById('waitNote');
+  const reel = document.getElementById('craftReel');
+  // The pinned stage, not the section around it: the wall is several screens
+  // tall, so a ratio threshold against the section itself could never be met.
+  const reelSection = document.getElementById('craftStage');
 
-  if (form && emailInput && note) {
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const email = emailInput.value.trim();
-      const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if (reel && reelSection) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-      if (!isValid) {
-        note.textContent = 'Enter a valid email so we know where to find you.';
-        note.classList.add('is-error');
-        emailInput.setAttribute('aria-invalid', 'true');
-        emailInput.focus();
-        return;
+    // The clip is decoration, so it stays silent whatever the markup says.
+    reel.muted = true;
+    reel.addEventListener('volumechange', () => { reel.muted = true; });
+
+    // It only loads and runs while it is on screen, so the page costs nothing
+    // extra to anyone who never scrolls this far. Wherever it cannot play, the
+    // poster stays as a still backdrop — it is scenery, so there is nothing to
+    // hand controls for, and the frames on top read the same either way.
+    if (!reducedMotion.matches && 'IntersectionObserver' in window) {
+      const reelObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            reel.play().catch(() => {});
+          } else {
+            reel.pause();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      reelObserver.observe(reelSection);
+    }
+  }
+
+  const wordmark = document.querySelector('.identity-wordmark');
+
+  if (wordmark) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const wordmarkImage = wordmark.querySelector('img');
+
+    const startWordmark = () => {
+      wordmark.classList.add('is-typing');
+    };
+
+    // Arming from JS keeps the mark fully visible if the script never runs.
+    if (!reducedMotion.matches && wordmarkImage) {
+      wordmark.classList.add('is-armed');
+
+      if ('IntersectionObserver' in window) {
+        const wordmarkObserver = new IntersectionObserver((entries, observer) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          startWordmark();
+          observer.disconnect();
+        }, { threshold: 0.4 });
+        wordmarkObserver.observe(wordmark);
+      } else {
+        startWordmark();
       }
-
-      note.textContent = "You're on the list. We'll speak when the drop is ready.";
-      note.classList.remove('is-error');
-      emailInput.removeAttribute('aria-invalid');
-      form.reset();
-    });
+    }
   }
 
   const typewriterSection = document.querySelector('.typewriter-section');

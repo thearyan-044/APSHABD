@@ -6,12 +6,16 @@
   <title>APSHABD — CHENNAI · அமைதி</title>
   <meta name="description" content="APSHABD Chennai — Filter coffee at dawn, auto horns at noon, silence after midnight." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Tamil:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- DotGothic16 is a dot-matrix face and Silkscreen a 5x7 bitmap one: together
+       they carry the LED route board above the faces section. -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Tamil:wght@400;700&family=DotGothic16&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href=".//chennai.css?v=3" />
   <link rel="stylesheet" href=".//drop.css?v=4" />
   <link rel="stylesheet" href=".//tuezday.css?v=3" />
   <link rel="stylesheet" href=".//streets.css?v=5" />
-  <link rel="stylesheet" href=".//city-brand.css?v=4" />
+  <link rel="stylesheet" href=".//city-brand.css?v=5" />
+  <!-- Last: city-brand.css hides .marquee, and the board has to win. -->
+  <link rel="stylesheet" href=".//bus-board.css?v=2" />
 </head>
 <body>
 
@@ -36,10 +40,17 @@
     <a href="#drop" class="cta reveal">SEE THE DROP ↓</a>
   </header>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>T. NAGAR ✦ NUNGAMBAKKAM ✦ ANNA NAGAR ✦ MYLAPORE ✦ BESANT NAGAR ✦ VELACHERY ✦ ADYAR ✦ TRIPLICANE ✦ KILPAUK ✦ ROYAPETTAH ✦ </span>
-      <span>T. NAGAR ✦ NUNGAMBAKKAM ✦ ANNA NAGAR ✦ MYLAPORE ✦ BESANT NAGAR ✦ VELACHERY ✦ ADYAR ✦ TRIPLICANE ✦ KILPAUK ✦ ROYAPETTAH ✦ </span>
+  <!-- The MTC route board. Both halves of the track are identical: the
+       scroll keyframes travel -50%, so the loop only closes if they match. -->
+  <div class="marquee led-board" aria-hidden="true">
+    <div class="led-inner">
+      <span class="led-route">01C</span>
+      <div class="led-screen">
+        <div class="marquee-track">
+          <span>T. NAGAR → MYLAPORE <em class="led-via">via NUNGAMBAKKAM, KODAMBAKKAM</em> <b class="led-sep">✱</b> MARINA → BESANT NAGAR <em class="led-via">via TRIPLICANE, ADYAR</em> <b class="led-sep">✱</b> ANNA NAGAR → VELACHERY <em class="led-via">via KILPAUK, ROYAPETTAH</em> <b class="led-sep">✱</b> </span>
+          <span>T. NAGAR → MYLAPORE <em class="led-via">via NUNGAMBAKKAM, KODAMBAKKAM</em> <b class="led-sep">✱</b> MARINA → BESANT NAGAR <em class="led-via">via TRIPLICANE, ADYAR</em> <b class="led-sep">✱</b> ANNA NAGAR → VELACHERY <em class="led-via">via KILPAUK, ROYAPETTAH</em> <b class="led-sep">✱</b> </span>
+        </div>
+      </div>
     </div>
   </div>
 

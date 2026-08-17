@@ -1,3 +1,14 @@
+/* Cross-document view transitions, index -> city pages. Needs the same opt-in on
+   the destination stylesheet (city-brand.css, pin-form.css) to fire. Browsers
+   without support simply hard-cut the way they always did — no fallback needed. */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) { animation: vt-out 200ms cubic-bezier(0.4, 0, 1, 1) both; }
+::view-transition-new(root) { animation: vt-in 340ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+
 @font-face {
   font-family: "Trench Slab";
   src: url("assets/fonts/trench-slab/TrenchSlab-Regular.woff2") format("woff2"),
@@ -26,6 +37,10 @@
 html {
   scroll-behavior: smooth;
   background: var(--night);
+  overscroll-behavior-x: none;
+  /* Every tap target gets a deliberate, on-brand :active state below, so the
+     browser's default flash box is only ever noise on top of it. */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -45,10 +60,37 @@ body.menu-open .site-header { color: var(--night); }
 body.menu-open .brand-logo-cream { display: none; }
 body.menu-open .brand-logo-night { display: block; }
 
+/* Halftone print screen over the whole page. Two interleaved dot phases at one
+   pitch: ink dots read on the cream sections, cream dots on the night ones. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 50% 50%, rgba(0, 15, 8, 0.17) 1.05px, transparent 1.15px),
+    radial-gradient(circle at 50% 50%, rgba(243, 230, 208, 0.085) 1.05px, transparent 1.15px);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+}
+
 img { display: block; width: 100%; }
 a { color: inherit; }
 button, input { font: inherit; }
 button { color: inherit; }
+
+/* Removes the ~300ms tap delay and the double-tap-to-zoom ambiguity on every
+   tappable element, and drops them fractionally on press so a tap always
+   reads as felt, on any pointer, before whatever it triggers has time to run. */
+a, button {
+  touch-action: manipulation;
+}
+
+a:active,
+button:active {
+  transition-duration: 0.08s;
+}
 
 .scroll-route {
   position: fixed;
@@ -173,7 +215,8 @@ button { color: inherit; }
 }
 
 .site-nav a:hover::after,
-.site-nav a:focus-visible::after { right: 0; }
+.site-nav a:focus-visible::after,
+.site-nav a:active::after { right: 0; }
 
 .nav-cta {
   padding: 11px 16px 10px;
@@ -182,7 +225,8 @@ button { color: inherit; }
 }
 
 .nav-cta:hover,
-.nav-cta:focus-visible {
+.nav-cta:focus-visible,
+.nav-cta:active {
   background: var(--cream);
   color: var(--ink);
 }
@@ -190,6 +234,7 @@ button { color: inherit; }
 .menu-toggle { display: none; }
 
 .hero {
+  position: relative;
   min-height: 100svh;
   padding-top: 76px;
   display: grid;
@@ -200,11 +245,87 @@ button { color: inherit; }
 }
 
 .hero-copy {
+  position: relative;
+  z-index: 1;
   padding: clamp(72px, 9vh, 124px) var(--page) 46px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-width: 0;
+}
+
+/* ── Hero background type ────────────────────────────────────────────────
+   The typewriter interlude further down asks "which location, in your own
+   script" — this is that same idea, ambient, behind the hero. Stroke-only
+   and z-index 0 under the real copy (.hero-copy/.hero-image/.hero-ticker
+   below are all lifted to z-index 1): wherever a solid foreground glyph and
+   a decorative one would overlap, the opaque one simply paints over it, so
+   this can never reduce the real copy's contrast — it only ever reads in
+   the negative space around the letters. */
+.hero-typefield {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.tf-word {
+  position: absolute;
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(196, 172, 144, 0.1);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tf-word-a {
+  top: 8%;
+  left: 40%;
+  font-family: "Noto Sans Tamil", sans-serif;
+  font-size: clamp(6.5rem, 16vw, 16rem);
+  animation: tf-drift-a 42s ease-in-out infinite;
+}
+
+.tf-word-b {
+  top: 48%;
+  left: 60%;
+  font-family: "Noto Sans Devanagari", sans-serif;
+  font-size: clamp(5.5rem, 13vw, 13rem);
+  animation: tf-drift-b 51s ease-in-out infinite;
+}
+
+.tf-word-c {
+  top: 76%;
+  left: 6%;
+  font-family: "Noto Sans Bengali", sans-serif;
+  font-size: clamp(4.5rem, 10vw, 10rem);
+  animation: tf-drift-c 37s ease-in-out infinite;
+}
+
+/* Three different periods so the words never fall into step with each
+   other — the point is that it keeps drifting, not that it repeats cleanly. */
+@keyframes tf-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-2.5%, 1.6%) scale(1.035); }
+}
+
+@keyframes tf-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(2.2%, -2%) scale(0.968); }
+}
+
+@keyframes tf-drift-c {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(1.8%, -1.3%) scale(1.04); }
+}
+
+/* Below this width hero-copy runs full-bleed with little negative space
+   left over, so the field would sit under the text rather than beside it. */
+@media (max-width: 720px) {
+  .hero-typefield { display: none; }
 }
 
 .hero-kicker,
@@ -242,6 +363,24 @@ button { color: inherit; }
 }
 .hero-title-accent { color: var(--red); }
 
+/* Print wipe: each line is squeegeed in left to right rather than fading up.
+   Armed from JS so the headline is plainly legible if the script never runs.
+   The vertical insets are negative because line-height 0.75 lets the glyphs
+   overflow their own line box — clipping at 0 would shave the caps. */
+.hero-title.is-armed span { clip-path: inset(-0.32em 100% -0.32em 0); }
+
+/* Deliberately not var(--ease): that curve is ~96% done by the halfway point,
+   which is right for something settling into place but hides the travelling
+   edge that makes this read as a wipe rather than a pop. */
+.hero-title.is-wiping span { animation: hero-wipe 0.9s cubic-bezier(0.5, 0, 0.2, 1) both; }
+.hero-title.is-wiping span:nth-child(2) { animation-delay: 0.13s; }
+.hero-title.is-wiping span:nth-child(3) { animation-delay: 0.26s; }
+
+@keyframes hero-wipe {
+  from { clip-path: inset(-0.32em 100% -0.32em 0); }
+  to { clip-path: inset(-0.32em -0.5em -0.32em 0); }
+}
+
 .hero-footer {
   display: grid;
   grid-template-columns: minmax(210px, 330px) auto;
@@ -270,29 +409,36 @@ button { color: inherit; }
 }
 
 .text-link:hover,
-.text-link:focus-visible { color: var(--red); gap: 38px; }
+.text-link:focus-visible,
+.text-link:active { color: var(--red); gap: 38px; }
 .text-link.dark:hover,
-.text-link.dark:focus-visible { color: var(--red); }
+.text-link.dark:focus-visible,
+.text-link.dark:active { color: var(--red); }
 
 .hero-image {
   position: relative;
+  z-index: 1;
   min-height: 650px;
   margin: 0;
   overflow: hidden;
   background: #0e1813;
 }
 
+/* Scaled up to leave headroom for the scroll parallax to travel into without
+   ever exposing an edge. JS writes the translate straight onto .style.transform,
+   which is why there is no hover-zoom here any more — an inline transform would
+   win over it regardless, and the parallax is the better-behaved effect on touch. */
 .hero-image > img {
   height: 100%;
   object-fit: cover;
   object-position: 52% 50%;
+  transform: scale(1.12);
   filter: saturate(0.82) contrast(1.05);
-  transition: transform 1.2s var(--ease), filter 0.7s ease;
+  transition: filter 0.7s ease;
 }
 
-.hero-image:hover > img {
-  transform: scale(1.025);
-  filter: saturate(1) contrast(1.04);
+@media (hover: hover) and (pointer: fine) {
+  .hero-image:hover > img { filter: saturate(1) contrast(1.04); }
 }
 
 .hero-image::after,
@@ -344,6 +490,8 @@ button { color: inherit; }
 }
 
 .hero-ticker {
+  position: relative;
+  z-index: 1;
   grid-column: 1 / -1;
   overflow: hidden;
   border-top: 1px solid var(--line-light);
@@ -371,6 +519,80 @@ button { color: inherit; }
 
 @keyframes ticker { to { transform: translateX(-50%); } }
 
+/* ── Faux 3D: the hero as a shallow diorama ────────────────────────────────
+   JS writes the pointer position into --px / --py as -1..1, and everything
+   here reads off those two numbers. Nothing tracks the pointer in script, so
+   the whole effect costs two custom properties per frame.
+
+   Depth is sold three ways at once: the photo is a card that turns on a real
+   perspective, the flat layers slide by different amounts so they part like
+   planes, and a highlight rides across the glass. Angles stay under 4° — past
+   that the off-axis projection starts to shear the photo. */
+@media (hover: hover) and (pointer: fine) {
+  .hero {
+    perspective: 1400px;
+    perspective-origin: 50% 42%;
+  }
+
+  /* Opt in to .reveal.in's variable so the tilt survives the reveal, and take
+     the transition back off the inherited 0.7s — at that length the card is
+     still coasting to a stop long after the pointer has moved on. */
+  .hero-image {
+    --reveal-rest:
+      rotateY(calc(var(--px, 0) * 3.4deg))
+      rotateX(calc(var(--py, 0) * -2.6deg));
+    transition: opacity 0.7s var(--ease), transform 0.38s var(--ease);
+    will-change: transform;
+  }
+
+  /* Specular pass. Sits over the photo but under the caption and the stamp,
+     so the type it has to stay legible behind never picks up the sheen. */
+  .hero-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      58% 58% at calc(50% + var(--px, 0) * 42%) calc(50% + var(--py, 0) * 42%),
+      rgba(243, 230, 208, 0.15),
+      rgba(243, 230, 208, 0.04) 45%,
+      transparent 72%);
+    transition: background 0.38s var(--ease);
+  }
+
+  /* The stamp is inside an overflow:hidden parent, so it cannot actually leave
+     the card in Z. It counter-slides instead: moving against the tilt reads as
+     something standing off the surface rather than printed onto it. */
+  .image-stamp {
+    transform:
+      translate3d(calc(var(--px, 0) * -13px), calc(var(--py, 0) * -9px), 0)
+      rotate(4deg);
+    transition: transform 0.38s var(--ease);
+  }
+
+  /* The headline is clipped by the print wipe, which forces the lines flat —
+     no Z available here. Staggered offsets stand in for it: the last line
+     travels furthest, so it reads as the nearest plane. */
+  .hero-title span {
+    transform: translate3d(
+      calc(var(--px, 0) * var(--layer, 0) * -1px),
+      calc(var(--py, 0) * var(--layer, 0) * -0.55px),
+      0);
+    transition: transform 0.45s var(--ease);
+  }
+
+  .hero-title span:nth-child(1) { --layer: 6; }
+  .hero-title span:nth-child(2) { --layer: 11; }
+  .hero-title span:nth-child(3) { --layer: 17; }
+
+  .hero-kicker,
+  .hero-footer {
+    --reveal-rest: translate3d(calc(var(--px, 0) * 4px), 0, 0);
+    transition: opacity 0.7s var(--ease), transform 0.5s var(--ease);
+  }
+}
+
 .manifesto {
   position: relative;
   padding: 88px var(--page) clamp(100px, 12vw, 180px);
@@ -392,8 +614,7 @@ button { color: inherit; }
 .manifesto-title,
 .campaign-heading h2,
 .cities-heading h2,
-.pin-copy h2,
-.waitlist h2 {
+.pin-copy h2 {
   margin: 0;
   font-weight: 400;
   text-transform: uppercase;
@@ -433,10 +654,67 @@ button { color: inherit; }
   border-bottom: 1px solid var(--line-dark);
 }
 
-.identity-wordmark img {
+.wordmark-type {
+  position: relative;
   width: min(100%, 1500px);
+  line-height: 0;
+}
+
+.identity-wordmark img {
+  width: 100%;
   height: auto;
   object-fit: contain;
+}
+
+/* Typed wordmark. The stops below are the real gaps between the seven glyphs
+   in the artwork (890px wide), so each jump lands on a letter, not a fraction
+   of the width. Armed by JS so the mark still shows if the script never runs. */
+.wordmark-caret {
+  position: absolute;
+  top: 50%;
+  left: 2.07%;
+  width: 1.7%;
+  height: 62%;
+  background: var(--red);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.identity-wordmark.is-armed img { clip-path: inset(0 97.08% 0 0); }
+.identity-wordmark.is-armed .wordmark-caret { opacity: 1; }
+
+.identity-wordmark.is-typing img {
+  animation: wordmark-type 1.2s steps(1, end) 0.25s forwards;
+}
+
+.identity-wordmark.is-typing .wordmark-caret {
+  animation:
+    wordmark-caret 1.2s steps(1, end) 0.25s forwards,
+    tw-blink 0.9s steps(1, end) 1.45s infinite;
+}
+
+@keyframes wordmark-type {
+  0%     { clip-path: inset(0 97.08% 0 0); }
+  12.5%  { clip-path: inset(0 76.12% 0 0); }
+  25%    { clip-path: inset(0 64.44% 0 0); }
+  37.5%  { clip-path: inset(0 52.08% 0 0); }
+  50%    { clip-path: inset(0 39.49% 0 0); }
+  62.5%  { clip-path: inset(0 27.42% 0 0); }
+  75%    { clip-path: inset(0 15.06% 0 0); }
+  87.5%  { clip-path: inset(0 0 0 0); }
+  100%   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes wordmark-caret {
+  0%     { left: 2.07%; }
+  12.5%  { left: 23.88%; }
+  25%    { left: 35.56%; }
+  37.5%  { left: 47.92%; }
+  50%    { left: 60.51%; }
+  62.5%  { left: 72.58%; }
+  75%    { left: 84.94%; }
+  87.5%  { left: 97.75%; }
+  100%   { left: 97.75%; }
 }
 
 .campaign {
@@ -490,12 +768,153 @@ button { color: inherit; }
   transition: transform 1s var(--ease), filter 0.55s ease;
 }
 
-.campaign-card:hover img {
-  transform: scale(1.035);
-  filter: saturate(1);
+@media (hover: hover) and (pointer: fine) {
+  .campaign-card:hover img {
+    transform: scale(1.035);
+    filter: saturate(1);
+  }
 }
 
 .campaign-card-wide img { object-position: center 36%; }
+
+/* ── The wall / the craft ──────────────────────────────────────────────────
+   Three columns of campaign frames that drift past each other on scroll.
+   Each frame wipes in with the same clip-path move as the hero headline, so
+   the reveal language stays consistent across the page. The ident film sits
+   pinned behind the whole section, so the frames scroll across it. */
+.wall {
+  position: relative;
+  isolation: isolate;
+  background: var(--night);
+  color: var(--cream);
+  /* clip, not hidden: overflow:hidden would make this a scroll container and
+     the sticky film below would stop tracking the viewport. */
+  overflow: clip;
+}
+
+/* Height of its own, then a matching negative margin so the content that
+   follows is pulled back over it — the film holds still, the wall moves. */
+.wall-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  margin-bottom: -100svh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* The frames have to stay legible over moving footage, so the film is held
+   well back and pressed down hardest where the section meets its neighbours. */
+.wall-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      var(--night) 0%,
+      rgba(0, 15, 8, 0.72) 18%,
+      rgba(0, 15, 8, 0.72) 82%,
+      var(--night) 100%);
+}
+
+.wall-body {
+  position: relative;
+  z-index: 1;
+  padding: 88px var(--page) clamp(110px, 13vw, 190px);
+}
+
+.wall-heading {
+  padding: clamp(70px, 9vw, 140px) 0 76px;
+  display: grid;
+  grid-template-columns: 1.35fr minmax(280px, 0.65fr);
+  align-items: end;
+  gap: clamp(34px, 5vw, 70px);
+}
+
+.wall-heading h2 {
+  margin: 0;
+  font-size: clamp(3.4rem, 6.4vw, 7.4rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.wall-heading p {
+  margin: 0;
+  max-width: 420px;
+  color: var(--heritage);
+  font-size: clamp(1rem, 1.25vw, 1.2rem);
+}
+
+.wall-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+  gap: clamp(14px, 1.8vw, 28px);
+}
+
+.wall-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.8vw, 28px);
+  /* JS writes the drift into this variable rather than onto transform itself,
+     so the column keeps its own transform declaration in one place. */
+  transform: translate3d(0, var(--wall-shift, 0px), 0);
+}
+
+/* Offset starts so the three columns never line up in a row. */
+.wall-col:nth-child(2) { margin-top: clamp(30px, 5vw, 90px); }
+.wall-col:nth-child(3) { margin-top: clamp(12px, 2vw, 36px); }
+
+.wall-frame {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  background: var(--night-soft);
+}
+
+.wall-frame img {
+  width: 100%;
+  height: auto;
+  filter: saturate(0.86) contrast(1.04);
+  transition: filter 0.6s ease, transform 1s var(--ease);
+}
+
+.wall-frame figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 28px 14px 12px;
+  background: linear-gradient(180deg, rgba(0, 15, 8, 0) 0%, rgba(0, 15, 8, 0.82) 100%);
+  color: var(--cream);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.56rem;
+}
+
+.wall-frame figcaption i { font-style: normal; color: var(--heritage); }
+
+@media (hover: hover) and (pointer: fine) {
+  .wall-frame:hover img { filter: saturate(1) contrast(1.02); transform: scale(1.03); }
+}
+
+/* Armed from JS so every frame stays visible if the script never runs.
+   The clip lands on the image, never on .wall-frame itself: the frame is what
+   the IntersectionObserver watches, and an element clipped to zero height
+   reports an intersection ratio of zero forever — it would never reveal. */
+.wall-frame.is-armed img { clip-path: inset(0 0 100% 0); }
+.wall-frame.is-armed figcaption { opacity: 0; }
+
+.wall-frame.is-revealed img { animation: wall-wipe 0.85s cubic-bezier(0.5, 0, 0.2, 1) both; }
+.wall-frame.is-revealed figcaption { opacity: 1; transition: opacity 0.5s ease 0.4s; }
+
+@keyframes wall-wipe {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
 
 .typewriter-section {
   position: relative;
@@ -614,7 +1033,8 @@ button { color: inherit; }
 }
 
 .typewriter-link:hover,
-.typewriter-link:focus-visible {
+.typewriter-link:focus-visible,
+.typewriter-link:active {
   border-color: var(--red);
   background: var(--red);
   color: var(--night);
@@ -718,6 +1138,7 @@ button { color: inherit; }
 
 .city-row:hover,
 .city-row:focus-visible,
+.city-row:active,
 .city-row.is-active {
   color: var(--cream);
   padding-inline: 18px;
@@ -725,6 +1146,7 @@ button { color: inherit; }
 
 .city-row:hover::before,
 .city-row:focus-visible::before,
+.city-row:active::before,
 .city-row.is-active::before { right: 0; }
 
 .city-number,
@@ -752,6 +1174,7 @@ button { color: inherit; }
 .city-status.live { color: var(--red); opacity: 1; }
 .city-row:hover .city-status.live,
 .city-row:focus-visible .city-status.live,
+.city-row:active .city-status.live,
 .city-row.is-active .city-status.live { color: var(--red); }
 
 .city-arrow {
@@ -760,10 +1183,12 @@ button { color: inherit; }
 }
 
 .city-row:hover .city-arrow,
-.city-row:focus-visible .city-arrow { transform: translate(3px, -3px); }
+.city-row:focus-visible .city-arrow,
+.city-row:active .city-arrow { transform: translate(3px, -3px); }
 .city-row-yours::before { background: var(--red); }
 .city-row-yours:hover,
-.city-row-yours:focus-visible { color: var(--night); }
+.city-row-yours:focus-visible,
+.city-row-yours:active { color: var(--night); }
 
 .pin-cta {
   min-height: 720px;
@@ -810,7 +1235,8 @@ button { color: inherit; }
 }
 
 .button-light:hover,
-.button-light:focus-visible {
+.button-light:focus-visible,
+.button-light:active {
   background: var(--night);
   color: var(--cream);
 }
@@ -855,79 +1281,14 @@ button { color: inherit; }
   font-style: normal;
 }
 
-.waitlist {
-  padding: clamp(100px, 12vw, 180px) var(--page);
-  display: grid;
-  grid-template-columns: 1.15fr minmax(360px, 0.85fr);
-  align-items: end;
-  gap: clamp(60px, 10vw, 170px);
-  background: var(--night);
-  color: var(--cream);
-}
-
-.waitlist h2 { font-size: clamp(4.6rem, 8.2vw, 9.2rem); }
-
-.waitlist-form-wrap > p {
-  max-width: 480px;
-  margin: 0 0 56px;
-  color: var(--heritage);
-  font-size: clamp(1rem, 1.35vw, 1.25rem);
-}
-
-.wait-form label {
+/* The ident film, now the ground the wall scrolls over (see .wall-stage). */
+.reel-bg {
   display: block;
-  margin-bottom: 12px;
-  text-transform: uppercase;
-  color: var(--heritage);
-  font-size: 0.64rem;
-  letter-spacing: 0.16em;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
-
-.field-row {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  border-bottom: 1px solid var(--cream);
-}
-
-.field-row input,
-.field-row button {
-  min-height: 62px;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  outline: none;
-}
-
-.field-row input {
-  min-width: 0;
-  padding: 0 18px 0 0;
-  color: var(--cream);
-  font-size: clamp(1.2rem, 1.7vw, 1.55rem);
-}
-
-.field-row input::placeholder { color: rgba(196, 172, 144, 0.5); }
-
-.field-row button {
-  padding: 0 2px 0 22px;
-  color: var(--red);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-}
-
-.field-row:focus-within { border-color: var(--red); }
-.field-row button:hover,
-.field-row button:focus-visible { color: var(--cream); }
-
-.wait-note {
-  min-height: 1.5em;
-  margin: 13px 0 0;
-  color: var(--heritage);
-  font-size: 0.76rem;
-  letter-spacing: 0.06em;
-}
-
-.wait-note.is-error { color: var(--red); }
 
 .site-footer {
   padding: 40px var(--page) 34px;
@@ -956,9 +1317,17 @@ button { color: inherit; }
 }
 
 .footer-meta > div { display: grid; gap: 6px; }
-.footer-meta a { width: max-content; text-decoration: none; }
+.footer-meta a {
+  width: max-content;
+  /* Text is 14px tall; the padding brings the real tap target close to the
+     44px minimum without shifting the visible layout (negative margin cancels it). */
+  padding: 10px 0;
+  margin: -10px 0;
+  text-decoration: none;
+}
 .footer-meta a:hover,
-.footer-meta a:focus-visible { color: var(--red); }
+.footer-meta a:focus-visible,
+.footer-meta a:active { color: var(--red); }
 .footer-meta p { margin: 0; }
 
 .footer-powered {
@@ -973,13 +1342,16 @@ button { color: inherit; }
 
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+  transform: translateY(16px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
 }
 
+/* Settled state. The transform is a variable so an element that has its own
+   resting transform (the hero card's tilt) can keep it once revealed —
+   everything else resolves to none and behaves exactly as before. */
 .reveal.in {
   opacity: 1;
-  transform: none;
+  transform: var(--reveal-rest, none);
 }
 
 @media (max-width: 1100px) {
@@ -991,7 +1363,6 @@ button { color: inherit; }
   .cities-layout { grid-template-columns: 0.75fr 1.25fr; gap: 46px; }
   .city-row { grid-template-columns: 34px minmax(74px, 0.3fr) 1fr auto 20px; gap: 10px; }
   .city-row strong { font-size: clamp(1.55rem, 2.65vw, 2.4rem); }
-  .waitlist { grid-template-columns: 1fr 0.85fr; gap: 60px; }
 }
 
 @media (max-width: 820px) {
@@ -1013,6 +1384,7 @@ button { color: inherit; }
     align-items: center;
     gap: 10px;
     justify-self: end;
+    min-height: 44px;
     padding: 10px 0;
     border: 0;
     background: transparent;
@@ -1067,8 +1439,17 @@ button { color: inherit; }
   .hero-ticker { grid-column: 1; }
   .manifesto-grid,
   .campaign-heading,
-  .cities-heading,
-  .waitlist { grid-template-columns: minmax(0, 1fr); }
+  .cities-heading { grid-template-columns: minmax(0, 1fr); }
+  .wall-heading { grid-template-columns: minmax(0, 1fr); gap: 28px; padding-bottom: 48px; }
+  .wall-grid { grid-template-columns: repeat(2, 1fr); }
+  /* At two columns the third stack would strand itself in a half-width row, so
+     it spans the full width and re-lays its own frames as a pair instead. */
+  .wall-col:nth-child(3) {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
   .manifesto-copy { max-width: 600px; }
   .identity-wordmark { min-height: clamp(230px, 39vw, 420px); }
   .campaign-heading,
@@ -1085,8 +1466,9 @@ button { color: inherit; }
   .city-row { grid-template-columns: 38px minmax(100px, 0.4fr) 1fr auto 22px; }
   .pin-cta { grid-template-columns: 1fr; min-height: auto; }
   .pin-mark { position: absolute; right: -10%; width: 48vw; opacity: 0.13; }
-  .waitlist { align-items: start; gap: 70px; }
-  .waitlist-form-wrap { max-width: 620px; }
+  /* As a backdrop the film has to fill the stage at every width — letterboxing
+     it here would open bars across the frames sitting on top of it. */
+  .reel-bg { object-fit: cover; }
   .footer-meta { grid-template-columns: 1fr 1fr; gap: 30px; }
   .footer-meta p { grid-column: 1 / -1; }
 }
@@ -1111,12 +1493,25 @@ button { color: inherit; }
   .manifesto-title,
   .campaign-heading h2,
   .cities-heading h2,
-  .pin-copy h2,
-  .waitlist h2 { font-size: clamp(3.7rem, 18vw, 6rem); }
+  .pin-copy h2 { font-size: clamp(3.7rem, 18vw, 6rem); }
   .cities-heading h2 { font-size: clamp(3.2rem, 14vw, 5rem); }
   .identity-wordmark { min-height: 210px; padding-block: 48px; }
   .campaign-heading,
   .cities-heading { padding-block: 70px 48px; }
+  .wall-body { padding-top: 58px; }
+  .wall-heading { padding-block: 70px 40px; }
+  .wall-heading h2 { font-size: clamp(2.8rem, 12vw, 4rem); }
+  .wall-grid { grid-template-columns: 1fr; }
+  .wall-col { margin-top: 0 !important; }
+  /* align-items must return to stretch here: inherited from the two-column rule
+     above it would shrink each frame to its content, and a lazy image that has
+     not loaded yet has no intrinsic width — the frame would collapse to zero. */
+  .wall-col:nth-child(3) {
+    grid-column: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
   .campaign-grid { display: flex; flex-direction: column; }
   .campaign-card { min-height: 116vw; }
   .campaign-card-wide { min-height: 92vw; }
@@ -1140,8 +1535,6 @@ button { color: inherit; }
   .pin-cta { min-height: 620px; }
   .pin-copy h2 { max-width: 100%; font-size: clamp(3.25rem, 15vw, 5.3rem); }
   .pin-copy p { margin-block: 30px 40px; }
-  .waitlist { padding-block: 90px; }
-  .field-row input { font-size: 1rem; }
   .footer-meta { grid-template-columns: 1fr; }
   .footer-meta p { grid-column: auto; line-height: 1.6; }
 }
@@ -1153,4 +1546,14 @@ button { color: inherit; }
   .scroll-route-pointer { display: none; }
   .scroll-route-path { stroke-dasharray: 1 14; opacity: 0.44; }
   .tw-cursor { animation: none; opacity: 1; }
+  .identity-wordmark img { clip-path: none !important; animation: none !important; }
+  .wordmark-caret { display: none; }
+  .hero-title.is-armed span,
+  .hero-title.is-wiping span { clip-path: none !important; animation: none !important; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+  .wall-frame.is-armed img,
+  .wall-frame.is-revealed img { clip-path: none !important; animation: none !important; }
+  .wall-frame.is-armed figcaption { opacity: 1; }
+  .wall-col { transform: none !important; }
 }

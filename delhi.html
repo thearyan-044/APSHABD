@@ -6,9 +6,11 @@
   <title>APSHABD — DELHI · ख़ामोशी</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href=".//delhi.css?v=3" />
+  <link rel="stylesheet" href=".//delhi.css?v=4" />
+  <link rel="stylesheet" href=".//drop.css?v=4" />
   <link rel="stylesheet" href=".//tuezday.css?v=3" />
-  <link rel="stylesheet" href=".//city-brand.css?v=3" />
+  <link rel="stylesheet" href=".//streets.css?v=5" />
+  <link rel="stylesheet" href=".//city-brand.css?v=5" />
 </head>
 <body>
   <div class="bg-word" aria-hidden="true">ख़ामोशी</div>
@@ -37,25 +39,162 @@
     </div>
   </div>
 
+  <!-- ── THE FACES ── -->
+  <section class="faces" id="faces">
+    <div class="faces-head reveal">
+      <h2>THE FACES OF DROP 001</h2>
+      <span>CAMPAIGN 001 · DELHI</span>
+    </div>
+
+    <article class="face reveal">
+      <div class="face-shot">
+        <img src=".//assets/campaign/models/set2-03-delhi-chandni-chowk-vendor.jpg"
+             alt="A vegetable seller resting beside her basket in the Chandni Chowk tee"
+             loading="lazy" width="1024" height="1536" />
+      </div>
+      <div class="face-copy">
+        <span class="face-code">DELHI DROP 001</span>
+        <h3 class="face-name">CHANDNI CHOWK</h3>
+        <span class="face-script rg">चांदनी चौक</span>
+        <p class="face-line">Onions counted, basket balanced, the same lane worked since
+          before the shop signs were in English. The market opens around her.</p>
+        <span class="face-role">THE VENDOR</span>
+      </div>
+    </article>
+
+    <article class="face reveal">
+      <div class="face-shot">
+        <img src=".//assets/campaign/models/set2-04-delhi-connaught-place-coffee-house.jpg"
+             alt="A regular at an old coffee house table wearing the Connaught Place tee"
+             loading="lazy" width="1023" height="1538" />
+      </div>
+      <div class="face-copy">
+        <span class="face-code">DELHI DROP 001</span>
+        <h3 class="face-name">CONNAUGHT PLACE</h3>
+        <span class="face-script rg">कनॉट प्लेस</span>
+        <p class="face-line">One filter coffee, one argument about politics, three hours at
+          a table meant for twenty minutes. The colonnade never asked anyone to hurry.</p>
+        <span class="face-role">THE REGULAR</span>
+      </div>
+    </article>
+
+    <article class="face reveal">
+      <div class="face-shot">
+        <img src=".//assets/campaign/models/set2-11-delhi-hauz-khas-back.jpg"
+             alt="Back view of the Hauz Khas tee against a weathered green wall"
+             loading="lazy" width="1092" height="1440" />
+      </div>
+      <div class="face-copy">
+        <span class="face-code">DELHI DROP 001</span>
+        <h3 class="face-name">HAUZ KHAS</h3>
+        <span class="face-script rg">हौज़ ख़ास</span>
+        <p class="face-line">A hand on a wall that has outlasted six dynasties and one
+          nightlife boom. The ruins are still the best thing in the postcode.</p>
+        <span class="face-role">THE WALL</span>
+      </div>
+    </article>
+  </section>
+
   <section class="section" id="drop">
     <div class="section-head reveal">
       <span class="stamp">DELHI DROP 001</span>
       <h2>EMPIRE STREETWEAR</h2>
-      <p>Sandstone tones, jharokha arches, Devanagari on chenille.</p>
+      <p>Three neighbourhoods, three centuries of noise. Pick a colour, turn it over.</p>
     </div>
-    <div class="grid">
-      <article class="card glass reveal">
-        <div class="ph arch" data-label="VARSITY / HAUZ KHAS"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>HAUZ KHAS VARSITY</h3><p class="rg">हौज़ ख़ास</p><p>Ruins by the lake, fits by the fort.</p></div>
+
+    <div class="drop-grid" data-city="delhi">
+
+      <!-- 01 · CHANDNI CHOWK -->
+      <article class="drop reveal" data-loc="chandni-chowk">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Chandni Chowk tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/delhi/chandni-chowk/white-front.jpg" alt="Chandni Chowk tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/delhi/chandni-chowk/white-back.jpg" alt="Chandni Chowk tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>CHANDNI CHOWK</h3>
+            <span class="rg">चांदनी चौक</span>
+          </div>
+          <p>Four centuries of noise, paranthe smoke, and a lane that never widened.</p>
+          <div class="drop-ways" role="group" aria-label="Chandni Chowk colourways">
+            <button type="button" class="way is-on" data-cw="white" style="--sw:#f1f2f1" aria-label="White"></button>
+          </div>
+        </div>
       </article>
-      <article class="card glass reveal">
-        <div class="ph arch" data-label="TEE / CHANDNI CHOWK"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>CHANDNI CHOWK TEE</h3><p class="rg">चांदनी चौक</p><p>Four centuries of noise. One quiet tee.</p></div>
+
+      <!-- 02 · CONNAUGHT PLACE -->
+      <article class="drop reveal" data-loc="connaught-place">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Connaught Place tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/delhi/connaught-place/muted-sage-front.jpg" alt="Connaught Place tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/delhi/connaught-place/muted-sage-back.jpg" alt="Connaught Place tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>CONNAUGHT PLACE</h3>
+            <span class="rg">कनॉट प्लेस</span>
+          </div>
+          <p>The white circle, the colonnade, and a coffee house that outlasted the empire.</p>
+          <div class="drop-ways" role="group" aria-label="Connaught Place colourways">
+            <button type="button" class="way" data-cw="white"                style="--sw:#f2f2f2" aria-label="White"></button>
+            <button type="button" class="way is-on" data-cw="muted-sage"     style="--sw:#747d66" aria-label="Muted sage"></button>
+            <button type="button" class="way" data-cw="vintage-cream"        style="--sw:#e7d9c0" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="washed-black"         style="--sw:#212222" aria-label="Washed black"></button>
+          </div>
+        </div>
       </article>
-      <article class="card glass reveal">
-        <div class="ph arch" data-label="VARSITY / CP"><span>IMAGE<br>COMING</span></div>
-        <div class="card-body"><h3>CP VARSITY</h3><p class="rg">कनॉट प्लेस</p><p>The white circle, worn in sandstone red.</p></div>
+
+      <!-- 03 · HAUZ KHAS -->
+      <article class="drop reveal" data-loc="hauz-khas">
+        <div class="drop-stage" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Hauz Khas tee — activate to see the back" data-cursor="FLIP">
+          <div class="drop-flip">
+            <div class="drop-face drop-face--front">
+              <img src=".//assets/delhi/hauz-khas/faded-charcoal-front.jpg" alt="Hauz Khas tee, front" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">FRONT</span>
+            </div>
+            <div class="drop-face drop-face--back">
+              <img src=".//assets/delhi/hauz-khas/faded-charcoal-back.jpg" alt="Hauz Khas tee, back" width="900" height="1200" loading="lazy" decoding="async" />
+              <span class="drop-face-tag">BACK</span>
+            </div>
+          </div>
+          <span class="drop-hint">TAP TO FLIP</span>
+        </div>
+        <div class="drop-info">
+          <div class="drop-head">
+            <h3>HAUZ KHAS</h3>
+            <span class="rg">हौज़ ख़ास</span>
+          </div>
+          <p>Ruins by the lake, fits by the fort, and a deer park nobody expects.</p>
+          <div class="drop-ways" role="group" aria-label="Hauz Khas colourways">
+            <button type="button" class="way" data-cw="white"                  style="--sw:#eff1f1" aria-label="White"></button>
+            <button type="button" class="way is-on" data-cw="faded-charcoal"   style="--sw:#363735" aria-label="Faded charcoal"></button>
+            <button type="button" class="way" data-cw="muted-olive"            style="--sw:#55583a" aria-label="Muted olive"></button>
+            <button type="button" class="way" data-cw="vintage-cream"          style="--sw:#e7dabd" aria-label="Vintage cream"></button>
+            <button type="button" class="way" data-cw="washed-black"           style="--sw:#212322" aria-label="Washed black"></button>
+          </div>
+        </div>
       </article>
+
     </div>
   </section>
 
@@ -66,6 +205,56 @@
       <p>The capital gets its crown quietly.</p>
       <a href="index.html#cities" class="cta">BACK TO THE MAP</a>
     </div>
+  </section>
+
+  <!-- ── SHOT ON LOCATION ── -->
+  <section class="streets" id="streets">
+    <div class="streets-head reveal">
+      <span class="streets-label">CAMPAIGN 001 · SHOT ON LOCATION</span>
+      <h2>DELHI,<br />DOCUMENTED.</h2>
+      <p>From the wholesale lanes at dawn to the metro at rush hour — the capital wore it
+         before anyone else could. Everyone in these frames is wearing their own area.</p>
+    </div>
+
+    <div class="streets-grid trio">
+      <figure class="street-print reveal">
+        <div class="street-frame">
+          <img src=".//assets/campaign/models/set2-07-delhi-chandni-chowk-field.jpg"
+               alt="A worker in an open field wearing the APSHABD Chandni Chowk tee"
+               loading="lazy" width="1086" height="1448" />
+        </div>
+        <figcaption class="street-cap">
+          <span class="street-loc">CHANDNI CHOWK<i class="rg">चांदनी चौक</i></span>
+          <span class="street-role">THE EARLY SHIFT</span>
+        </figcaption>
+      </figure>
+
+      <figure class="street-print reveal">
+        <div class="street-frame">
+          <img src=".//assets/campaign/models/set1-04-delhi-connaught-place-blurred.jpg"
+               alt="A commuter on the metro wearing the APSHABD Connaught Place tee"
+               loading="lazy" width="1023" height="1538" />
+        </div>
+        <figcaption class="street-cap">
+          <span class="street-loc">CONNAUGHT PLACE<i class="rg">कनॉट प्लेस</i></span>
+          <span class="street-role">THE YELLOW LINE</span>
+        </figcaption>
+      </figure>
+
+      <figure class="street-print reveal">
+        <div class="street-frame">
+          <img src=".//assets/campaign/models/set1-07-delhi-hauz-khas-blurred.jpg"
+               alt="A late-night kitchen scene with the APSHABD Hauz Khas tee"
+               loading="lazy" width="1122" height="1402" />
+        </div>
+        <figcaption class="street-cap">
+          <span class="street-loc">HAUZ KHAS<i class="rg">हौज़ ख़ास</i></span>
+          <span class="street-role">AFTER HOURS</span>
+        </figcaption>
+      </figure>
+    </div>
+
+    <p class="streets-foot reveal">WORN BY THE CITY FIRST · DELHI</p>
   </section>
 
   <!-- ── TYPEWRITER PROMPT ── -->
@@ -95,5 +284,6 @@
   </a>
 
   <script src=".//delhi.js"></script>
+  <script src=".//drop.js?v=5"></script>
 </body>
 </html>

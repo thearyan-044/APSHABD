@@ -1,0 +1,24 @@
+# Design source, scratch, and AI-generation working files — not part of the
+# deployed site, kept out of the repo to keep it small and avoid publishing
+# internal work-in-progress publicly.
+/designs/
+/output/
+/City Designs/
+/Logo/
+/all posts/
+/assets/model 2/
+/APSHABD-pre-registration/
+
+# Downloaded but unused in any page/stylesheet.
+/assets/fonts/Boxing_Complete/
+/assets/fonts/FontshareKit-2608002138/
+/assets/fonts/Tanker_Complete/
+
+# Raw photoshoot exports and mood boards for the colourway system — only the
+# .jpg front/back pairs that the pages actually reference are tracked.
+/assets/*/*/references/
+/assets/*/*/*.png
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@500;700&family=Noto+Sans+Devanagari:wght@500;700&family=Noto+Sans+Kannada:wght@500;700&family=Noto+Sans+Tamil:wght@500;700&family=Noto+Sans+Telugu:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="preload" href="assets/fonts/trench-slab/TrenchSlab-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/campaign/web/06-mumbai-andheri-dadar-colaba-train.jpg" as="image" />
-  <link rel="stylesheet" href="styles.css?v=14" />
+  <link rel="stylesheet" href="styles.css?v=30" />
   <link rel="stylesheet" href="tuezday.css?v=2" />
 </head>
 <body>
@@ -34,7 +34,7 @@
     <nav class="site-nav" id="site-nav" aria-label="Main navigation">
       <a href="#story">Our story</a>
       <a href="#cities">Cities</a>
-      <a href="#waitlist">First access</a>
+      <a href="#craft">The craft</a>
       <a class="nav-cta" href="drop-a-pin.html">Drop a pin <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
@@ -47,14 +47,25 @@
   </div>
 
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero" aria-labelledby="hero-title" data-reveal-sequence data-reveal-step="90">
+      <!-- Decorative only: the same "location, in your own script" idea the
+           typewriter interlude runs later, surfacing here as ambient motion.
+           Sits behind the real copy (z-index 0 vs 1) and stroke-only, so the
+           solid foreground glyphs paint over it wherever the two overlap —
+           it only ever shows in the negative space around the real text. -->
+      <div class="hero-typefield" aria-hidden="true">
+        <span class="tf-word tf-word-a" lang="ta">இடம்</span>
+        <span class="tf-word tf-word-b" lang="hi">जगह</span>
+        <span class="tf-word tf-word-c" lang="bn">স্থান</span>
+      </div>
+
       <div class="hero-copy">
         <div class="hero-kicker reveal">
           <span>Indian streetwear</span>
           <span>Est. MMXXVI</span>
         </div>
 
-        <h1 id="hero-title" class="hero-title reveal">
+        <h1 id="hero-title" class="hero-title">
           <span>Wear</span>
           <span>where you're</span>
           <span class="hero-title-accent">from.</span>
@@ -81,13 +92,13 @@
 
       <div class="hero-ticker" aria-label="Seven cities across India">
         <div class="ticker-track">
-          <span>CHENNAI</span><i>✱</i><span>MUMBAI</span><i>✱</i><span>DELHI</span><i>✱</i><span>PUNE</span><i>✱</i><span>BANGALORE</span><i>✱</i><span>KOLKATA</span><i>✱</i><span>HYDERABAD</span><i>✱</i>
-          <span aria-hidden="true">CHENNAI</span><i aria-hidden="true">✱</i><span aria-hidden="true">MUMBAI</span><i aria-hidden="true">✱</i><span aria-hidden="true">DELHI</span><i aria-hidden="true">✱</i><span aria-hidden="true">PUNE</span><i aria-hidden="true">✱</i><span aria-hidden="true">BANGALORE</span><i aria-hidden="true">✱</i><span aria-hidden="true">KOLKATA</span><i aria-hidden="true">✱</i><span aria-hidden="true">HYDERABAD</span><i aria-hidden="true">✱</i>
+          <span>CHENNAI</span><i>✱</i><span>MUMBAI</span><i>✱</i><span>DELHI</span><i>✱</i><span>BANGALORE</span><i>✱</i><span>KOLKATA</span><i>✱</i><span>HYDERABAD</span><i>✱</i><span>PUNE</span><i>✱</i>
+          <span aria-hidden="true">CHENNAI</span><i aria-hidden="true">✱</i><span aria-hidden="true">MUMBAI</span><i aria-hidden="true">✱</i><span aria-hidden="true">DELHI</span><i aria-hidden="true">✱</i><span aria-hidden="true">BANGALORE</span><i aria-hidden="true">✱</i><span aria-hidden="true">KOLKATA</span><i aria-hidden="true">✱</i><span aria-hidden="true">HYDERABAD</span><i aria-hidden="true">✱</i><span aria-hidden="true">PUNE</span><i aria-hidden="true">✱</i>
         </div>
       </div>
     </section>
 
-    <section class="manifesto" id="story" aria-labelledby="manifesto-title">
+    <section class="manifesto" id="story" aria-labelledby="manifesto-title" data-reveal-sequence data-reveal-step="130">
       <div class="section-index reveal">
         <span>01 / The idea</span>
         <span>Made in India</span>
@@ -103,8 +114,11 @@
         </div>
       </div>
 
-      <div class="identity-wordmark reveal">
-        <img src="assets/brand/apshabd-wordmark-night.png" alt="Approved अPSHABD wordmark" />
+      <div class="identity-wordmark reveal" data-reveal-solo>
+        <div class="wordmark-type">
+          <img src="assets/brand/apshabd-wordmark-night.png" alt="Approved अPSHABD wordmark" />
+          <span class="wordmark-caret" aria-hidden="true"></span>
+        </div>
       </div>
     </section>
 
@@ -131,6 +145,119 @@
           <img src="assets/campaign/web/chennai-t-nagar-newspaper.jpg" alt="A person reading a newspaper in a T Nagar neighbourhood T-shirt" loading="lazy" />
           <figcaption><span>T Nagar, Chennai</span><span>13°02′ N</span></figcaption>
         </figure>
+      </div>
+    </section>
+
+    <!-- The craft: the ident film sits pinned behind the wall, so the frames
+         scroll over it rather than following it as a separate section. -->
+    <section class="wall" id="craft" aria-labelledby="wall-title">
+      <div class="wall-stage" id="craftStage" aria-hidden="true">
+        <video class="reel-bg" id="craftReel" src="assets/video/apshabd-ident.mp4"
+               poster="assets/video/apshabd-ident-poster.jpg"
+               muted loop playsinline preload="none"
+               aria-label="The अPSHABD wordmark forming on film, cut through by a red mark"></video>
+        <div class="wall-veil"></div>
+      </div>
+
+      <div class="wall-body">
+      <div class="section-index light reveal">
+        <span>02.5 / The craft</span>
+        <span>19 frames · 4 cities</span>
+      </div>
+
+      <div class="wall-heading reveal">
+        <h2 id="wall-title">Worn where<br />it was named.</h2>
+        <p>Every frame is somebody in their own postcode. Nobody here is a model borrowed from another city.</p>
+      </div>
+
+      <!-- Columns drift at different speeds on scroll; each frame wipes in the
+           way the hero headline does, so the page shares one reveal language. -->
+      <div class="wall-grid" data-wall>
+        <div class="wall-col" data-wall-speed="-0.06">
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-01-chennai-marina-beach.jpg" alt="A woman on Marina beach wearing the Marina Chennai tee" loading="lazy" width="1066" height="1476" />
+            <figcaption><span>Marina, Chennai</span><i>13°03′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-01-mumbai-dadar.jpg" alt="A flower seller at Dadar market in the Dadar tee" loading="lazy" width="1023" height="1538" />
+            <figcaption><span>Dadar, Mumbai</span><i>19°01′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-07-delhi-chandni-chowk-field.jpg" alt="A worker in a field wearing the Chandni Chowk tee" loading="lazy" width="1086" height="1448" />
+            <figcaption><span>Chandni Chowk, Delhi</span><i>28°39′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-08-chennai-t-nagar-blurred.jpg" alt="A street scene in T Nagar with the T Nagar tee" loading="lazy" width="991" height="1588" />
+            <figcaption><span>T Nagar, Chennai</span><i>13°02′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-10-mumbai-colaba-wall.jpg" alt="A person against a painted wall in the Colaba tee" loading="lazy" width="1086" height="1448" />
+            <figcaption><span>Colaba, Mumbai</span><i>18°55′ N</i></figcaption>
+          </figure>
+        </div>
+
+        <div class="wall-col" data-wall-speed="0.08">
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-03-delhi-chandni-chowk-vendor.jpg" alt="A vegetable seller in the Chandni Chowk tee" loading="lazy" width="1024" height="1536" />
+            <figcaption><span>Chandni Chowk, Delhi</span><i>28°39′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-05-mumbai-barbershop-trio.jpg" alt="Three people in a barbershop wearing Thane and Bandra tees" loading="lazy" width="1122" height="1402" />
+            <figcaption><span>Bandra × Thane, Mumbai</span><i>19°03′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-02-chennai-mylapore-musician.jpg" alt="A musician in Mylapore wearing the Mylapore tee" loading="lazy" width="1023" height="1538" />
+            <figcaption><span>Mylapore, Chennai</span><i>13°02′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-04-delhi-connaught-place-blurred.jpg" alt="A metro commuter in the Connaught Place tee" loading="lazy" width="1023" height="1538" />
+            <figcaption><span>Connaught Place, Delhi</span><i>28°37′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-06-chennai-mylapore-wall.jpg" alt="A wall in Mylapore with the neighbourhood tee" loading="lazy" width="1200" height="822" />
+            <figcaption><span>Mylapore, Chennai</span><i>13°02′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-05-mumbai-bandra-delhi-cp-blurred.jpg" alt="Two people wearing the Bandra and Connaught Place tees" loading="lazy" width="1024" height="1536" />
+            <figcaption><span>Bandra × CP</span><i>Two cities</i></figcaption>
+          </figure>
+        </div>
+
+        <div class="wall-col" data-wall-speed="-0.11">
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-11-delhi-hauz-khas-back.jpg" alt="Back view of the Hauz Khas tee against a green wall" loading="lazy" width="1092" height="1440" />
+            <figcaption><span>Hauz Khas, Delhi</span><i>28°33′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-09-mumbai-colaba.jpg" alt="A man seated in a room wearing the Colaba tee" loading="lazy" width="1123" height="1402" />
+            <figcaption><span>Colaba, Mumbai</span><i>18°55′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-09-chennai-anna-nagar-flash.jpg" alt="A flash-lit portrait in the Anna Nagar tee" loading="lazy" width="1023" height="1538" />
+            <figcaption><span>Anna Nagar, Chennai</span><i>13°05′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-08-mumbai-andheri-portrait.jpg" alt="A portrait in the Andheri tee" loading="lazy" width="1122" height="1402" />
+            <figcaption><span>Andheri, Mumbai</span><i>19°07′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-07-delhi-hauz-khas-blurred.jpg" alt="A late-night kitchen scene in the Hauz Khas tee" loading="lazy" width="1122" height="1402" />
+            <figcaption><span>Hauz Khas, Delhi</span><i>28°33′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set2-04-delhi-connaught-place-coffee-house.jpg" alt="A regular at a coffee house table in the Connaught Place tee" loading="lazy" width="1023" height="1538" />
+            <figcaption><span>Connaught Place, Delhi</span><i>28°37′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-02-mumbai-colaba-dadar-blurred.jpg" alt="Two people wearing the Colaba and Dadar tees" loading="lazy" width="1023" height="1538" />
+            <figcaption><span>Colaba × Dadar</span><i>18°55′ N</i></figcaption>
+          </figure>
+          <figure class="wall-frame" data-wall-item>
+            <img src="assets/campaign/models/set1-03-chennai-mylapore-blurred.jpg" alt="A street portrait in the Mylapore tee" loading="lazy" width="1131" height="1392" />
+            <figcaption><span>Mylapore, Chennai</span><i>13°02′ N</i></figcaption>
+          </figure>
+        </div>
+      </div>
       </div>
     </section>
 
@@ -185,17 +312,17 @@
           <a class="city-row" href="delhi.html?v=3" data-code="DEL / 03" data-city="DELHI" data-image="assets/delhi/hauz-khas/references/03-graffiti-lane.png">
             <span class="city-number">03</span><span class="city-native devanagari" lang="hi">दिल्ली</span><strong>Delhi</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="pune.html?v=3" data-code="PNQ / 04" data-city="PUNE" data-image="assets/campaign/web/mumbai-dadar-skateboard.jpg">
-            <span class="city-number">04</span><span class="city-native devanagari" lang="mr">पुणे</span><strong>Pune</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          <a class="city-row" href="bangalore.html?v=3" data-code="BLR / 04" data-city="BANGALORE" data-image="assets/campaign/web/04-chennai-anna-nagar-drummer.jpg">
+            <span class="city-number">04</span><span class="city-native kannada" lang="kn">ಬೆಂಗಳೂರು</span><strong>Bangalore</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="bangalore.html?v=3" data-code="BLR / 05" data-city="BANGALORE" data-image="assets/campaign/web/04-chennai-anna-nagar-drummer.jpg">
-            <span class="city-number">05</span><span class="city-native kannada" lang="kn">ಬೆಂಗಳೂರು</span><strong>Bangalore</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          <a class="city-row" href="kolkata.html?v=3" data-code="CCU / 05" data-city="KOLKATA" data-image="assets/campaign/web/09-chennai-mylapore-train.jpg">
+            <span class="city-number">05</span><span class="city-native bengali" lang="bn">কলকাতা</span><strong>Kolkata</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="kolkata.html?v=3" data-code="CCU / 06" data-city="KOLKATA" data-image="assets/campaign/web/09-chennai-mylapore-train.jpg">
-            <span class="city-number">06</span><span class="city-native bengali" lang="bn">কলকাতা</span><strong>Kolkata</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          <a class="city-row" href="hyderabad.html?v=3" data-code="HYD / 06" data-city="HYDERABAD" data-image="assets/campaign/web/05-chennai-marina-water-carrier.jpg">
+            <span class="city-number">06</span><span class="city-native telugu" lang="te">హైదరాబాద్</span><strong>Hyderabad</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="hyderabad.html?v=3" data-code="HYD / 07" data-city="HYDERABAD" data-image="assets/campaign/web/05-chennai-marina-water-carrier.jpg">
-            <span class="city-number">07</span><span class="city-native telugu" lang="te">హైదరాబాద్</span><strong>Hyderabad</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
+          <a class="city-row" href="pune.html?v=3" data-code="PNQ / 07" data-city="PUNE" data-image="assets/campaign/web/mumbai-dadar-skateboard.jpg">
+            <span class="city-number">07</span><span class="city-native devanagari" lang="mr">पुणे</span><strong>Pune</strong><span class="city-status">Last in line</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
           <a class="city-row city-row-yours" href="drop-a-pin.html" data-code="YOU / 08" data-city="YOUR CITY" data-image="assets/campaign/web/02-mumbai-thane-fisherman.jpg">
             <span class="city-number">08</span><span class="city-native">+</span><strong>Your city</strong><span class="city-status">Make the call</span><span class="city-arrow" aria-hidden="true">↗</span>
@@ -217,23 +344,6 @@
       </div>
     </section>
 
-    <section class="waitlist" id="waitlist" aria-labelledby="waitlist-title">
-      <div class="waitlist-intro reveal">
-        <span class="eyebrow">First access / no noise</span>
-        <h2 id="waitlist-title">Know before<br />your city does.</h2>
-      </div>
-      <div class="waitlist-form-wrap reveal">
-        <p>New neighbourhoods, limited drops, and stories from the street. Only when there is something worth saying.</p>
-        <form class="wait-form" id="waitForm" novalidate>
-          <label for="emailInput">Email address</label>
-          <div class="field-row">
-            <input type="email" id="emailInput" name="email" placeholder="you@yourcity.com" autocomplete="email" required />
-            <button type="submit" id="notifyBtn" aria-label="Join the first access list">Join <span aria-hidden="true">↗</span></button>
-          </div>
-          <p class="wait-note" id="waitNote" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
@@ -260,6 +370,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=14"></script>
+  <script src="script.js?v=26"></script>
 </body>
 </html>
