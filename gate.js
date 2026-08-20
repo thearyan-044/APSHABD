@@ -40,6 +40,15 @@
      draws from, so this string can never collide with a genuine code. */
   var PREVIEW_CODE = "APS-TST-TEST-CODE";
 
+  /* Same idea, shaped like a legacy code, so the backward-compatibility path
+     can be clicked through locally too. Digits are the legacy suffix's
+     entire alphabet — nothing was reserved the way E/O were for the current
+     shape — so this is a normal Google Apps Script test-value convention
+     rather than a value guaranteed never to have been issued for real; it
+     only matters on localhost, which is the same reason PREVIEW_CODE above
+     does not need that guarantee either. */
+  var PREVIEW_LEGACY_CODE = "TST-999999";
+
   /* The same idea for the lost-code form. .test is a reserved TLD that can
      never resolve, so this address cannot belong to anyone. Any other address
      typed on localhost still goes to the live endpoint — which does mean a
@@ -72,6 +81,19 @@
   /* Codes are APS + a three-letter city token + two four-character blocks,
      drawn from the confusable-free alphabet in the pre-registration form. */
   var CODE_LENGTH = 14;
+
+  /* The launch-day shape: a three-letter city prefix and a six-digit
+     number, e.g. MUM-482913 — no "APS", no dashes past the first. Live for
+     about 27 hours (14 Aug 16:08 to 15 Aug 19:23 IST 2026) before the
+     access-code rebuild replaced it with the shape above. A handful of
+     early registrants still hold a code in this shape, and their row in
+     the sheet still has it verbatim, so the door has to recognise both —
+     see normalizeAccessCode() in google-apps-script.gs for its half. */
+  var LEGACY_CODE_LENGTH = 9;
+  var LEGACY_CODE_PATTERN = /^[A-Z]{3}[0-9]{6}$/;
+  // Same shape, unanchored — for finding it inside a longer pasted string
+  // rather than testing a string against it wholesale.
+  var LEGACY_CODE_WITHIN = /[A-Z]{3}[0-9]{6}/;
 
   /* ── Copy ───────────────────────────────────────────────────────────────
      Refusals escalate with each wrong try, then hold on the last one. Dry,
@@ -153,19 +175,30 @@
     return String(raw == null ? "" : raw).toUpperCase().replace(/[^A-Z0-9]/g, "");
   }
 
+  function isLegacyShape(clean) {
+    return clean.length === LEGACY_CODE_LENGTH && LEGACY_CODE_PATTERN.test(clean);
+  }
+
   /* Pulls a code out of whatever actually got pasted. People copy the line
      out of the email, not the code alone, so "Your access code: APS-BOM-…"
-     has to survive the trip.
+     has to survive the trip — and for a legacy holder, so does "Your access
+     code: MUM-482913", which carries no APS anchor to search for.
 
-     The search for APS only runs once there is more text than a code can
-     hold. Below that the visitor is still typing, and hunting for a prefix
+     The search only runs once there is more text than either shape can
+     hold on its own. Below that the visitor is still typing, and hunting
      mid-keystroke would silently eat characters they are about to fix. */
   function extract(raw) {
     var clean = normalize(raw);
 
     if (clean.length > CODE_LENGTH) {
       var start = clean.indexOf("APS");
-      if (start > 0) clean = clean.slice(start);
+
+      if (start > 0) {
+        clean = clean.slice(start);
+      } else if (start === -1) {
+        var legacyMatch = clean.match(LEGACY_CODE_WITHIN);
+        if (legacyMatch) clean = legacyMatch[0];
+      }
     }
 
     return clean.slice(0, CODE_LENGTH);
@@ -173,9 +206,23 @@
 
   /* Normalises first so it is idempotent: the granted screen formats a code
      that has already been through here once, and re-splitting the dashes
-     would turn APS-BOM-CDFG-3467 into APS--BO-M-CD-FG-3. */
+     would turn APS-BOM-CDFG-3467 into APS--BO-M-CD-FG-3.
+
+     The legacy shape only gets its one dash once it is fully typed or
+     pasted — at nine characters exactly. Before that there is no way to
+     tell a legacy code in progress from a current one in progress, since
+     both start with three alphanumerics, so it formats live as the current
+     shape and snaps to the legacy layout the instant the length resolves
+     it. Typing one by hand is rare and this self-corrects the moment they
+     finish; pasting — the realistic case for a code mailed weeks ago — hits
+     the full length in one step and never shows the intermediate form. */
   function format(raw) {
     var clean = normalize(raw);
+
+    if (isLegacyShape(clean)) {
+      return clean.slice(0, 3) + "-" + clean.slice(3, 9);
+    }
+
     var out = clean.slice(0, 3);
     if (clean.length > 3) out += "-" + clean.slice(3, 6);
     if (clean.length > 6) out += "-" + clean.slice(6, 10);
@@ -184,7 +231,8 @@
   }
 
   function looksLikeCode(clean) {
-    return clean.length === CODE_LENGTH && clean.slice(0, 3) === "APS";
+    return (clean.length === CODE_LENGTH && clean.slice(0, 3) === "APS")
+      || isLegacyShape(clean);
   }
 
   /* ── Saying something ───────────────────────────────────────────────────── */
@@ -260,7 +308,7 @@
      name both hosts. */
   async function verify(code) {
     // Never reached off a dev server — see PREVIEW_CODE above.
-    if (onPreviewHost() && code === PREVIEW_CODE) {
+    if (onPreviewHost() && (code === PREVIEW_CODE || code === PREVIEW_LEGACY_CODE)) {
       await new Promise(function (resolve) { window.setTimeout(resolve, 420); });
       return { ok: true, valid: true, name: "Preview" };
     }

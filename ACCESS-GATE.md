@@ -15,6 +15,38 @@ It filters the ninety-nine percent of people who will not do that, which is
 what a drop gate is for. Do not put anything behind it that would actually
 hurt to leak.
 
+## Two code shapes exist
+
+Every code issued since 15 Aug 2026 looks like `APS-BOM-XXXX-XXXX`. For about
+27 hours before that — 14 Aug 16:08 to 15 Aug 19:23 IST 2026, the window
+between "Launch APSHABD website" and "Rebuild pre-registration around the
+access code" — the site issued codes shaped like `MUM-482913` instead: a
+3-letter city prefix (from the same dropdown, so one of the 7 cities, or
+`SOM` for "somewhere you're ignoring", or `PDS` if it somehow shipped blank)
+and a 6-digit number.
+
+Anyone who registered in that window has a real row in the sheet with a
+real code in that shape. Nothing about their registration is wrong — the
+gate just did not know that shape was valid, and rejected it as malformed
+before ever checking the sheet.
+
+Both shapes are recognised now: `normalizeAccessCode()` here and
+`looksLikeCode()` / `format()` / `extract()` in `gate.js` each handle the
+two shapes explicitly. Everything downstream of the shape check — the sheet
+lookup, the confirmed-email rule, the name lookup, lost-code recovery — was
+already, and still is, completely agnostic to which shape a code is; the
+sheet's column layout never changed across that rebuild, only the
+confirmation email's wording did (checked via `git diff` between the two
+commits). So this was a pure validation-logic fix, not a data migration —
+nothing in the sheet needed to change, and nobody's code changed.
+
+`testVerify()` includes a synthetic legacy-shaped input (`ZZZ-000000`) that
+proves this without depending on a real row existing: it should come back
+`reason:"unknown"` (not found) rather than `reason:"malformed"` (rejected
+before lookup). If row 2 of the sheet happens to be someone's real launch-day
+registration, its code is quite possibly in the legacy shape too, and the
+existing "real code from row 2" case will exercise it directly.
+
 ## The pieces
 
 | File | Job |

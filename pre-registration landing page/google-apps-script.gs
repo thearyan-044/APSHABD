@@ -389,21 +389,33 @@ function accessDenied(reason) {
 
 /**
  * Accepts whatever the visitor pasted — lowercase, spaced, dashes missing —
- * and returns it in the exact APS-CTY-XXXX-XXXX form the sheet stores, or an
+ * and returns it in whichever exact form the sheet stores it in, or an
  * empty string if it could never be a code.
+ *
+ * Two shapes exist. Every code issued since 15 Aug 2026 is APS-CTY-XXXX-XXXX
+ * (14 alphanumerics). A ~27-hour window before that, 14 Aug 16:08 to 15 Aug
+ * 19:23 IST, issued CTY-NNNNNN instead — a 3-letter city prefix and a
+ * 6-digit number, e.g. MUM-482913 — before the access-code rebuild replaced
+ * it. A handful of early registrants still hold a code in that shape, and
+ * their row in the sheet still has it verbatim, so both are recognised here.
+ * See looksLikeCode() / format() in gate.js for the client's half of this.
  */
 function normalizeAccessCode(raw) {
   const clean = String(raw == null ? "" : raw)
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, "");
 
-  if (clean.length !== 14 || clean.slice(0, 3) !== "APS") {
-    return "";
+  if (clean.length === 14 && clean.slice(0, 3) === "APS") {
+    return "APS-" + clean.slice(3, 6)
+      + "-" + clean.slice(6, 10)
+      + "-" + clean.slice(10, 14);
   }
 
-  return "APS-" + clean.slice(3, 6)
-    + "-" + clean.slice(6, 10)
-    + "-" + clean.slice(10, 14);
+  if (clean.length === 9 && /^[A-Z]{3}[0-9]{6}$/.test(clean)) {
+    return clean.slice(0, 3) + "-" + clean.slice(3);
+  }
+
+  return "";
 }
 
 /**
@@ -705,12 +717,23 @@ function testVerify() {
     const realCode = sheet.getRange(2, COLUMN.ACCESS_CODE).getDisplayValue();
     const realStatus = String(sheet.getRange(2, COLUMN.EMAIL_STATUS).getValue() || "").toUpperCase();
 
+    // Row 2 is whoever registered first, and registration opened on
+    // launch day — before the access-code rebuild — so this row is quite
+    // possibly a real example of the legacy CTY-NNNNNN shape already.
     cases.push(["a real code from row 2 (status " + realStatus + ")", realCode]);
     cases.push(["the same code, lowercase and unspaced", realCode.replace(/-/g, "").toLowerCase()]);
   }
 
   cases.push(["the built-in test code", TEST_ACCESS_CODES[0] || "(none configured)"]);
   cases.push(["a code that cannot exist", "APS-XXX-XXXX-XXXX"]);
+
+  // Synthetic, not tied to any real row: proves the legacy CTY-NNNNNN shape
+  // (issued 14-15 Aug 2026, before the access-code rebuild) now clears the
+  // shape check and reaches the sheet, rather than being turned away as
+  // malformed before the lookup ever runs. reason:unknown is the correct,
+  // expected answer here — this exact string was never actually issued.
+  cases.push(["a legacy-shaped code (synthetic, won't match a row)", "ZZZ-000000"]);
+
   cases.push(["nonsense", "hello"]);
 
   cases.forEach(function (entry) {
@@ -720,7 +743,9 @@ function testVerify() {
 
   Logger.log("\nExpect: real code valid:true (unless its status is not CONFIRMED,"
     + " which gives reason:unconfirmed), test code valid:true,"
-    + " impossible code reason:unknown, nonsense reason:malformed.");
+    + " impossible code reason:unknown, the synthetic legacy code"
+    + " reason:unknown (NOT malformed — that is the point of that case),"
+    + " nonsense reason:malformed.");
 }
 
 /**
