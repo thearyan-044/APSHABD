@@ -1,0 +1,392 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   THE DOOR — अPSHABD access gate
+
+   Standalone on purpose. This is the first paint every uninvited visitor
+   gets, so it carries its own font-face, palette and reset rather than
+   pulling the ~66KB of styles.css + brutal.css the rest of the site needs.
+   The tokens below are copied from the styles.css :root — if the brand
+   palette moves, both files change together.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Trench Slab";
+  src: url("assets/fonts/trench-slab/TrenchSlab-Regular.woff2") format("woff2"),
+       url("assets/fonts/trench-slab/TrenchSlab-Regular.woff") format("woff");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
+
+:root {
+  --night: #000f08;
+  --night-soft: #071810;
+  --cream: #f3e6d0;
+  --heritage: #c4ac90;
+  --red: #fb3640;
+
+  --rule: 3px;
+  --rule-heavy: 6px;
+  --off: 10px;
+
+  --font: "Trench Slab", "Arial Narrow", Impact, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas,
+          "Liberation Mono", "Courier New", monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --page: clamp(20px, 3.4vw, 58px);
+}
+
+*, *::before, *::after { box-sizing: border-box; border-radius: 0; }
+
+html {
+  background: var(--night);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: clamp(24px, 5vh, 48px);
+  padding: var(--page);
+  background: var(--night);
+  color: var(--cream);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { display: block; width: 100%; }
+a { color: inherit; }
+button, input { font: inherit; color: inherit; }
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 12px 18px;
+  background: var(--cream);
+  color: var(--night);
+  z-index: 10;
+}
+.skip-link:focus { left: var(--page); }
+
+/* Every focus ring here is the same hard red slab — no soft outline
+   anywhere, and never `outline: none` without a replacement. */
+:focus-visible {
+  outline: var(--rule) solid var(--red);
+  outline-offset: 3px;
+}
+
+/* ── The floor plan ───────────────────────────────────────────────────────
+   Three bands: the mark up top, the door itself in the middle, the way out
+   at the bottom. Only the middle row grows. */
+
+.door-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  border-bottom: var(--rule) solid var(--cream);
+  padding-bottom: 16px;
+}
+
+.door-mark { display: block; width: clamp(112px, 16vw, 168px); }
+
+.door-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--heritage);
+}
+
+/* A held-breath pulse on the status dot — slow and stepped, so it reads as
+   a system light rather than as decoration. */
+.door-status::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  background: var(--red);
+  animation: door-blink 2.4s steps(1, end) infinite;
+}
+
+@keyframes door-blink {
+  0%, 62% { opacity: 1; }
+  63%, 100% { opacity: 0.18; }
+}
+
+.door-main {
+  align-self: center;
+  width: min(760px, 100%);
+  margin-inline: auto;
+}
+
+/* ── The statement ───────────────────────────────────────────────────────── */
+
+.door-kicker {
+  margin: 0 0 clamp(16px, 3vh, 26px);
+  font-family: var(--mono);
+  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.door-title {
+  margin: 0 0 clamp(14px, 2.4vh, 22px);
+  font-size: clamp(3rem, 12vw, 7.4rem);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.door-title span { display: block; }
+.door-title .accent { color: var(--red); }
+
+.door-lede {
+  margin: 0 0 clamp(24px, 4vh, 38px);
+  max-width: 46ch;
+  font-size: clamp(0.95rem, 2.1vw, 1.08rem);
+  line-height: 1.5;
+  color: var(--heritage);
+}
+
+/* ── The slot ─────────────────────────────────────────────────────────────
+   Input and button share one plate standing on a hard red offset. The plate
+   casts the shadow, not the input, so focus and refusal states can recolour
+   the offset without the two controls drifting apart. */
+
+.door-form { margin: 0; }
+
+.door-plate {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  border: var(--rule) solid var(--cream);
+  background: var(--night-soft);
+  box-shadow: var(--off) var(--off) 0 var(--red);
+  transition: box-shadow 160ms var(--ease), border-color 160ms var(--ease);
+}
+
+.door-plate:focus-within {
+  border-color: var(--red);
+  box-shadow: var(--off) var(--off) 0 var(--cream);
+}
+
+.door-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Selected on the plate rather than by id, so the code field and the
+   lost-code email field cannot drift apart. */
+.door-plate input {
+  min-width: 0;
+  padding: clamp(16px, 2.6vw, 24px) clamp(14px, 2.4vw, 22px);
+  border: 0;
+  background: transparent;
+  color: var(--cream);
+  font-family: var(--mono);
+  font-size: clamp(1rem, 4.1vw, 1.55rem);
+  font-weight: 700;
+}
+
+.door-plate input:focus { outline: none; }
+.door-plate input::placeholder { color: rgba(196, 172, 144, 0.42); }
+
+/* Autofill paints its own near-white background and near-black text, which
+   on a dark plate reads as a broken field. The inset shadow is the only way
+   to override that fill. */
+.door-plate input:-webkit-autofill,
+.door-plate input:-webkit-autofill:hover,
+.door-plate input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--cream);
+  -webkit-box-shadow: 0 0 0 1000px var(--night-soft) inset;
+  caret-color: var(--cream);
+}
+
+#code {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Addresses run far longer than a 14-character code, so this sits smaller and
+   drops the tracking — at the code field's size a real address overflows. */
+#recover-email {
+  font-size: clamp(0.95rem, 3.2vw, 1.2rem);
+  letter-spacing: 0.02em;
+}
+
+.door-submit {
+  padding: 0 clamp(18px, 3.4vw, 34px);
+  border: 0;
+  border-left: var(--rule) solid var(--cream);
+  background: var(--cream);
+  color: var(--night);
+  font-family: var(--mono);
+  font-size: clamp(0.62rem, 1.7vw, 0.76rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 140ms var(--ease), color 140ms var(--ease);
+}
+
+.door-submit:hover:not(:disabled) { background: var(--red); color: var(--cream); }
+.door-submit:disabled { cursor: wait; opacity: 0.55; }
+
+/* Under 520px the button cannot hold its letter-spaced label beside a
+   14-character code, so the plate stacks rather than letting either shrink
+   to unreadable. */
+@media (max-width: 520px) {
+  .door-plate { grid-template-columns: 1fr; }
+  .door-submit {
+    border-left: 0;
+    border-top: var(--rule) solid var(--cream);
+    padding: 16px;
+  }
+}
+
+/* ── What the door says back ──────────────────────────────────────────────
+   One live region for every outcome. Colour carries the tone but never
+   alone — the message always states the result in words too. */
+
+.door-message {
+  margin: clamp(18px, 3vh, 26px) 0 0;
+  min-height: 3.4em;
+  padding-left: 16px;
+  border-left: var(--rule-heavy) solid transparent;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  line-height: 1.5;
+  color: var(--heritage);
+  transition: border-color 160ms var(--ease), color 160ms var(--ease);
+}
+
+.door-message[data-tone="deny"] { border-left-color: var(--red); color: var(--cream); }
+.door-message[data-tone="nudge"] { border-left-color: var(--heritage); color: var(--cream); }
+.door-message[data-tone="grant"],
+.door-message[data-tone="sent"] { border-left-color: var(--cream); color: var(--cream); }
+
+.door-message .said {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+
+.door-message[data-tone="grant"] .said,
+.door-message[data-tone="sent"] .said { color: var(--cream); }
+
+/* A refused code shakes the plate once — short, hard, no bounce, the same
+   register as the offset shadows. */
+.door-plate.is-refused { animation: door-refuse 320ms steps(4, end) 1; }
+
+@keyframes door-refuse {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-9px); }
+  75% { transform: translateX(9px); }
+}
+
+/* The honeypot. Off-screen rather than display:none — a bot reading the DOM
+   should find a fillable field, which is the whole point of it. */
+.door-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Switching between the code and the lost-code view ────────────────────
+   A real button, not an anchor: it goes nowhere, and a screen reader should
+   not be told otherwise. Styled to sit as quietly as a text link. */
+
+.door-aside { margin: clamp(14px, 2.4vh, 20px) 0 0; }
+
+.door-link {
+  padding: 0;
+  border: 0;
+  border-bottom: var(--rule) solid var(--red);
+  background: none;
+  color: var(--heritage);
+  font-family: var(--mono);
+  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 140ms var(--ease), background 140ms var(--ease);
+}
+
+.door-link:hover { background: var(--red); color: var(--cream); }
+
+/* ── The way in, for people who do not have a code ──────────────────────── */
+
+.door-foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 32px;
+  flex-wrap: wrap;
+  border-top: var(--rule) solid rgba(243, 230, 208, 0.23);
+  padding-top: 16px;
+  font-family: var(--mono);
+  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--heritage);
+}
+
+.door-foot a {
+  color: var(--cream);
+  text-decoration: none;
+  border-bottom: var(--rule) solid var(--red);
+  padding-bottom: 3px;
+  transition: color 140ms var(--ease), background 140ms var(--ease);
+}
+
+.door-foot a:hover { background: var(--red); color: var(--cream); }
+
+/* ── Granted ──────────────────────────────────────────────────────────────
+   The form is removed rather than hidden, so nothing behind it can be
+   tabbed into while the redirect runs. */
+
+.door-granted { margin: 0; }
+
+.door-granted-code {
+  display: inline-block;
+  margin: 0 0 18px;
+  padding: 14px 20px;
+  border: var(--rule) solid var(--cream);
+  box-shadow: var(--off) var(--off) 0 var(--red);
+  font-family: var(--mono);
+  font-size: clamp(0.95rem, 3.4vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

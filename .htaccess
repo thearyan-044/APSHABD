@@ -20,7 +20,23 @@ Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
 
 # ── CONTENT SECURITY POLICY ───────────────────────────────
-Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; script-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+# font-src needs 'self': Trench Slab is self-hosted from assets/fonts/, and
+# without it the brand face is blocked and every page silently falls back to
+# Arial Narrow.
+Header always set Content-Security-Policy "default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; media-src 'self'; script-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+
+# ── ACCESS GATE EXCEPTION ─────────────────────────────────
+# enter.html is the one page allowed to talk out: it asks the Apps Script web
+# app whether an access code is on the registration list. A header CSP and a
+# meta CSP are enforced together as an intersection, so connect-src 'none'
+# above would block that lookup no matter what the page's own meta tag says —
+# this re-sets the whole policy for that one file.
+#
+# Both Google hosts are needed: /exec on script.google.com answers with a 302
+# to script.googleusercontent.com, and fetch follows it.
+<Files "enter.html">
+  Header always set Content-Security-Policy "default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';"
+</Files>
 
 # ── STRICT TRANSPORT SECURITY (HSTS) ─────────────────────
 # Enable only if serving over HTTPS
