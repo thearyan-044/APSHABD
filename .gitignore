@@ -9,6 +9,13 @@
 /assets/model 2/
 /APSHABD-pre-registration/
 
+# Social carousels, launch-video frames and wallpaper exports. Marketing
+# working files: nothing in any page or stylesheet references them, and they
+# are ~13 MB of PNG. Same reasoning as the block above.
+/social/
+/assets/launch-video/
+/assets/brand/apshabd-lockscreen-landscape-v1.png
+
 # Downloaded but unused in any page/stylesheet.
 /assets/fonts/Boxing_Complete/
 /assets/fonts/FontshareKit-2608002138/

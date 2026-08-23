@@ -496,3 +496,114 @@ button, input, textarea { font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   POLISH PASS — targets, focus, device coverage
+
+   The pin form is the site's only conversion surface, so it answers to the
+   same floors as the index: 44px on anything tappable, a visible focus ring
+   on everything reachable by keyboard, and clearance for the notch.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root { --tap: 44px; }
+
+/* ── Notch and home indicator ───────────────────────────────────────────── */
+.nav {
+  padding-left: calc(var(--page) + env(safe-area-inset-left));
+  padding-right: calc(var(--page) + env(safe-area-inset-right));
+}
+
+@media (orientation: landscape) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+.pin-footer { padding-bottom: calc(34px + env(safe-area-inset-bottom)); }
+
+/* ── Tap targets ────────────────────────────────────────────────────────── */
+
+/* The wordmark is 38px tall and is the way back to the index. */
+.nav-brand {
+  display: flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+/* "Home" and "Cities" were bare 14px text — 13px tall as a hit area. */
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
+/* "Start the request" and "Return home" are ruled links, so the underline has
+   to stay on its baseline: an overlay grows the target without moving it. */
+.pin-hero-copy a,
+.pin-footer-meta a {
+  position: relative;
+}
+
+.pin-hero-copy a::before,
+.pin-footer-meta a::before {
+  content: "";
+  position: absolute;
+  inset: -14px -8px;
+}
+
+/* ── Focus ──────────────────────────────────────────────────────────────── */
+
+/* These four were reachable by keyboard with nothing to show for it. */
+.nav-brand:focus-visible,
+.nav-current:focus-visible,
+.pin-hero-copy a:focus-visible,
+.pin-footer-meta a:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 4px;
+}
+
+.pin-hero-copy a:focus-visible,
+.pin-footer-meta a:focus-visible { color: var(--red); }
+
+/* ── Contrast ───────────────────────────────────────────────────────────── */
+
+/* .pin-footer-meta runs at 0.61rem — 9.8px, under wide tracking. */
+.pin-footer-meta { font-size: max(11px, 0.61rem); }
+
+/* ── Short viewports ────────────────────────────────────────────────────── */
+
+/* The sticky progress rail sits under a fixed nav. On a landscape phone the
+   two together eat most of the screen, leaving barely a question visible. */
+@media (max-height: 520px) {
+  :root { --nav-h: 58px; }
+  .pin-progress { position: static; }
+}
+
+/* The volume dial is the one control on the form you drag rather than tap, and
+   at 26px tall the whole strip was under the thumb's own footprint. Growing the
+   input's box (not the track) widens the grab area; the track stays 8px, so the
+   dial looks identical. The Firefox thumb was also 18px against WebKit's 24 —
+   same control, two sizes. */
+.volume input[type="range"] { height: var(--tap); }
+.volume input[type="range"]::-webkit-slider-thumb { margin-top: -8px; }
+.volume input[type="range"]::-moz-range-thumb { width: 24px; height: 24px; }
+
+/* 0.58rem is 9.3px, and these are the labels that say what the dial means. */
+.volume-scale {
+  font-size: max(10.5px, 0.58rem);
+  color: rgba(0, 15, 8, 0.72);
+}
+
+.volume-heading > span { font-size: max(11px, 0.64rem); }
+
+/* 27px wide with 20px of clear space each side clears WCAG's spacing
+   exception, but not Apple's 44. Padding plus a cancelling margin costs
+   nothing visually. */
+.nav-links a:not(.nav-current) {
+  padding-inline: 9px;
+  margin-inline: -9px;
+}
+
+.pin-hero-copy a::before,
+.pin-footer-meta a::before { inset: -15px -8px; }

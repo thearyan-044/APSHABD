@@ -3,14 +3,33 @@
 ═══════════════════════════════════════════════════════ */
 
 /* ─── WHERE PINS GO ──────────────────────────────────────────────────────────
-   Leave empty and the form runs fully client-side: it validates, saves the pin
-   to localStorage and shows the receipt, so the page is live and usable today.
+   ⚠ THIS IS EMPTY, WHICH MEANS NO PIN EVER REACHES YOU.
 
-   To collect pins for real, set PIN_ENDPOINT to a URL that accepts a JSON POST
-   (Formspree, Google Apps Script, your own API) — and add that origin to the
-   connect-src directive in drop-a-pin.html, or the browser will block it.
+   Every "Drop a pin" call to action on the site — the hero, the manifesto, the
+   typewriter interlude, the city index, the pin CTA, the footer, and the CTA on
+   all seven city pages — ends here. With no endpoint set, a submitted pin is
+   written to the visitor's own localStorage and nowhere else: the name, the
+   area, the story and the email address they consented to be contacted on all
+   stay on their phone. Nobody at APSHABD ever sees them.
+
+   Until an endpoint is set, the receipt says so rather than claiming the pin
+   was received — see ENDPOINT_LIVE below and the done panel in drop-a-pin.html.
+
+   To collect pins for real:
+     1. Set PIN_ENDPOINT to a URL that accepts a JSON POST (Formspree, a Google
+        Apps Script web app, your own API).
+     2. Add that origin to connect-src in drop-a-pin.html's meta CSP.
+     3. Add it to connect-src in .htaccess too. The header there says
+        connect-src 'none', and a header CSP and a meta CSP are enforced as an
+        intersection — 'none' wins over anything the page says, so step 2 alone
+        will not be enough. enter.html already has a <Files> block doing exactly
+        this; copy that shape.
 ──────────────────────────────────────────────────────────────────────────── */
 const PIN_ENDPOINT = '';
+
+/* Drives the wording of the confirmation. Never tell someone their request was
+   received when it is sitting in their own browser. */
+const ENDPOINT_LIVE = PIN_ENDPOINT !== '';
 
 const form   = document.getElementById('pinForm');
 const note   = document.getElementById('pinNote');
@@ -238,6 +257,21 @@ form.addEventListener('submit', async e => {
   renderReceipt(pin);
 
   const done = document.getElementById('pinDone');
+
+  /* No endpoint means the pin got as far as this browser and no further, so
+     the panel drops the "received" language and hands them a route that does
+     reach us. The receipt below is still worth showing — it is what they would
+     paste into a DM. */
+  if (!ENDPOINT_LIVE) {
+    done.querySelector('.q-num').textContent = 'Not sent yet';
+    done.querySelector('h2').textContent = 'Saved on this device.';
+    done.querySelector('p').textContent =
+      'The request desk is not collecting yet, so this pin is held in this browser '
+      + 'rather than sent to us. Send it over on Instagram and it goes on the map today.';
+    const cta = done.querySelector('.pin-done-actions .btn:not(.btn-ghost)');
+    if (cta) cta.textContent = 'Send it to us on Instagram';
+  }
+
   form.style.display = 'none';
   document.querySelector('.pin-progress').style.display = 'none';
   done.classList.add('show');

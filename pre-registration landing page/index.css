@@ -1267,3 +1267,101 @@ footer a {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   POLISH PASS — contrast and targets
+
+   This page is the top of the funnel: it is where someone who has no code
+   goes to get one. Two pairings in the palette do not carry text:
+
+     --red    #f03a32  on --paper #e7dccb  →  2.89:1
+     --paper  #e7dccb  on --red   #f03a32  →  2.89:1  (and 2.28 on --orange)
+
+   Both are under AA in either direction, and between them they cover the
+   eyebrows, the step numbers, the required-field marks, the hero CTA chip
+   and the manifesto headline. --red-ink fixes the first; --night fixes the
+   second — a red plate wants dark type on it, not cream.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --red-ink: #b81c15;   /* 4.8:1 on --paper */
+  --tap: 44px;
+}
+
+/* ── Red as text, on the paper sections ─────────────────────────────────── */
+.eyebrow.dark,
+.consent b,
+.instagram-gate small { color: var(--red-ink); }
+
+/* ── Paper as text, on the red and orange plates ────────────────────────── */
+.closer,
+.hero-cta .arrow { color: var(--night); }
+
+/* 2.28:1 for the page's largest statement. Night on the orange is 5.9:1, and
+   the ink text-shadow that gave the word its depth goes with it — a dark
+   shadow behind dark type is just mud. */
+.manifesto p span {
+  color: var(--night);
+  text-shadow: 3px 3px 0 rgba(231, 220, 203, 0.55);
+}
+
+/* ── Muted greys on paper ───────────────────────────────────────────────── */
+/* 0.5 was 3.0:1, 0.62 was 4.2:1 — both under, on the two lines that explain
+   what is optional and what happens to someone's data. */
+.field label em { color: rgba(23, 33, 39, 0.72); }
+.privacy-note { color: rgba(23, 33, 39, 0.72); }
+/* .button-copy small sits on the ink submit button, not on paper: --orange is
+   5.3:1 there and --red-ink would be 2.5:1. It stays as it is. */
+
+/* ── Tap targets ────────────────────────────────────────────────────────── */
+/* "Get in" was 76x16 — the hero's only call to action. The rule under it is
+   the visual, so an overlay grows the target without moving anything. */
+.hero-cta,
+.instagram-gate a,
+.success-state a {
+  position: relative;
+}
+
+.hero-cta::before,
+.instagram-gate a::before,
+.success-state a::before {
+  content: "";
+  position: absolute;
+  inset: -14px -10px;
+}
+
+/* ── Notch and home indicator ───────────────────────────────────────────── */
+@media (orientation: landscape) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Every remaining red-on-paper mark: the intro headline's accent word, the
+   numbered steps in both the access list and the fieldset legends, and the
+   required-field asterisks. */
+.form-intro h2 span,
+.access-list li > span,
+.form-section > legend > span,
+.field > label > span,
+.group-label > b { color: var(--red-ink); }
+
+/* 0.55 of ink on paper is 3.4:1. */
+.field-foot span { color: rgba(23, 33, 39, 0.72); }
+
+/* Remaining undersized targets: the header's jump link (76x16), the Instagram
+   hand-off (38px) and the footer's way back (19px). */
+.jump-link,
+.instagram-gate a,
+footer > a { position: relative; }
+
+.jump-link::before,
+.instagram-gate a::before,
+footer > a::before {
+  content: "";
+  position: absolute;
+  inset: -14px -10px;
+}
+
+.instagram-gate a { min-height: var(--tap); display: inline-flex; align-items: center; }

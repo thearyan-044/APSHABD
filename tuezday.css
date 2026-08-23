@@ -14,6 +14,9 @@
 
   display: inline-flex;
   align-items: center;
+  /* The badge is a link, so it answers to the same 44px floor as everything
+     else tappable — it was 38px, which is a miss on a phone. */
+  min-height: 44px;
   gap: 10px;
   padding: 7px 12px 8px;
   background: var(--tz-paper);
@@ -38,11 +41,14 @@
 
 .tz-badge-label {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: .5rem;
+  /* .5rem put this at 8px, and the mobile rule below took it to 7.2px with
+     0.2em tracking on top. Floored at 10px — small enough to stay a footnote,
+     large enough to actually be a word. */
+  font-size: max(10px, 0.5rem);
   letter-spacing: .24em;
   font-weight: 700;
   text-transform: uppercase;
-  color: rgba(26,26,26,.55);
+  color: rgba(26, 26, 26, 0.72);
   white-space: nowrap;
 }
 
@@ -114,7 +120,7 @@
 /* ── MOBILE ───────────────────────────────────────────── */
 @media (max-width: 560px) {
   .tz-badge { gap: 8px; padding: 6px 10px 7px; }
-  .tz-badge-label { font-size: .45rem; letter-spacing: .2em; }
+  .tz-badge-label { letter-spacing: .18em; }
   .tz-mark-word { font-size: .9rem; }
   .tz-mark-tld { font-size: .74rem; }
 

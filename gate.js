@@ -611,29 +611,56 @@
     }
   }
 
-  /* Matches the server's own cooldown, so the button cannot invite a second
-     request that the backend has already decided to ignore. */
+  /* A short guard against a double tap, NOT a mirror of the server cooldown —
+     the two are deliberately different lengths and it matters which.
+
+     The server refuses a second send to the SAME address for ten minutes
+     (RECOVERY_COOLDOWN_SECONDS), and answers a refused one with the identical
+     "sent" response, because telling the two apart would leak who is on the
+     list. So the client can never know whether a repeat actually went out.
+
+     Holding the button for the full ten minutes would be the obvious reading
+     of that, and it would be wrong: the cooldown is keyed per address, so
+     somebody who has just mistyped their own email would be locked out of the
+     correction for ten minutes over a send that went to nobody. Instead the
+     button holds briefly, and releaseRecoverHold() below lets it go the
+     moment the address is edited — a different address is a different bucket
+     on the server and can be sent to immediately. */
+  var recoverHoldTimer = null;
+
+  function releaseRecoverHold() {
+    if (!recoverHoldTimer) return;
+    window.clearInterval(recoverHoldTimer);
+    recoverHoldTimer = null;
+    setRecoverBusy(false);
+  }
+
   function holdRecoverButton(seconds) {
     var left = seconds;
     setRecoverBusy(true);
     recoverSubmitLabel.textContent = "Sent";
 
-    var timer = window.setInterval(function () {
+    recoverHoldTimer = window.setInterval(function () {
       left -= 1;
       if (left <= 0) {
-        window.clearInterval(timer);
-        setRecoverBusy(false);
+        releaseRecoverHold();
         return;
       }
       recoverSubmitLabel.textContent = "Sent · " + left + "s";
     }, 1000);
   }
 
+  /* Editing the address invalidates whatever the last answer was about, and
+     releases the hold with it: the new address is a fresh bucket on the
+     server, so there is nothing left to wait for. This is what makes a
+     mistyped email correctable straight away rather than in ten minutes. */
   recoverEmail.addEventListener("input", function () {
-    if (recoverMessage.dataset.tone === "nudge") {
+    var tone = recoverMessage.dataset.tone;
+    if (tone === "nudge" || tone === "sent") {
       delete recoverMessage.dataset.tone;
       recoverMessage.textContent = "";
     }
+    releaseRecoverHold();
   });
 
   recoverEmail.addEventListener("keydown", function (event) {
@@ -668,8 +695,15 @@
       if (result && result.ok && result.sent) {
         /* Deliberately says "if" — the server answers the same way whether or
            not the address is on the list, so that nobody can use this to test
-           who signed up. The copy has to match that promise. */
-        sayRecover("sent", "If that address is on the list, the code is on its way. Give it a minute, and look in spam before you try again.");
+           who signed up. The copy has to match that promise.
+
+           The second half matters as much as the first. Because the answer is
+           the same for a registered and an unregistered address, somebody who
+           mistyped their own email sees this exact reassurance and then waits
+           for a mail that was never sent to anybody. Naming the likeliest
+           cause, and the fix, is the only way out of that without giving away
+           who is on the list. */
+        sayRecover("sent", "If that address is on the list, the code is on its way — check spam too. Nothing in a few minutes? You probably signed up with a different address. Change it above and send again.");
         holdRecoverButton(60);
         return;
       }

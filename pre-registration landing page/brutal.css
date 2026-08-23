@@ -1,0 +1,211 @@
+/* ══════════════════════════════════════════════════════════════════════════
+   BRUTALIST LAYER — अPSHABD pre-registration
+
+   Same pass as the main site's brutal.css, written separately because this
+   page deploys on its own and shares no class names with the rest of the
+   site — a link to ../brutal.css would break the moment this folder is
+   published by itself. Loaded last, so ordinary rules win on source order.
+
+   To revert: delete the <link rel="stylesheet" href="brutal.css"> in
+   index.html. Nothing in index.css depends on this file.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --br-rule: 3px;
+  --br-rule-heavy: 6px;
+  --br-off: 10px;
+  --br-off-sm: 6px;
+  --br-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Consolas,
+             "Liberation Mono", "Courier New", monospace;
+}
+
+/* !important because the universal selector has zero specificity — the radii
+   already set on .code-card, .status-dot and the choice controls would
+   otherwise outrank it. */
+*,
+*::before,
+*::after { border-radius: 0 !important; }
+
+/* The dot-screen print sitting over the whole page goes with the halftone
+   the main site carried — same device, same reason. */
+.grain { display: none; }
+
+/* Flat scrims. The three stacked gradients existed to keep the headline
+   legible over the photo; one flat wash does that with a hard edge, and the
+   photo underneath goes harder rather than softer to hold its own against it. */
+.hero-shade { background: rgba(9, 15, 18, 0.66); }
+.hero-photo { filter: saturate(0.85) contrast(1.22) brightness(0.7); }
+
+.form-intro {
+  background:
+    linear-gradient(rgba(231, 220, 203, 0.93), rgba(231, 220, 203, 0.93)),
+    url("assets/campaign/web/chennai-marina-chai.jpg") center / cover;
+}
+
+/* ── Micro-labels ─────────────────────────────────────────────────────────
+   Every piece of meta type reads as machine output. */
+.header-note,
+.jump-link,
+.eyebrow,
+.hero-meta,
+.manifesto-index,
+.progress-label,
+.step-no,
+.field label,
+.group-label,
+.field-foot,
+.button-copy small,
+.code-card-label,
+.code-copy,
+.instagram-gate small,
+.instagram-gate a,
+.access-list span,
+#reset-form,
+footer a {
+  font-family: var(--br-mono);
+  font-weight: 700;
+}
+
+/* ── Structure ────────────────────────────────────────────────────────────
+   Section joins are declared rather than blended. */
+.site-header { border-bottom: var(--br-rule) solid var(--paper); }
+.how { border-top: var(--br-rule-heavy) solid var(--cream); }
+.manifesto { border-top: var(--br-rule-heavy) solid var(--cream); }
+.registration { border-top: var(--br-rule-heavy) solid var(--cream); }
+footer { border-top: var(--br-rule-heavy) solid var(--cream); }
+
+/* Square, and standing still — a pulsing round dot is the one soft object
+   left in the header. */
+.status-dot {
+  width: 11px;
+  height: 11px;
+  box-shadow: none;
+  animation: none;
+}
+
+.hero-cta { border-bottom-width: var(--br-rule); padding-bottom: 10px; }
+
+.hero-cta .arrow {
+  width: 38px;
+  height: 38px;
+  border: var(--br-rule) solid var(--paper);
+}
+
+.manifesto-index {
+  width: max-content;
+  padding: 9px 13px 8px;
+  background: var(--red);
+  color: var(--night);
+}
+
+/* The 1px gutter between the three steps becomes a real rule, so the block
+   reads as three cells rather than one panel with seams. */
+.steps {
+  gap: var(--br-rule);
+  border: var(--br-rule) solid var(--cream);
+  background: var(--cream);
+}
+
+.step-no {
+  width: max-content;
+  padding: 6px 10px 5px;
+  background: var(--red);
+  color: var(--night);
+}
+
+/* ── Form ─────────────────────────────────────────────────────────────────
+   Controls sit on their own plate. Focus swaps the plate to red instead of
+   adding an inset rule — the focused field becomes the only red object in
+   the column, which is a stronger signal than the 3px underline it replaces. */
+.form-shell { border-left: var(--br-rule-heavy) solid var(--ink); }
+.form-section legend { border-bottom: var(--br-rule) solid var(--ink); }
+
+.field input,
+.field select,
+.field textarea {
+  border: var(--br-rule) solid var(--ink);
+  box-shadow: var(--br-off-sm) var(--br-off-sm) 0 rgba(23, 33, 39, 0.18);
+}
+
+.field input:hover,
+.field select:hover,
+.field textarea:hover { border-color: var(--ink); }
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--red);
+  box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--red);
+}
+
+.field.invalid input,
+.field.invalid select,
+.field.invalid textarea {
+  border-color: var(--red);
+  box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--red);
+}
+
+.choice-row span { border: var(--br-rule) solid var(--ink); }
+
+.choice-row label:hover span,
+.choice-row input:checked + span {
+  box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--ink);
+}
+
+.choice-row input:focus-visible + span { outline-width: var(--br-rule); }
+
+.checkmark { width: 28px; height: 28px; border: var(--br-rule) solid var(--ink); }
+
+.progress-track { height: 20px; padding: var(--br-rule); border: var(--br-rule) solid var(--ink); }
+.access-list { border-top: var(--br-rule) solid var(--ink); }
+.access-list li { border-bottom: var(--br-rule) solid var(--ink); }
+
+.instagram-gate {
+  border: var(--br-rule) solid var(--ink);
+  box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--ink);
+}
+
+.instagram-gate a { border: var(--br-rule) solid var(--ink); }
+
+/* ── Pressables ───────────────────────────────────────────────────────────
+   The control stands on a hard plate and is driven down into it on press
+   until the two line up; travel and offset match, so the outer edge never
+   moves. The submit button already lifted on hover — it keeps that, and the
+   press now takes it the whole way through. */
+.submit-button,
+.code-copy,
+#reset-form {
+  border: var(--br-rule) solid var(--ink);
+  box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--ink);
+}
+
+.submit-button:hover,
+.submit-button:focus-visible {
+  transform: translate(calc(var(--br-off-sm) * -1), calc(var(--br-off-sm) * -1));
+  box-shadow: calc(var(--br-off-sm) * 2) calc(var(--br-off-sm) * 2) 0 var(--ink);
+}
+
+.submit-button:not(:disabled):active,
+.code-copy:active,
+#reset-form:active {
+  transform: translate(var(--br-off-sm), var(--br-off-sm));
+  box-shadow: 0 0 0 transparent;
+}
+
+.submit-button:disabled { box-shadow: none; transform: none; }
+
+.code-card { border-width: var(--br-rule); box-shadow: var(--br-off) var(--br-off) 0 var(--ink); }
+.success-stamp { border-width: var(--br-rule-heavy); }
+
+@media (max-width: 820px) {
+  :root {
+    --br-rule: 2px;
+    --br-rule-heavy: 4px;
+    --br-off: 7px;
+    --br-off-sm: 5px;
+  }
+
+  /* The two-column split collapses here, so the divider is no longer between
+     anything — the section rule above it does the separating instead. */
+  .form-shell { border-left: 0; border-top: var(--br-rule-heavy) solid var(--ink); }
+}

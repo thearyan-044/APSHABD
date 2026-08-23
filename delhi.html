@@ -4,21 +4,56 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>APSHABD — DELHI · ख़ामोशी</title>
+  <meta name="theme-color" content="#2a0f0a" />
+  <meta name="description" content="APSHABD Delhi - Old city stone, new city glass, and the quiet that runs between them." />
   <!-- The door. Blocking and first, so a visitor without a code is turned away
        before any of this page paints. See gate-guard.js. -->
   <script src="gate-guard.js?v=1"></script>
+  <link rel="canonical" href="https://pindropsilence.com/delhi.html" />
+
+  <!-- Icons. One square mark, every surface: browser tab, iOS home screen,
+       Android install prompt. See assets/icons/. -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <!-- Share card. Without these a link pasted into WhatsApp, Instagram DMs or
+       LinkedIn renders as a bare grey rectangle. Absolute URLs are required:
+       most scrapers do not resolve relative ones. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="APSHABD" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:url" content="https://pindropsilence.com/delhi.html" />
+  <meta property="og:title" content="APSHABD - Delhi / DEL 03" />
+  <meta property="og:description" content="APSHABD Delhi - Old city stone, new city glass, and the quiet that runs between them." />
+  <meta property="og:image" content="https://pindropsilence.com/assets/social/og-delhi.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="A dark card reading DELHI with the APSHABD wordmark" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="APSHABD - Delhi / DEL 03" />
+  <meta name="twitter:description" content="APSHABD Delhi - Old city stone, new city glass, and the quiet that runs between them." />
+  <meta name="twitter:image" content="https://pindropsilence.com/assets/social/og-delhi.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display&family=Space+Grotesk:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;700&family=DotGothic16&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href=".//delhi.css?v=4" />
   <link rel="stylesheet" href=".//drop.css?v=4" />
-  <link rel="stylesheet" href=".//tuezday.css?v=3" />
+  <link rel="stylesheet" href=".//tuezday.css?v=4" />
   <link rel="stylesheet" href=".//streets.css?v=5" />
-  <link rel="stylesheet" href=".//city-brand.css?v=5" />
+  <link rel="stylesheet" href=".//city-brand.css?v=10" />
+  <!-- Last: city-brand.css hides .marquee and kills animation, and the
+       metro panel has to win. -->
+  <link rel="stylesheet" href=".//metro-board.css?v=1" />
+  <link rel="stylesheet" href=".//brutal.css?v=4" />
 </head>
 <body>
   <div class="bg-word" aria-hidden="true">ख़ामोशी</div>
   <div class="grain" aria-hidden="true"></div>
+  <a class="skip-link" href="#drop">Skip to the drop</a>
+
 
   <nav class="nav glass">
     <a href="index.html" class="back">← APSHABD HOME</a>
@@ -36,10 +71,41 @@
     <a href="#drop" class="cta reveal">ENTER THE GATE ↓</a>
   </header>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>HAUZ KHAS ✦ CONNAUGHT PLACE ✦ CHANDNI CHOWK ✦ SAKET ✦ KAROL BAGH ✦ LAJPAT NAGAR ✦ DWARKA ✦ GREATER KAILASH ✦ </span>
-      <span>HAUZ KHAS ✦ CONNAUGHT PLACE ✦ CHANDNI CHOWK ✦ SAKET ✦ KAROL BAGH ✦ LAJPAT NAGAR ✦ DWARKA ✦ GREATER KAILASH ✦ </span>
+  <!-- The Yellow Line coach panel. Each stop is one cell carrying both
+       scripts, so the Devanagari stays locked over its own Latin instead
+       of drifting past it. Both halves of the track are identical: the
+       keyframes travel -50%, so the loop only closes if they match. -->
+  <div class="marquee metro-board" aria-hidden="true">
+    <div class="mb-inner">
+      <span class="mb-line"><b>Yellow</b><i>Line</i></span>
+      <div class="mb-screen">
+        <div class="marquee-track">
+          <span class="mb-set">
+            <span class="mb-stop mb-stop--label"><i class="mb-hi">अगला स्टेशन</i><b class="mb-en">Next Station</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop"><i class="mb-hi">चांदनी चौक</i><b class="mb-en">Chandni Chowk</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop"><i class="mb-hi">कनॉट प्लेस</i><b class="mb-en">Connaught Place</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop"><i class="mb-hi">हौज़ ख़ास</i><b class="mb-en">Hauz Khas</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop mb-stop--label"><i class="mb-hi">दरवाज़े बायीं ओर खुलेंगे</i><b class="mb-en">Doors will open on the left</b></span>
+            <i class="mb-sep">✦</i>
+          </span>
+          <span class="mb-set">
+            <span class="mb-stop mb-stop--label"><i class="mb-hi">अगला स्टेशन</i><b class="mb-en">Next Station</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop"><i class="mb-hi">चांदनी चौक</i><b class="mb-en">Chandni Chowk</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop"><i class="mb-hi">कनॉट प्लेस</i><b class="mb-en">Connaught Place</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop"><i class="mb-hi">हौज़ ख़ास</i><b class="mb-en">Hauz Khas</b></span>
+            <i class="mb-sep">✦</i>
+            <span class="mb-stop mb-stop--label"><i class="mb-hi">दरवाज़े बायीं ओर खुलेंगे</i><b class="mb-en">Doors will open on the left</b></span>
+            <i class="mb-sep">✦</i>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -99,7 +165,7 @@
     </article>
   </section>
 
-  <section class="section" id="drop">
+  <section class="section" id="drop" tabindex="-1">
     <div class="section-head reveal">
       <span class="stamp">DELHI DROP 001</span>
       <h2>EMPIRE STREETWEAR</h2>

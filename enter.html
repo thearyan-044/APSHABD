@@ -7,17 +7,22 @@
   <meta name="description" content="Enter your APSHABD access code to open the site." />
   <meta name="theme-color" content="#000f08" />
   <meta name="robots" content="noindex, nofollow" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <!-- No X-Frame-Options meta here on purpose: browsers ignore that header in
-       meta form and log an error for it. .htaccess sets the real one. -->
+  <!-- X-Frame-Options, X-Content-Type-Options and Permissions-Policy are header-only:
+       browsers ignore them in meta form. .htaccess sets the real ones. -->
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
   <!-- The only page on the site allowed to talk out: the code check goes to
        the Apps Script web app, which 302s from script.google.com to
        script.googleusercontent.com, so both hosts have to be listed. -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; script-src 'self'; connect-src https://script.google.com https://script.googleusercontent.com; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <!-- Icons only, no share card: the door is noindex and a link to it should
+       stay as unremarkable as the page itself. -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+
   <link rel="preload" href="assets/fonts/trench-slab/TrenchSlab-Regular.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="gate.css?v=1" />
+  <link rel="stylesheet" href="gate.css?v=4" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to the code field</a>
@@ -118,6 +123,17 @@
         <p class="door-aside">
           <button class="door-link" id="to-code" type="button">← Back to the code</button>
         </p>
+
+        <!-- The last exit. Recovery can only ever mail the address on the
+             list, so somebody who has lost the inbox as well is otherwise at
+             a dead end with nothing on the page to press. Every other page on
+             the site already routes a stuck visitor to the DMs; the door was
+             the one that did not. -->
+        <p class="door-aside door-aside-last">
+          <span>Lost the inbox too?</span>
+          <a class="door-link" href="https://www.instagram.com/pd.silence/"
+             target="_blank" rel="noopener">DM us on Instagram ↗</a>
+        </p>
       </form>
     </div>
 
@@ -127,10 +143,14 @@
     <span>अPSHABD / Est. 2026</span>
     <span>
       No code?
-      <a href="pre-registration landing page/index.html">Get on the list ↗</a>
+      <!-- Percent-encoded: the directory name has literal spaces in it, and
+           while a browser will encode them for you, plenty of things in front
+           of one (CDN rules, some static hosts, link scanners in email) will
+           not. Renaming the folder to pre-registration/ would be the real fix. -->
+      <a href="pre-registration%20landing%20page/index.html">Get on the list ↗</a>
     </span>
   </footer>
 
-  <script src="gate.js?v=1"></script>
+  <script src="gate.js?v=2"></script>
 </body>
 </html>

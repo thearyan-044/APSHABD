@@ -6,18 +6,47 @@
   <title>Drop a Pin — Put your area on the map</title>
   <meta name="description" content="Tell us which Indian neighbourhood should become the next streetwear drop." />
   <meta name="theme-color" content="#000f08" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <!-- Only Content-Security-Policy and Referrer-Policy do anything in meta form.
+       X-Frame-Options, X-Content-Type-Options and Permissions-Policy are header-only:
+       browsers ignore them here (and log an error for the first), so they are set in
+       .htaccess instead. Note that .htaccess is Apache-only - on Netlify, Vercel or
+       GitHub Pages these three need re-declaring in that host's own headers config. -->
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; script-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none';" />
   <!-- The door. Blocking and first, so a visitor without a code is turned away
        before any of this page paints. See gate-guard.js. -->
   <script src="gate-guard.js?v=1"></script>
+  <link rel="canonical" href="https://pindropsilence.com/drop-a-pin.html" />
+
+  <!-- Icons. One square mark, every surface: browser tab, iOS home screen,
+       Android install prompt. See assets/icons/. -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <!-- Share card. Without these a link pasted into WhatsApp, Instagram DMs or
+       LinkedIn renders as a bare grey rectangle. Absolute URLs are required:
+       most scrapers do not resolve relative ones. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="APSHABD" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:url" content="https://pindropsilence.com/drop-a-pin.html" />
+  <meta property="og:title" content="APSHABD - Drop a pin" />
+  <meta property="og:description" content="Tell us which Indian neighbourhood should become the next streetwear drop." />
+  <meta property="og:image" content="https://pindropsilence.com/assets/social/og-drop-a-pin.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="A dark card reading DROP A PIN with the APSHABD wordmark" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="APSHABD - Drop a pin" />
+  <meta name="twitter:description" content="Tell us which Indian neighbourhood should become the next streetwear drop." />
+  <meta name="twitter:image" content="https://pindropsilence.com/assets/social/og-drop-a-pin.jpg" />
 
   <link rel="preload" href="assets/fonts/trench-slab/TrenchSlab-Regular.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="pin-form.css?v=5" />
-  <link rel="stylesheet" href="brutal.css?v=1" />
+  <link rel="stylesheet" href="pin-form.css?v=7" />
+  <link rel="stylesheet" href="brutal.css?v=4" />
 </head>
 <body>
   <a class="skip-link" href="#pinForm">Skip to the form</a>
@@ -99,11 +128,12 @@
         <div class="q-fields">
           <div class="field">
             <label for="area">Area or locality <span>Required</span></label>
-            <input type="text" class="pin-input" id="area" name="area" placeholder="T. Nagar · Bandra West · Koramangala 5th Block" maxlength="80" />
+            <input type="text" class="pin-input" id="area" name="area" placeholder="T. Nagar · Bandra West · Koramangala 5th Block" maxlength="80" autocapitalize="words" autocorrect="off" />
           </div>
           <div class="field">
             <label for="script">Written in your script <span>Optional</span></label>
-            <input type="text" class="pin-input" id="script" name="script" placeholder="தி. நகர் · वांद्रे · ಕೋರಮಂಗಲ" maxlength="80" />
+            <!-- Native script: the keyboard should not autocorrect or spellcheck it. -->
+            <input type="text" class="pin-input" id="script" name="script" placeholder="தி. நகர் · वांद्रे · ಕೋರಮಂಗಲ" maxlength="80" autocapitalize="none" autocorrect="off" spellcheck="false" />
           </div>
         </div>
       </section>
@@ -166,12 +196,18 @@
             </div>
             <div class="field">
               <label for="handle">Instagram <span>Optional</span></label>
-              <input type="text" class="pin-input" id="handle" name="handle" placeholder="@yourhandle" maxlength="40" />
+              <!-- autocapitalize/autocorrect off: iOS otherwise turns
+                   "@bandraboy" into "@Bandraboy" and offers to fix the
+                   spelling of a handle, which is a wrong-by-default value in
+                   the one field a visitor is least likely to re-read. -->
+              <input type="text" class="pin-input" id="handle" name="handle" placeholder="@yourhandle" maxlength="40"
+                     inputmode="text" autocapitalize="none" autocorrect="off" spellcheck="false" />
             </div>
           </div>
           <div class="field">
             <label for="email">Email <span>Required</span></label>
-            <input type="email" class="pin-input" id="email" name="email" placeholder="you@yourcity.com" maxlength="120" autocomplete="email" />
+            <input type="email" class="pin-input" id="email" name="email" placeholder="you@yourcity.com" maxlength="120"
+                   autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" />
           </div>
           <label class="consent">
             <input type="checkbox" id="consent" name="consent" />
@@ -219,6 +255,6 @@
     </div>
   </footer>
 
-  <script src="pin-form.js?v=4"></script>
+  <script src="pin-form.js?v=5"></script>
 </body>
 </html>

@@ -3,25 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Streetwear from where you are</title>
+  <title>अPSHABD — Wear where you're from. Indian streetwear.</title>
   <meta name="description" content="Indian streetwear built from neighbourhood memory, local scripts, and the streets that made us." />
   <meta name="theme-color" content="#000f08" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta http-equiv="X-Frame-Options" content="DENY" />
+  <!-- Only Content-Security-Policy and Referrer-Policy do anything in meta form.
+       X-Frame-Options, X-Content-Type-Options and Permissions-Policy are header-only:
+       browsers ignore them here (and log an error for the first), so they are set in
+       .htaccess instead. Note that .htaccess is Apache-only - on Netlify, Vercel or
+       GitHub Pages these three need re-declaring in that host's own headers config. -->
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; script-src 'self'; connect-src 'none'; frame-src 'none'; object-src 'none';" />
   <!-- The door. Blocking and first, so a visitor without a code is turned away
        before any of this page paints. See gate-guard.js. -->
   <script src="gate-guard.js?v=1"></script>
+  <link rel="canonical" href="https://pindropsilence.com/" />
+
+  <!-- Icons. One square mark, every surface: browser tab, iOS home screen,
+       Android install prompt. See assets/icons/. -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+
+  <!-- Share card. Without these a link pasted into WhatsApp, Instagram DMs or
+       LinkedIn renders as a bare grey rectangle. Absolute URLs are required:
+       most scrapers do not resolve relative ones. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="APSHABD" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:url" content="https://pindropsilence.com/" />
+  <meta property="og:title" content="APSHABD - Wear where you're from." />
+  <meta property="og:description" content="Indian streetwear built from neighbourhood memory, local scripts, and the streets that made us." />
+  <meta property="og:image" content="https://pindropsilence.com/assets/brand/apshabd-og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="The APSHABD wordmark on a dark ground, above the line 'Wear where you are from.'" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="APSHABD - Wear where you're from." />
+  <meta name="twitter:description" content="Indian streetwear built from neighbourhood memory, local scripts, and the streets that made us." />
+  <meta name="twitter:image" content="https://pindropsilence.com/assets/brand/apshabd-og.jpg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@500;700&family=Noto+Sans+Devanagari:wght@500;700&family=Noto+Sans+Kannada:wght@500;700&family=Noto+Sans+Tamil:wght@500;700&family=Noto+Sans+Telugu:wght@500;700&display=swap" rel="stylesheet" />
   <link rel="preload" href="assets/fonts/trench-slab/TrenchSlab-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/campaign/web/06-mumbai-andheri-dadar-colaba-train.jpg" as="image" />
-  <link rel="stylesheet" href="styles.css?v=30" />
-  <link rel="stylesheet" href="tuezday.css?v=2" />
-  <link rel="stylesheet" href="brutal.css?v=1" />
+  <!-- Structured data. Without it a search engine has to infer from the page
+       copy that "अPSHABD" is a clothing brand rather than a misspelling, and a
+       knowledge panel or a branded-search result has nothing to draw on.
+       Inline JSON-LD is allowed by the CSP because script-src 'self' governs
+       *executable* script; a type="application/ld+json" block is data. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://pindropsilence.com/#brand",
+        "name": "अPSHABD",
+        "alternateName": ["APSHABD", "Apshabd"],
+        "url": "https://pindropsilence.com/",
+        "logo": "https://pindropsilence.com/assets/icons/icon-512.png",
+        "image": "https://pindropsilence.com/assets/brand/apshabd-og.jpg",
+        "description": "Indian streetwear built from neighbourhood memory, local scripts, and the streets that made us.",
+        "foundingDate": "2026",
+        "areaServed": { "@type": "Country", "name": "India" },
+        "sameAs": ["https://www.instagram.com/pd.silence/"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://pindropsilence.com/#site",
+        "url": "https://pindropsilence.com/",
+        "name": "अPSHABD",
+        "inLanguage": "en-IN",
+        "publisher": { "@id": "https://pindropsilence.com/#brand" }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css?v=33" />
+  <link rel="stylesheet" href="tuezday.css?v=4" />
+  <link rel="stylesheet" href="brutal.css?v=4" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -307,6 +370,12 @@
           </div>
         </div>
 
+        <!-- data-image is the frame that swaps into .city-preview on hover.
+             The craft section on this same page promises "nobody here is a
+             model borrowed from another city", so the five cities without
+             their own campaign photography get a holding plate rather than a
+             Chennai or Mumbai frame under their name. Replace each plate with
+             that city's real photography the day it exists. -->
         <div class="city-list reveal">
           <a class="city-row is-active" href="chennai.html?v=3" data-code="MAA / 01" data-city="CHENNAI" data-image="assets/campaign/web/01-chennai-adyar-fisherman.jpg">
             <span class="city-number">01</span><span class="city-native tamil" lang="ta">சென்னை</span><strong>Chennai</strong><span class="city-status live">Shop live</span><span class="city-arrow" aria-hidden="true">↗</span>
@@ -314,22 +383,22 @@
           <a class="city-row" href="mumbai.html?v=3" data-code="BOM / 02" data-city="MUMBAI" data-image="assets/campaign/web/mumbai-bandra-fruit-stall.jpg">
             <span class="city-number">02</span><span class="city-native devanagari" lang="mr">मुंबई</span><strong>Mumbai</strong><span class="city-status live">Shop live</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="delhi.html?v=3" data-code="DEL / 03" data-city="DELHI" data-image="assets/delhi/hauz-khas/references/03-graffiti-lane.png">
+          <a class="city-row" href="delhi.html?v=3" data-code="DEL / 03" data-city="DELHI" data-image="assets/campaign/plates/delhi.jpg">
             <span class="city-number">03</span><span class="city-native devanagari" lang="hi">दिल्ली</span><strong>Delhi</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="bangalore.html?v=3" data-code="BLR / 04" data-city="BANGALORE" data-image="assets/campaign/web/04-chennai-anna-nagar-drummer.jpg">
+          <a class="city-row" href="bangalore.html?v=3" data-code="BLR / 04" data-city="BANGALORE" data-image="assets/campaign/plates/bangalore.jpg">
             <span class="city-number">04</span><span class="city-native kannada" lang="kn">ಬೆಂಗಳೂರು</span><strong>Bangalore</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="kolkata.html?v=3" data-code="CCU / 05" data-city="KOLKATA" data-image="assets/campaign/web/09-chennai-mylapore-train.jpg">
+          <a class="city-row" href="kolkata.html?v=3" data-code="CCU / 05" data-city="KOLKATA" data-image="assets/campaign/plates/kolkata.jpg">
             <span class="city-number">05</span><span class="city-native bengali" lang="bn">কলকাতা</span><strong>Kolkata</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="hyderabad.html?v=3" data-code="HYD / 06" data-city="HYDERABAD" data-image="assets/campaign/web/05-chennai-marina-water-carrier.jpg">
+          <a class="city-row" href="hyderabad.html?v=3" data-code="HYD / 06" data-city="HYDERABAD" data-image="assets/campaign/plates/hyderabad.jpg">
             <span class="city-number">06</span><span class="city-native telugu" lang="te">హైదరాబాద్</span><strong>Hyderabad</strong><span class="city-status">In the works</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row" href="pune.html?v=3" data-code="PNQ / 07" data-city="PUNE" data-image="assets/campaign/web/mumbai-dadar-skateboard.jpg">
+          <a class="city-row" href="pune.html?v=3" data-code="PNQ / 07" data-city="PUNE" data-image="assets/campaign/plates/pune.jpg">
             <span class="city-number">07</span><span class="city-native devanagari" lang="mr">पुणे</span><strong>Pune</strong><span class="city-status">Last in line</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
-          <a class="city-row city-row-yours" href="drop-a-pin.html" data-code="YOU / 08" data-city="YOUR CITY" data-image="assets/campaign/web/02-mumbai-thane-fisherman.jpg">
+          <a class="city-row city-row-yours" href="drop-a-pin.html" data-code="YOU / 08" data-city="YOUR CITY" data-image="assets/campaign/plates/your-city.jpg">
             <span class="city-number">08</span><span class="city-native">+</span><strong>Your city</strong><span class="city-status">Make the call</span><span class="city-arrow" aria-hidden="true">↗</span>
           </a>
         </div>

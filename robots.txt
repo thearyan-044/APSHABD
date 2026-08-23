@@ -1,5 +1,22 @@
+# ⚠ THE ACCESS GATE AND THIS FILE DISAGREE.
+#
+# Allow: / invites crawlers in, but gate-guard.js redirects every page to
+# enter.html unless the browser is carrying an unlock record — and enter.html
+# is noindex. Googlebot renders JavaScript, so it gets bounced the same way a
+# visitor does. The practical result today is that nothing indexes and the
+# crawl budget is spent on redirects.
+#
+# Pick one before launch:
+#   a) Staying gated for now — change the line below to "Disallow: /", so the
+#      site is not repeatedly crawled to no purpose, and revert it on launch.
+#   b) Opening up — take the gate off the pages that should rank (the index
+#      and the two live city pages) and keep it on the rest.
+#
+# Leaving it as-is is the one option that helps nobody.
+
 User-agent: *
 Allow: /
+Disallow: /enter.html
 Disallow: /Logo/
 Disallow: /.htaccess
 Disallow: /security.txt
@@ -7,8 +24,9 @@ Disallow: /*.env
 Disallow: /*.json
 Disallow: /*.log
 
-# Sitemap (update with actual domain when deployed)
-# Sitemap: https://pindropsilence.com/sitemap.xml
+# Update the host here and in sitemap.xml if the site ships on a different
+# domain than pindropsilence.com.
+Sitemap: https://pindropsilence.com/sitemap.xml
 
 # Crawl delay for non-major bots
 User-agent: AhrefsBot

@@ -92,6 +92,31 @@ still be refused at the door. The original token is only stored as a hash and
 cannot be read back, so a new one is minted, which retires the old link. That
 is the intended behaviour: the most recent email is the one that works.
 
+### The two waits are different lengths on purpose
+
+The server holds an address for **600s**. The button on the page holds for
+**60s**. That asymmetry is deliberate and it is easy to "fix" it wrongly.
+
+Because the server answers a cooled-down request exactly the same way it
+answers a real send, the page can never tell whether a repeat went out. The
+obvious reading is to disable the button for the full ten minutes to match.
+That would be worse: the cooldown is keyed *per address*, so somebody who has
+just mistyped their own email would be locked out of correcting it for ten
+minutes over a send that reached nobody.
+
+So the short hold only guards against a double tap, and editing the address
+releases it immediately — a different address is a different bucket on the
+server and can be sent to at once. The success copy names that path
+("you probably signed up with a different address, change it above and send
+again"), because a typo is the single most likely reason a visitor sees
+"on its way" and then nothing arrives.
+
+### Losing the inbox as well
+
+Recovery can only ever mail the address on the list. Under the form there is
+a DM link for the case where that inbox is gone too — otherwise the door is a
+dead end with nothing left to press.
+
 One thing deliberately not solved: a registered address takes fractionally
 longer to answer than an unregistered one, because it sends an email. Timing
 alone could in principle distinguish them. Closing that would mean queueing

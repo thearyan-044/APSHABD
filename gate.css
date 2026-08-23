@@ -33,6 +33,16 @@
           "Liberation Mono", "Courier New", monospace;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --page: clamp(20px, 3.4vw, 58px);
+
+  /* The door ran every label off clamp(0.58rem, 1.5vw, 0.68rem). Below about
+     1100px the vw term is smaller than the floor, so on a phone all of them
+     resolved to a flat 9.3px with 0.18em-0.24em of tracking on top - including
+     "Forgot your code?", the way back in for anyone locked out. max() keeps a
+     hard px floor while still scaling for a raised browser font size. */
+  --label: clamp(11.5px, 1.5vw, max(11.5px, 0.68rem));
+
+  /* iOS asks 44, Android 48dp. */
+  --tap: 44px;
 }
 
 *, *::before, *::after { box-sizing: border-box; border-radius: 0; }
@@ -101,7 +111,7 @@ button, input { font: inherit; color: inherit; }
   align-items: center;
   gap: 10px;
   font-family: var(--mono);
-  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-size: var(--label);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -134,7 +144,7 @@ button, input { font: inherit; color: inherit; }
 .door-kicker {
   margin: 0 0 clamp(16px, 3vh, 26px);
   font-family: var(--mono);
-  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-size: var(--label);
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -237,7 +247,7 @@ button, input { font: inherit; color: inherit; }
   background: var(--cream);
   color: var(--night);
   font-family: var(--mono);
-  font-size: clamp(0.62rem, 1.7vw, 0.76rem);
+  font-size: clamp(12px, 1.7vw, max(12px, 0.76rem));
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -284,7 +294,7 @@ button, input { font: inherit; color: inherit; }
   display: block;
   margin-bottom: 6px;
   font-family: var(--mono);
-  font-size: 0.6rem;
+  font-size: var(--label);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -327,7 +337,7 @@ button, input { font: inherit; color: inherit; }
   background: none;
   color: var(--heritage);
   font-family: var(--mono);
-  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-size: var(--label);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -348,7 +358,7 @@ button, input { font: inherit; color: inherit; }
   border-top: var(--rule) solid rgba(243, 230, 208, 0.23);
   padding-top: 16px;
   font-family: var(--mono);
-  font-size: clamp(0.58rem, 1.5vw, 0.68rem);
+  font-size: var(--label);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -389,4 +399,80 @@ button, input { font: inherit; color: inherit; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   POLISH PASS — targets, focus, device coverage
+
+   This is the first page every visitor sees and, for anyone whose code has
+   gone missing, the only one they can act on. It answers to the same floors
+   as the rest of the site.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Notch and home indicator. The door is a single full-height grid, so the
+   insets go straight onto the page padding. */
+body {
+  padding-left: calc(var(--page) + env(safe-area-inset-left));
+  padding-right: calc(var(--page) + env(safe-area-inset-right));
+  padding-top: calc(var(--page) + env(safe-area-inset-top));
+  padding-bottom: calc(var(--page) + env(safe-area-inset-bottom));
+}
+
+/* "Forgot your code?" measured 121x15. It is the recovery route for someone
+   locked out of the site, and it was the smallest thing on the page. The rule
+   under it is the whole visual, so the target grows via padding above the
+   text with a cancelling margin — the underline does not move. */
+.door-link,
+.door-foot a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  padding-top: calc((var(--tap) - 1.35em) / 2);
+  padding-bottom: calc((var(--tap) - 1.35em) / 2);
+  margin-top: calc((var(--tap) - 1.35em) / -2);
+  margin-bottom: calc((var(--tap) - 1.35em) / -2);
+}
+
+.door-foot a { padding-bottom: calc((var(--tap) - 1.35em) / 2 + 3px); }
+
+/* Neither had a focus treatment: the hover swap is the only state either
+   carries, and hover is not something a keyboard can do. */
+.door-link:focus-visible,
+.door-foot a:focus-visible {
+  outline: var(--rule) solid var(--cream);
+  outline-offset: 4px;
+  background: var(--red);
+  color: var(--cream);
+}
+
+/* Short viewport — a landscape phone, or portrait once the keyboard is up.
+   The door is one grid row of statement plus one of form; the statement is
+   what gives way. */
+@media (max-height: 520px) {
+  body { gap: 16px; }
+  .door-title { font-size: clamp(1.9rem, 7vh, 3.2rem); }
+  .door-lede { display: none; }
+}
+
+/* ── The last exit ────────────────────────────────────────────────────────
+   .door-link was written for the two <button>s that swap the views. The
+   Instagram route is an anchor wearing the same class, so it needs the two
+   things a button gets for free. */
+.door-link {
+  text-decoration: none;
+  text-align: left;
+}
+
+.door-aside-last {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: clamp(10px, 1.8vh, 16px);
+  color: var(--heritage);
+  font-family: var(--mono);
+  font-size: var(--label);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
