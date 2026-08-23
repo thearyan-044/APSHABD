@@ -157,8 +157,10 @@ Then try a real code from the sheet. It should come back
 APS-TST-TEST-CODE
 ```
 
-It is wired in two independent places, so it works before *and* after the
-redeploy:
+It is wired in two independent places. **Between them they cover localhost now
+and every host after the redeploy — but nothing covers a real domain before
+it.** The two halves are gated on opposite things, and it is easy to read the
+pair as "works everywhere":
 
 - **`PREVIEW_CODE` in `gate.js`** — opens the door on a dev server without
   touching the sheet, so the whole flow is testable right now. Gated on
@@ -166,9 +168,22 @@ redeploy:
   short-circuits; every other code typed on localhost still goes to the live
   endpoint, so the real integration stays testable from your machine.
 - **`TEST_ACCESS_CODES` in `google-apps-script.gs`** — makes the same code
-  work against the deployed endpoint, from anywhere, so you can test the live
-  site before a drop. Checked before the sheet and skips the confirmed-email
-  rule.
+  work against the deployed endpoint, from anywhere. Checked before the sheet
+  and skips the confirmed-email rule. It only exists in the script in this
+  repo, so it does nothing until the redeploy above has actually happened.
+
+So on a live domain with the old script still deployed, the code is refused
+like any other: the hostname check rules out the `gate.js` half, and the
+server half is not there yet. To look at the deployed site before redeploying,
+write the unlock record by hand in the console on `enter.html`:
+
+```js
+localStorage.setItem('apshabd-access', JSON.stringify({ v: 1, code: 'APS-TST-TEST-CODE' }));
+location.href = 'index.html';
+```
+
+That is the same record a real unlock writes — see the storage contract shared
+with `gate-guard.js`. It is a look-at-the-site trick, not a test of the door.
 
 > **⚠ Empty `TEST_ACCESS_CODES` before the drop goes public.** That one is a
 > real key to the live site. The `gate.js` half is safe to leave alone — the
