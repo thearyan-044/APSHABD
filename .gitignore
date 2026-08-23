@@ -29,3 +29,13 @@
 # OS/editor noise
 .DS_Store
 Thumbs.db
+
+# The access gate and the pre-registration landing page are disconnected from
+# the live site: the door no longer runs on any page, and nothing here talks to
+# the registration sheet. The files are kept locally (and in git history) so the
+# gate can be reattached later, but they are not deployed.
+/enter.html
+/gate.js
+/gate.css
+/gate-guard.js
+/pre-registration landing page/

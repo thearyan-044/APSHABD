@@ -22,8 +22,8 @@
      3. Add it to connect-src in .htaccess too. The header there says
         connect-src 'none', and a header CSP and a meta CSP are enforced as an
         intersection — 'none' wins over anything the page says, so step 2 alone
-        will not be enough. enter.html already has a <Files> block doing exactly
-        this; copy that shape.
+        will not be enough. Add a <Files "drop-a-pin.html"> block there that
+        re-sets the whole policy with your endpoint in connect-src.
 ──────────────────────────────────────────────────────────────────────────── */
 const PIN_ENDPOINT = '';
 

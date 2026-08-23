@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  enter.html is deliberately absent: it is noindex, and it is the page every
-  other URL here currently redirects to. See the note in robots.txt about the
-  access gate — until the gate comes off, a crawler that follows any of these
-  will be bounced to the door and index nothing.
+  The site is open: there is no access gate in front of these URLs, so a
+  crawler that follows any of them reaches the real page.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
