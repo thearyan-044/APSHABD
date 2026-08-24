@@ -79,9 +79,19 @@
   }
   </script>
 
+  <!-- Opening titles. Deliberately blocking, and deliberately above the
+       stylesheets: it has to mark <html> before the first paint or the hero
+       flashes up underneath the film, and a script placed after a <link>
+       waits for that stylesheet to load before it runs. 19KB on disk and
+       most of that is comment, so it is a few KB over the wire, and on a
+       locked-out visit — which is most of them — it reads one localStorage
+       key and stops. -->
+  <script src="trailer.js?v=1"></script>
+
   <link rel="stylesheet" href="styles.css?v=33" />
   <link rel="stylesheet" href="tuezday.css?v=4" />
   <link rel="stylesheet" href="brutal.css?v=4" />
+  <link rel="stylesheet" href="trailer.css?v=1" />
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
