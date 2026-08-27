@@ -347,7 +347,6 @@ body.menu-open .site-header.is-scrolled {
 .pin-mark::after { height: var(--br-rule); }
 
 .footer-logo { border-bottom: var(--br-rule) solid var(--br-ink); }
-.footer-powered { border-top: var(--br-rule) solid var(--br-ink); }
 
 /* ══════════════════════════════════════════════════════════════════════════
    DROP A PIN
@@ -605,16 +604,6 @@ body.menu-open .site-header.is-scrolled {
 }
 
 .footer { border-top: var(--br-rule-heavy) solid var(--br-ink); }
-
-/* ══════════════════════════════════════════════════════════════════════════
-   ATTRIBUTION BADGE
-
-   The Tuezday badge already speaks this language — a 2px rule and an offset
-   plate — so it only needs bringing up to the site's weight, not redrawing.
-   ══════════════════════════════════════════════════════════════════════════ */
-.tz-badge { border-width: var(--br-rule); box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--tz-blue); }
-.tz-badge:hover,
-.tz-badge:focus-visible { box-shadow: var(--br-off-sm) var(--br-off-sm) 0 var(--tz-red); }
 
 /* ══════════════════════════════════════════════════════════════════════════
    NARROW VIEWPORTS

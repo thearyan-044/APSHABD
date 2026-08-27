@@ -1,7 +1,7 @@
 
 User-agent: *
 Allow: /
-Disallow: /Logo/
+Disallow: /assets/brand/legacy-logo-media/
 Disallow: /.htaccess
 Disallow: /security.txt
 Disallow: /*.env

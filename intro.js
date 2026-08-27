@@ -121,7 +121,7 @@
 
       <!-- Final logo reveal -->
       <div class="intro-final" aria-hidden="true">
-        <img src="./Logo/ChatGPT Image Jul 21, 2026, 11_10_57 PM.png" alt="" class="intro-final-logo" />
+        <img src="./assets/brand/legacy-logo-media/ChatGPT Image Jul 21, 2026, 11_10_57 PM.png" alt="" class="intro-final-logo" />
         <div class="intro-final-brand">PIN DROP SILENCE</div>
         <div class="intro-final-sub">SEVEN CITIES · ONE SILENCE</div>
       </div>

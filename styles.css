@@ -1122,10 +1122,104 @@ body.menu-open .menu-toggle:focus-visible { outline-color: var(--night); }
   background: var(--night);
 }
 
+/* ── The map ─────────────────────────────────────────────────────────────
+   .city-index runs cream, like the rest of this section - .city-preview is
+   the one dark surface inside it (background: var(--night), above), which
+   is exactly why the map lives here rather than as a separate full-bleed
+   layer that would otherwise have to fight a light background it was never
+   drawn for.
+
+   The zoom is a single CSS transform, not a JS animation loop: script.js's
+   activateCity() sets --ox/--oy (where the hovered city's own pin sits,
+   as a percentage of the map) and toggles [data-active] on .city-map, and
+   this transition does the rest - the same "JS only sets variables and
+   toggles classes, CSS performs the motion" split the whole site already
+   uses. transform-origin is what makes a plain scale() read as "zooming
+   toward that city" instead of just "the map got bigger". */
+.city-map {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.city-map-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* translate() then scale() - composed so the point script.js solves for
+     lands under the translate BEFORE the scale is applied (transform
+     functions apply right-to-left), which is what keeps that point fixed
+     under the zoom. transform-origin is pinned to 0 0 so scale() itself
+     never shifts the anchor out from under that math. Both numbers live in
+     one property now (previously scale() and a separate transform-origin
+     swap), so a fast re-hover interpolates a single continuous pan+zoom
+     instead of the scale finishing an old transition while the origin
+     jumps to the new city with no transition at all - that jump was the
+     "glitchy" snap on quick hovers. */
+  transform: translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--map-zoom, 1));
+  transform-origin: 0 0;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.city-map[data-active]:not([data-active=""]) .city-map-svg { --map-zoom: 2.85; }
+
+.city-map-land {
+  fill: var(--heritage);
+  fill-opacity: 0.85;
+  stroke: var(--night);
+  stroke-width: 1.6;
+  /* Without this the stroke thickens as the map scales up on zoom, so a
+     hairline at rest turns into a heavy outline at 2.85x. */
+  vector-effect: non-scaling-stroke;
+}
+
+.city-map-pin circle:first-child {
+  fill: var(--red);
+  opacity: 0.5;
+  transition: opacity 0.4s ease, r 0.4s var(--ease);
+  vector-effect: non-scaling-stroke;
+}
+
+.city-map-pin-ring {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 2.5;
+  opacity: 0;
+  vector-effect: non-scaling-stroke;
+  transition: opacity 0.4s ease;
+}
+
+/* Set by activateCity(), not a CSS attribute match on data-pin: PS 5.1 rules
+   aside, "highlight whichever pin's data-pin equals the ancestor's
+   data-active" is not something attribute selectors can express between
+   siblings, so JS just says which one directly. */
+.city-map-pin.is-active circle:first-child { opacity: 1; r: 14; }
+.city-map-pin.is-active .city-map-pin-ring { opacity: 0.85; }
+
+/* ── The photo ───────────────────────────────────────────────────────────
+   A pinned inset over the map rather than the full-bleed cover it used to
+   be: this section is nothing but coordinates already (city codes, lat/long
+   captions everywhere), so "here is the map, and here is a photograph from
+   that exact point on it" is the same idea the rest of the page is already
+   making, not a new one. */
+.city-preview-photo {
+  position: absolute;
+  z-index: 1;
+  right: clamp(18px, 3vw, 32px);
+  bottom: clamp(18px, 3vw, 32px);
+  width: clamp(148px, 26%, 240px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 2px solid var(--cream);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  transform: rotate(-2deg);
+}
+
 .city-preview img {
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.25s ease, transform 0.7s var(--ease);
+  transition: opacity 0.2s ease, transform 0.5s var(--ease);
 }
 
 .city-preview.is-switching img {
@@ -1175,7 +1269,7 @@ body.menu-open .menu-toggle:focus-visible { outline-color: var(--night); }
   padding: 16px 4px;
   border-bottom: 1px solid var(--line-dark);
   text-decoration: none;
-  transition: color 0.28s ease, padding 0.35s var(--ease), background 0.28s ease;
+  transition: color 0.2s ease, padding 0.25s var(--ease), background 0.2s ease;
 }
 
 .city-row::before {
@@ -1184,7 +1278,7 @@ body.menu-open .menu-toggle:focus-visible { outline-color: var(--night); }
   inset: 0 100% 0 0;
   z-index: 0;
   background: var(--night);
-  transition: right 0.45s var(--ease);
+  transition: right 0.3s var(--ease);
 }
 
 .city-row > * {
@@ -1391,16 +1485,6 @@ body.menu-open .menu-toggle:focus-visible { outline-color: var(--night); }
 .footer-meta a:focus-visible,
 .footer-meta a:active { color: var(--red-ink); }
 .footer-meta p { margin: 0; }
-
-.footer-powered {
-  margin-top: 30px;
-  padding-top: 22px;
-  display: flex;
-  justify-content: flex-end;
-  border-top: 1px solid var(--line-dark);
-}
-
-.footer-powered .tz-badge--footer { margin-top: 0; }
 
 .reveal {
   opacity: 0;

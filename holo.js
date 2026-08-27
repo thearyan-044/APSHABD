@@ -22,8 +22,7 @@
     '.hero-logo-tile',
     '.logo-tile',
     '.nav-sticker',
-    '.stamp',
-    '.tz-badge'
+    '.stamp'
   ].join(',');
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

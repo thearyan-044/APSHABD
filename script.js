@@ -299,7 +299,61 @@
   const previewImage = document.getElementById('cityPreviewImage');
   const previewCode = document.getElementById('cityPreviewCode');
   const previewName = document.getElementById('cityPreviewName');
+  const cityMap = document.querySelector('.city-map');
+  const cityMapSvg = document.querySelector('.city-map-svg');
+  const cityMapPins = [...document.querySelectorAll('.city-map-pin')];
+
+  // The four numbers baked into the SVG's own viewBox attribute, read once
+  // rather than hard-coded a second time here - if the map asset is ever
+  // regenerated at a different crop, this stays correct without editing.
+  const mapViewBox = cityMapSvg ? cityMapSvg.viewBox.baseVal : null;
+
+  // Mirrors .city-map-svg { transform: translate(--tx,--ty) scale(--map-zoom) }
+  // in styles.css - the two have to move together, since the formula below
+  // solves for the specific translate that makes exactly this scale recentre
+  // the target point.
+  const CITY_MAP_ZOOM = 2.85;
+
+  // transform-origin only holds a point FIXED at whatever screen position it
+  // already had before the scale - it cannot bring a point that starts
+  // off-screen into view, no matter how far you zoom. And most points here
+  // do start off-screen: this card is far narrower than the map, so
+  // preserveAspectRatio="xMidYMid slice" already crops most of the map's
+  // width away at rest, before any zoom at all. Naively targeting a city's
+  // rest position left four of the seven cities (Mumbai, Delhi, Kolkata,
+  // Pune) with their pin 30-40% of the card outside the visible edge, scale
+  // or no scale.
+  //
+  // What actually needs solving for is the translate T such that scaling a
+  // point P by k and then shifting by T lands it on the box's centre C:
+  // k*P + T = C, so T = C - k*P. This computes T directly (in px, against
+  // the SVG's own top-left) rather than solving for a transform-origin -
+  // both --tx/--ty then live inside the one `transform` value CSS
+  // transitions, so a fast re-hover interpolates a continuous pan+zoom
+  // instead of transform-origin snapping to the new city with no transition
+  // of its own while the scale is still mid-flight from the last one.
+  function targetFor(px, py) {
+    if (!mapViewBox || !cityMap) return { tx: 0, ty: 0 };
+    const box = cityMap.getBoundingClientRect();
+    if (!box.width || !box.height) return { tx: 0, ty: 0 };
+
+    const boxAspect = box.width / box.height;
+    const vbAspect = mapViewBox.width / mapViewBox.height;
+    const scale = boxAspect > vbAspect ? box.width / mapViewBox.width : box.height / mapViewBox.height;
+    const renderedW = mapViewBox.width * scale;
+    const renderedH = mapViewBox.height * scale;
+    const offsetX = (box.width - renderedW) / 2;
+    const offsetY = (box.height - renderedH) / 2;
+
+    const restX = offsetX + (px - mapViewBox.x) * scale;
+    const restY = offsetY + (py - mapViewBox.y) * scale;
+
+    const k = CITY_MAP_ZOOM;
+    return { tx: box.width / 2 - k * restX, ty: box.height / 2 - k * restY };
+  }
+
   let imageSwapTimer;
+  let previewSettleTimer;
 
   const activateCity = (row) => {
     if (!row || !preview || !previewImage || !previewCode || !previewName) return;
@@ -308,18 +362,57 @@
     cityRows.forEach((item) => item.classList.toggle('is-active', item === row));
     preview.classList.add('is-switching');
     window.clearTimeout(imageSwapTimer);
+    window.clearTimeout(previewSettleTimer);
 
+    // The map zooms immediately, on the same interaction that starts the
+    // photo cross-fade below - the two are meant to read as one motion, not
+    // as the map catching up after the fact. "Your city" (row 8) carries no
+    // data-px/data-py, and the empty string on data-active is exactly what
+    // the :not([data-active=""]) rule in styles.css is there to catch, so
+    // the map eases back out to the whole country instead of pointing at a
+    // coordinate that does not exist yet - --tx/--ty reset to 0 alongside it
+    // so that fallback isn't a plain pan away from a stale target.
+    if (cityMap) {
+      const px = parseFloat(row.dataset.px);
+      const py = parseFloat(row.dataset.py);
+      const hasTarget = Number.isFinite(px) && Number.isFinite(py);
+      const target = hasTarget ? targetFor(px, py) : { tx: 0, ty: 0 };
+      cityMap.style.setProperty('--tx', `${target.tx}px`);
+      cityMap.style.setProperty('--ty', `${target.ty}px`);
+      cityMap.dataset.active = row.dataset.pin || '';
+      cityMapPins.forEach((pin) => pin.classList.toggle('is-active', pin.dataset.pin === row.dataset.pin));
+    }
+
+    // Shorter than the map/row transitions above: the photo is meant to
+    // have already started settling by the time those finish, not lag
+    // behind and arrive as a separate, late second beat.
     imageSwapTimer = window.setTimeout(() => {
       previewImage.src = row.dataset.image;
       previewCode.textContent = row.dataset.code;
       previewName.textContent = row.dataset.city;
-      previewImage.addEventListener('load', () => preview.classList.remove('is-switching'), { once: true });
-      window.setTimeout(() => preview.classList.remove('is-switching'), 500);
-    }, 140);
+      const settle = () => preview.classList.remove('is-switching');
+      previewImage.addEventListener('load', settle, { once: true });
+      previewSettleTimer = window.setTimeout(settle, 380);
+    }, 90);
   };
 
+  // A short hover-intent delay before committing to the full transition:
+  // sweeping the mouse down the list used to fire activateCity - and its
+  // 0.55s map zoom plus photo cross-fade - on every row the cursor merely
+  // passed over, which is what actually read as "glitchy": several of
+  // those transitions overlapping and interrupting each other mid-flight.
+  // Landing on a row and pausing there is the only path that still gets
+  // the animation; passing through no longer starts it at all. Keyboard
+  // focus bypasses the delay - a11y navigation should react immediately.
+  const HOVER_INTENT_MS = 55;
+  let hoverIntentTimer;
+
   cityRows.forEach((row) => {
-    row.addEventListener('mouseenter', () => activateCity(row));
+    row.addEventListener('mouseenter', () => {
+      window.clearTimeout(hoverIntentTimer);
+      hoverIntentTimer = window.setTimeout(() => activateCity(row), HOVER_INTENT_MS);
+    });
+    row.addEventListener('mouseleave', () => window.clearTimeout(hoverIntentTimer));
     row.addEventListener('focus', () => activateCity(row));
   });
 

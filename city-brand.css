@@ -326,13 +326,6 @@ body {
   text-transform: uppercase;
 }
 
-.footer .tz-badge--footer {
-  margin: 0;
-  justify-self: end;
-}
-
-.tz-badge--float { display: none; }
-
 @media (max-width: 720px) {
   .nav.glass { min-height: 64px; }
   .back { max-width: 96px; font-size: 0.58rem; line-height: 1.35; }
@@ -341,7 +334,6 @@ body {
   .hero { padding-top: 104px; }
   .footer { grid-template-columns: 1fr; align-items: start; }
   .city-footer-brand img { width: min(68vw, 250px); }
-  .footer .tz-badge--footer { justify-self: start; }
 }
 
 @media (max-width: 480px) {
